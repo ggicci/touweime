@@ -1,3 +1,4 @@
+import { Container, ThemeProvider } from '@mui/material'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -5,6 +6,7 @@ import Footer from 'src/components/Footer'
 import Header from 'src/components/Header'
 import PageContext from 'src/components/PageContext'
 import ROUTES, { Route } from 'src/routes'
+import theme from 'src/themes/default'
 import { SWRConfig } from 'swr'
 
 /**
@@ -44,11 +46,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SWRConfig>
       <PageContext.Provider value={{ activeRoute: activeRoute, routes: ROUTES }}>
-        <Header></Header>
-        <main>
-          <Component {...pageProps} />
-        </main>
-        <Footer></Footer>
+        <ThemeProvider theme={theme}>
+          <Header></Header>
+          <Container>
+            <Component {...pageProps} />
+          </Container>
+          <Footer></Footer>
+        </ThemeProvider>
       </PageContext.Provider>
     </SWRConfig>
   )
