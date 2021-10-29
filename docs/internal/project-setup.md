@@ -16,3 +16,7 @@ https://mui.com/getting-started/installation/
 ```bash
 yarn add @mui/material @emotion/react @emotion/styled
 ```
+
+## Thanks to
+
+- The site logo is made by [BomSymbols](https://www.iconfinder.com/korawan_m)
