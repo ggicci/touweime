@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@mui/material'
+import { Container, ThemeProvider } from '@mui/material'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -48,9 +48,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <PageContext.Provider value={{ activeRoute: activeRoute, routes: ROUTES }}>
         <ThemeProvider theme={theme}>
           <Header></Header>
-          <main>
+          <Container component="main" maxWidth={false} disableGutters={true} sx={{ py: 3 }}>
             <Component {...pageProps} />
-          </main>
+          </Container>
           <Footer></Footer>
         </ThemeProvider>
       </PageContext.Provider>

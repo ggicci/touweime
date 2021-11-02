@@ -1,8 +1,17 @@
 import { IconDefinition } from '@fortawesome/fontawesome-common-types'
-import { faCog, faColumns, faHeart, faHome } from '@fortawesome/free-solid-svg-icons'
+import {
+  faCog,
+  faColumns,
+  faCompass,
+  faHeart,
+  faHome,
+  faQuestionCircle,
+  faSignInAlt,
+  faSignOutAlt,
+} from '@fortawesome/free-solid-svg-icons'
 import { format, UrlObject } from 'url'
 
-export const formatURL = format
+export const formatHref = format
 
 export interface Route {
   id: string
@@ -35,6 +44,39 @@ export const SettingsRoute = {
   icon: faCog,
 }
 
-const ROUTES: readonly Route[] = [HomeRoute, DashboardRoute, SupportRoute, SettingsRoute]
+export const DiscoverRoute = {
+  id: 'discover',
+  href: { pathname: '/discover' },
+  icon: faCompass,
+}
+
+export const HelpRoute = {
+  id: 'help',
+  href: { pathname: '/help' },
+  icon: faQuestionCircle,
+}
+
+export const LoginRoute = {
+  id: 'login',
+  href: { pathname: '/login' },
+  icon: faSignInAlt,
+}
+
+export const LogoutRoute = {
+  id: 'logout',
+  href: { pathname: '/logout' },
+  icon: faSignOutAlt,
+}
+
+const ROUTES: readonly Route[] = [
+  HomeRoute,
+  DiscoverRoute,
+  DashboardRoute,
+  SupportRoute,
+  SettingsRoute,
+  HelpRoute,
+  LoginRoute,
+  LogoutRoute,
+]
 
 export default ROUTES

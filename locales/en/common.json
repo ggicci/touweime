@@ -1,0 +1,19 @@
+{
+  "site": {
+    "title": "Feed Me",
+    "description": "We are babies!",
+    "welcome": "Feed our favorite babies!"
+  },
+  "home": "Home",
+  "dashboard": "Dashboard",
+  "support": "Support",
+  "settings": "Settings",
+  "help": "Help",
+  "login": "Log In",
+  "logout": "Log Out",
+  "continue-with-github": "Continue with GitHub",
+  "continue-with-apple": "Continue with Apple",
+  "signed-in-as": "Signed in as",
+  "username": "Username",
+  "password": "Password"
+}

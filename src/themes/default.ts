@@ -30,27 +30,27 @@ import { createTheme, ThemeOptions } from '@mui/material/styles'
 
 const theme: ThemeOptions = createTheme({
   palette: {
-    primary: {
-      main: '#4F81C7',
-    },
-    secondary: {
-      main: '#64C4ED',
-    },
-    info: {
-      main: '#64C4ED',
-    },
-    error: {
-      main: '#EB7070',
-    },
-    success: {
-      main: '#64E291',
-    },
-    text: {
-      primary: '#222831',
-    },
-    warning: {
-      main: '#FEC771',
-    },
+    // primary: {
+    //   main: '#4F81C7',
+    // },
+    // secondary: {
+    //   main: '#64C4ED',
+    // },
+    // info: {
+    //   main: '#64C4ED',
+    // },
+    // error: {
+    //   main: '#EB7070',
+    // },
+    // success: {
+    //   main: '#64E291',
+    // },
+    // text: {
+    //   primary: '#222831',
+    // },
+    // warning: {
+    //   main: '#FEC771',
+    // },
     github: {
       main: '#333',
       contrastText: '#fff',
@@ -81,22 +81,22 @@ const theme: ThemeOptions = createTheme({
     // TODO(ggicci): Fluid font size
     // https://github.com/mui-org/material-ui/issues/15251
     h1: {
-      fontSize: '3rem',
-    },
-    h2: {
-      fontSize: '2.5rem',
-    },
-    h3: {
       fontSize: '2rem',
     },
-    h4: {
+    h2: {
       fontSize: '1.75rem',
     },
-    h5: {
+    h3: {
       fontSize: '1.5rem',
     },
-    h6: {
+    h4: {
+      fontSize: '1.375rem',
+    },
+    h5: {
       fontSize: '1.25rem',
+    },
+    h6: {
+      fontSize: '1.125rem',
     },
   },
 
