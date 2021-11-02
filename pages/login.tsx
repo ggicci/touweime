@@ -137,7 +137,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const cookies = req.headers.cookie || ''
 
   try {
-    await axios.get<User>(`${process.env.HOST}/api.proxy/gaia/v1/user`, {
+    await axios.get<User>(`${process.env.NEXT_PUBLIC_HOST}/api.proxy/gaia/v1/user`, {
       headers: {
         Cookie: cookies,
       },

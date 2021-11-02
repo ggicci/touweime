@@ -30,7 +30,7 @@ export default function useRequest<Data = unknown, Error = unknown>(
      * NOTE: Typescript thinks `request` can be `null` here, but the fetcher
      * function is actually only called by `useSWR` when it isn't.
      */
-    () => axios(request!),
+    () => axios.request<Data>(request!),
     {
       ...config,
       fallbackData: fallbackData && {

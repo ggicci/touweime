@@ -14,12 +14,5 @@
   "continue-with-apple": "苹果用户一键登录",
   "signed-in-as": "登录用户",
   "username": "用户名",
-  "password": "密码",
-  "payment-method": "支付方式",
-  "alipay": "支付宝",
-  "wepay": "微信支付",
-  "alipay-promotion": "上传支付宝收款码，使用支付宝接受投喂，投喂主扫码支付后“食物费”会直接进入您的支付宝账户。支持所有支付宝用户。",
-  "wepay-promotion": "上传微信收款码，使用微信支付接受投喂，投喂主扫码支付后“食物费”会直接进入您的微信钱包。支持所有微信支付用户。",
-  "your-page-is-alive": "投喂主页已激活",
-  "your-page-is-not-alive": "投喂主页未激活"
+  "password": "密码"
 }

@@ -10,14 +10,19 @@ type FavoriteFoods = Food[]
 
 interface BarcodePaymentSettings {
   id: number
+  kind: string
   barcodes: { [key: number]: string } // food_id => barcode
   state: 'unprepared' | 'enabled' | 'disabled'
 }
 
 export interface AlipaySettings extends BarcodePaymentSettings {}
 export interface WepaySettings extends BarcodePaymentSettings {}
+export interface LinkSettings {
+  key: string
+  state: 'unprepared' | 'alive'
+}
 
-interface Settings {
+export interface Settings {
   id: number
   user_id: number
   favorite_foods: FavoriteFoods
@@ -25,17 +30,17 @@ interface Settings {
     alipay: AlipaySettings
     wepay: WepaySettings
   }
-  homepage_state: 'unprepared' | 'alive'
+  link: LinkSettings
   tags: string[]
   google_analytics: string
 }
 
-export function useSettings(userId: number) {
+export function useSettings() {
   //   return useRequest<Settings>({ url: `/api.proxy/gaia/v1/users/${userId}/settings` })
   return {
     data: {
       id: 1,
-      user_id: userId,
+      user_id: 1,
       favorite_foods: [
         {
           id: 1,
@@ -60,9 +65,27 @@ export function useSettings(userId: number) {
         },
       ],
       payment_methods: {
-        alipay: {},
-        wepay: {},
+        alipay: {
+          id: 1,
+          kind: 'alipay-payee-code',
+          barcodes: {},
+          state: 'unprepared',
+        } as AlipaySettings,
+        wepay: {
+          id: 2,
+          kind: 'wepay-payee-code',
+          barcodes: {
+            1: '12345678901234567890123456789015',
+            2: '12345678901234567890123456789016',
+            3: '12345678901234567890123456789017',
+          },
+          state: 'enabled',
+        } as WepaySettings,
       },
-    },
+      link: {
+        key: 'ggicci',
+        state: 'alive',
+      },
+    } as Settings,
   }
 }

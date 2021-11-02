@@ -18,6 +18,6 @@ module.exports = {
   //
   pages: {
     '*': ['common'],
-    // 'rgx:^/settings': ['settings'],
+    'rgx:^/settings': ['settings'],
   },
 }

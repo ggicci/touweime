@@ -1,4 +1,4 @@
-import useRequest from './useRequest'
+import useRequest from 'src/lib/useRequest'
 
 export interface User {
   id: number

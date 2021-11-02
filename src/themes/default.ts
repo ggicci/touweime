@@ -28,29 +28,32 @@ declare module '@mui/material/SvgIcon' {
 
 import { createTheme, ThemeOptions } from '@mui/material/styles'
 
+// References:
+// Blue + White: https://uglydrinks.com/
+
 const theme: ThemeOptions = createTheme({
   palette: {
-    // primary: {
-    //   main: '#4F81C7',
-    // },
-    // secondary: {
-    //   main: '#64C4ED',
-    // },
-    // info: {
-    //   main: '#64C4ED',
-    // },
-    // error: {
-    //   main: '#EB7070',
-    // },
-    // success: {
-    //   main: '#64E291',
-    // },
-    // text: {
-    //   primary: '#222831',
-    // },
-    // warning: {
-    //   main: '#FEC771',
-    // },
+    primary: {
+      main: '#161F6D',
+    },
+    secondary: {
+      main: '#00ABE1',
+    },
+    info: {
+      main: '#A6DCEF',
+    },
+    error: {
+      main: '#BE0000',
+    },
+    success: {
+      main: '#66DE93',
+    },
+    text: {
+      primary: '#232323',
+    },
+    warning: {
+      main: '#FFA41B',
+    },
     github: {
       main: '#333',
       contrastText: '#fff',
@@ -81,22 +84,28 @@ const theme: ThemeOptions = createTheme({
     // TODO(ggicci): Fluid font size
     // https://github.com/mui-org/material-ui/issues/15251
     h1: {
-      fontSize: '2rem',
+      fontSize: '2.5rem',
+      // color: '#fff',
     },
     h2: {
-      fontSize: '1.75rem',
+      fontSize: '2rem',
+      // color: '#fff',
     },
     h3: {
-      fontSize: '1.5rem',
+      fontSize: '1.75rem',
+      // color: '#fff',
     },
     h4: {
-      fontSize: '1.375rem',
+      fontSize: '1.5rem',
+      // color: '#fff',
     },
     h5: {
       fontSize: '1.25rem',
+      // color: '#fff',
     },
     h6: {
-      fontSize: '1.125rem',
+      fontSize: '1rem',
+      // color: '#fff',
     },
   },
 

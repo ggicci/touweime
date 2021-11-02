@@ -11,8 +11,8 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import FontAwesomeSvgIcon from 'src/components/FontAwesomeSvgIcon'
 import Link from 'src/components/Link'
-import { User, useUser } from 'src/lib/users'
 import { formatHref, HelpRoute, LoginRoute, LogoutRoute, Route, SettingsRoute } from 'src/routes'
+import { User, useUser } from 'src/store/users'
 
 function LoginButton() {
   const { t } = useTranslation('common')

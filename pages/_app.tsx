@@ -7,6 +7,7 @@ import Header from 'src/components/Header'
 import PageContext from 'src/components/PageContext'
 import ROUTES, { Route } from 'src/routes'
 import theme from 'src/themes/default'
+import 'styles/globals.scss'
 import { SWRConfig } from 'swr'
 
 /**
