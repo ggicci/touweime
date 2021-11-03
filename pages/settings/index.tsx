@@ -146,27 +146,27 @@ const Index = () => {
 
         {/* settings: favorite foods */}
         <Typography variant="h3">{t('favorite-food')}</Typography>
-        <Typography variant="subtitle1" color="grey.600">
+        <Typography variant="subtitle1" color="text.secondary">
           {t('favorite-food-help')}
         </Typography>
         <FavoriteFoodSettings settings={settings}></FavoriteFoodSettings>
 
         {/* settings: payment methods */}
         <Typography variant="h3">{t('payment-methods')}</Typography>
-        <Typography variant="subtitle1" color="grey.600">
+        <Typography variant="subtitle1" color="text.secondary">
           {t('payment-methods-help')}
         </Typography>
         <PaymentMethodSettings settings={settings}></PaymentMethodSettings>
 
         {/* settings: tags */}
         <Typography variant="h3">{t('tag')}</Typography>
-        <Typography variant="subtitle1" color="grey.600">
+        <Typography variant="subtitle1" color="text.secondary">
           {t('tag-help')}
         </Typography>
 
         {/* settings: page link */}
         <Typography variant="h3">{t('page-link')}</Typography>
-        <Typography variant="subtitle1" color="grey.600">
+        <Typography variant="subtitle1" color="text.secondary">
           {t('page-link-help')}
         </Typography>
         <LinkSettings settings={settings}></LinkSettings>

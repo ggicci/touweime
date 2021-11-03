@@ -30,29 +30,30 @@ import { createTheme, ThemeOptions } from '@mui/material/styles'
 
 // References:
 // Blue + White: https://uglydrinks.com/
-
+// Currently used palette: https://colorhunt.co/palette/f4eeffdcd6f7a6b1e1424874
 const theme: ThemeOptions = createTheme({
   palette: {
     primary: {
-      main: '#161F6D',
+      main: '#424874',
     },
     secondary: {
-      main: '#00ABE1',
+      main: '#A6B1E1',
     },
     info: {
-      main: '#A6DCEF',
-    },
-    error: {
-      main: '#BE0000',
+      main: '#DCD6F7',
     },
     success: {
-      main: '#66DE93',
+      main: '#4E9F3D', // https://colorhunt.co/palette/191a191e51284e9f3dd8e9a8
     },
-    text: {
-      primary: '#232323',
+    error: {
+      main: '#E02401', // https://colorhunt.co/palette/e02401f78812ab6d2351050f
     },
     warning: {
-      main: '#FFA41B',
+      main: '#F78812', // https://colorhunt.co/palette/e02401f78812ab6d2351050f
+    },
+    text: {
+      primary: '#1F1D36', // https://colorhunt.co/palette/1f1d363f3351864879e9a6a6
+      secondary: '#3F3351', // https://colorhunt.co/palette/1f1d363f3351864879e9a6a6
     },
     github: {
       main: '#333',
