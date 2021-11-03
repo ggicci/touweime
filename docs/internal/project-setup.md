@@ -17,6 +17,15 @@ https://mui.com/getting-started/installation/
 yarn add @mui/material @emotion/react @emotion/styled
 ```
 
+## Install `react-hook-form` for Validating Forms
+
+https://react-hook-form.com/get-started
+
+```bash
+yarn add react-hook-form
+yarn add @hookform/resolvers zod # other available resolvers, e.g. yup, joi, etc
+```
+
 ## Thanks to
 
 - The site logo is made by [BomSymbols](https://www.iconfinder.com/korawan_m)

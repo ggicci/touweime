@@ -12,7 +12,7 @@ import React from 'react'
 import FontAwesomeSvgIcon from 'src/components/FontAwesomeSvgIcon'
 import Link from 'src/components/Link'
 import { formatHref, HelpRoute, LoginRoute, LogoutRoute, Route, SettingsRoute } from 'src/routes'
-import { User, useUser } from 'src/store/users'
+import { User, useUser } from 'src/sdk/users'
 
 function LoginButton() {
   const { t } = useTranslation('common')

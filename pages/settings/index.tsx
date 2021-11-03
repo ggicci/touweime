@@ -23,9 +23,9 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import DoubleFacedButton from 'src/components/DoubleFacedButton'
 import FontAwesomeSvgIcon from 'src/components/FontAwesomeSvgIcon'
-import ConfigurePayeeCode from 'src/components/Settings/Payment/ConfigurePayeeCode'
+import ConfigurePayeeCodeDialog from 'src/components/Settings/Payment/ConfigurePayeeCodeDialog'
 import { SettingsRoute } from 'src/routes'
-import { AlipaySettings, Settings, useSettings, WepaySettings } from 'src/store/settings'
+import { AlipaySettings, Settings, useSettings, WepaySettings } from 'src/sdk/settings'
 
 interface PaymentMethodListItemProps {
   settings: AlipaySettings | WepaySettings
@@ -97,13 +97,13 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
           <ListItemText primary={t(settings.kind)} secondary={t(`${settings.kind}-help`)}></ListItemText>
         </ListItemButton>
       </ListItem>
-      <ConfigurePayeeCode
+      <ConfigurePayeeCodeDialog
         settings={settings}
         open={open}
         onClose={() => {
           setOpen(false)
         }}
-      ></ConfigurePayeeCode>
+      ></ConfigurePayeeCodeDialog>
     </React.Fragment>
   )
 }

@@ -5,7 +5,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { PayeeCodeSettings } from 'src/store/settings'
+import { PayeeCodeSettings } from 'src/sdk/settings'
 
 export type Props = {
   open: boolean
@@ -32,10 +32,10 @@ const Index = (props: Props) => {
         <pre>{JSON.stringify(settings, null, 2)}</pre>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={handleCancel}>
+        <Button variant="contained" onClick={handleCancel} color="secondary">
           {t('common:cancel')}
         </Button>
-        <Button autoFocus onClick={handleSave}>
+        <Button variant="contained" onClick={handleSave}>
           {t('common:save')}
         </Button>
       </DialogActions>
@@ -43,6 +43,6 @@ const Index = (props: Props) => {
   )
 }
 
-Index.className = 'Settings.Payment.ConfigurePayeeCode'
+Index.className = 'Settings.Payment.ConfigurePayeeCodeDialog'
 
 export default Index
