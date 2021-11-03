@@ -14,5 +14,7 @@
   "continue-with-apple": "苹果用户一键登录",
   "signed-in-as": "登录用户",
   "username": "用户名",
-  "password": "密码"
+  "password": "密码",
+  "save": "保存",
+  "cancel": "取消"
 }

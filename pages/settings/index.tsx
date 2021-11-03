@@ -13,33 +13,33 @@ import InputAdornment from '@mui/material/InputAdornment'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
+import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
-import { useTheme } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import DoubleFacedButton from 'src/components/DoubleFacedButton'
 import FontAwesomeSvgIcon from 'src/components/FontAwesomeSvgIcon'
+import ConfigurePayeeCode from 'src/components/Settings/Payment/ConfigurePayeeCode'
 import { SettingsRoute } from 'src/routes'
 import { AlipaySettings, Settings, useSettings, WepaySettings } from 'src/store/settings'
 
 interface PaymentMethodListItemProps {
-  method: AlipaySettings | WepaySettings
+  settings: AlipaySettings | WepaySettings
 }
 
 const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
-  const { method } = props
+  const { settings } = props
   const { t } = useTranslation('settings')
-  const theme = useTheme()
-  const payApp = method.kind.startsWith('alipay')
+  const payApp = settings.kind.startsWith('alipay')
     ? { icon: faAlipay, color: '#03a1e9' }
     : { icon: faWeixin, color: '#21ac38' }
 
   let ActionButton = null
-  if (method.state === 'unprepared') {
+  if (settings.state === 'unprepared') {
     ActionButton = (
       <Button
         variant="outlined"
@@ -49,7 +49,7 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
         {t('activate')}
       </Button>
     )
-  } else if (method.state === 'disabled') {
+  } else if (settings.state === 'disabled') {
     ActionButton = (
       <DoubleFacedButton
         variant="outlined"
@@ -60,10 +60,10 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
         hoverStartIcon={<FontAwesomeSvgIcon icon={faToggleOff} fontSize="small" />}
         hoverColor="success"
       >
-        {t(method.state)}
+        {t(settings.state)}
       </DoubleFacedButton>
     )
-  } else if (method.state === 'enabled') {
+  } else if (settings.state === 'enabled') {
     ActionButton = (
       <DoubleFacedButton
         variant="outlined"
@@ -74,20 +74,37 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
         hoverStartIcon={<FontAwesomeSvgIcon icon={faToggleOff} fontSize="small" />}
         hoverColor="error"
       >
-        {t(method.state)}
+        {t(settings.state)}
       </DoubleFacedButton>
     )
   }
 
+  const [open, setOpen] = React.useState(false)
+
   return (
-    <ListItem secondaryAction={ActionButton}>
-      <ListItemAvatar>
-        <Avatar variant="square" sx={{ bgcolor: theme.palette.grey[200], width: 48, height: 48 }}>
-          <FontAwesomeSvgIcon icon={payApp.icon} fontSize="large" sx={{ color: payApp.color }}></FontAwesomeSvgIcon>
-        </Avatar>
-      </ListItemAvatar>
-      <ListItemText primary={t(method.kind)} secondary={t(`${method.kind}-help`)}></ListItemText>
-    </ListItem>
+    <React.Fragment>
+      <ListItem disablePadding secondaryAction={ActionButton}>
+        <ListItemButton
+          onClick={() => {
+            setOpen(true)
+          }}
+        >
+          <ListItemAvatar>
+            <Avatar variant="rounded" sx={{ bgcolor: 'background.default', width: 48, height: 48 }}>
+              <FontAwesomeSvgIcon icon={payApp.icon} fontSize="large" sx={{ color: payApp.color }}></FontAwesomeSvgIcon>
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary={t(settings.kind)} secondary={t(`${settings.kind}-help`)}></ListItemText>
+        </ListItemButton>
+      </ListItem>
+      <ConfigurePayeeCode
+        settings={settings}
+        open={open}
+        onClose={() => {
+          setOpen(false)
+        }}
+      ></ConfigurePayeeCode>
+    </React.Fragment>
   )
 }
 
@@ -106,7 +123,7 @@ const PaymentMethodSettings = (props: SettingsProps) => {
   return (
     <List>
       {[paymentMethods.alipay, paymentMethods.wepay].map((method) => {
-        return <PaymentMethodListItem key={method.id} method={method}></PaymentMethodListItem>
+        return <PaymentMethodListItem key={method.id} settings={method}></PaymentMethodListItem>
       })}
     </List>
   )

@@ -55,6 +55,10 @@ const theme: ThemeOptions = createTheme({
       primary: '#1F1D36', // https://colorhunt.co/palette/1f1d363f3351864879e9a6a6
       secondary: '#3F3351', // https://colorhunt.co/palette/1f1d363f3351864879e9a6a6
     },
+    background: {
+      default: '#F9F5FF', // Lightened version of #F4EEFF from palette: https://colorhunt.co/palette/f4eeffdcd6f7a6b1e1424874
+      paper: '#FFF',
+    },
     github: {
       main: '#333',
       contrastText: '#fff',

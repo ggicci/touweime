@@ -4,6 +4,8 @@
   "favorite-food-help": "投喂主将优先从中选择食物进行投喂",
   "payment-methods": "投喂方式",
   "payment-methods-help": "即支付/付款方式",
+  "alipay": "支付宝",
+  "wepay": "微信支付",
   "alipay-payee-code": "支付宝",
   "wepay-payee-code": "微信支付",
   "alipay-payee-code-help": "上传支付宝收款码，使用支付宝接受投喂，投喂主扫码支付后“食物费”会直接进入您的支付宝账户。支持所有支付宝用户。",

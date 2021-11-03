@@ -8,15 +8,16 @@ interface Food {
 
 type FavoriteFoods = Food[]
 
-interface BarcodePaymentSettings {
+export interface PayeeCodeSettings {
   id: number
   kind: string
   barcodes: { [key: number]: string } // food_id => barcode
   state: 'unprepared' | 'enabled' | 'disabled'
 }
 
-export interface AlipaySettings extends BarcodePaymentSettings {}
-export interface WepaySettings extends BarcodePaymentSettings {}
+export type AlipaySettings = PayeeCodeSettings
+export type WepaySettings = PayeeCodeSettings
+
 export interface LinkSettings {
   key: string
   state: 'unprepared' | 'alive'
