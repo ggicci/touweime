@@ -100,7 +100,11 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
       <ConfigurePayeeCodeDialog
         settings={settings}
         open={open}
-        onClose={() => {
+        onCancelled={() => {
+          setOpen(false)
+        }}
+        onSaved={(settings) => {
+          console.info('saved:', settings)
           setOpen(false)
         }}
       ></ConfigurePayeeCodeDialog>
@@ -118,7 +122,7 @@ const FavoriteFoodSettings = (props: SettingsProps) => {
 
 const PaymentMethodSettings = (props: SettingsProps) => {
   const { settings } = props
-  const paymentMethods = settings.payment_methods
+  const paymentMethods = settings.payment
 
   return (
     <List>

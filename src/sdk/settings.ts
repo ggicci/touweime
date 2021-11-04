@@ -8,10 +8,16 @@ interface Food {
 
 type FavoriteFoods = Food[]
 
+export interface BarcodeProfile {
+  id: number
+  price_cents: number
+  url?: string | null
+}
+
 export interface PayeeCodeSettings {
   id: number
   kind: string
-  barcodes: { [key: number]: string } // food_id => barcode
+  barcodes: BarcodeProfile[]
   state: 'unprepared' | 'enabled' | 'disabled'
 }
 
@@ -27,7 +33,7 @@ export interface Settings {
   id: number
   user_id: number
   favorite_foods: FavoriteFoods
-  payment_methods: {
+  payment: {
     alipay: AlipaySettings
     wepay: WepaySettings
   }
@@ -65,21 +71,21 @@ export function useSettings() {
           is_available: true,
         },
       ],
-      payment_methods: {
+      payment: {
         alipay: {
           id: 1,
           kind: 'alipay-payee-code',
-          barcodes: {},
+          barcodes: [],
           state: 'unprepared',
         } as AlipaySettings,
         wepay: {
           id: 2,
           kind: 'wepay-payee-code',
-          barcodes: {
-            1: '12345678901234567890123456789015',
-            2: '12345678901234567890123456789016',
-            3: '12345678901234567890123456789017',
-          },
+          barcodes: [
+            { id: 1, price_cents: 500, url: 'https://touwei.ggicci.me/images/drumstick.svg' },
+            { id: 2, price_cents: 1000, url: 'https://touwei.ggicci.me/images/doughnut.svg' },
+            { id: 3, price_cents: 1500, url: 'https://touwei.ggicci.me/images/coffee.svg' },
+          ],
           state: 'enabled',
         } as WepaySettings,
       },
