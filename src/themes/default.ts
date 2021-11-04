@@ -97,19 +97,19 @@ const theme: ThemeOptions = createTheme({
       // color: '#fff',
     },
     h3: {
-      fontSize: '1.75rem',
+      fontSize: '1.875rem',
       // color: '#fff',
     },
     h4: {
-      fontSize: '1.5rem',
+      fontSize: '1.75rem',
       // color: '#fff',
     },
     h5: {
-      fontSize: '1.25rem',
+      fontSize: '1.5rem',
       // color: '#fff',
     },
     h6: {
-      fontSize: '1rem',
+      fontSize: '1.25rem',
       // color: '#fff',
     },
   },

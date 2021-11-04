@@ -14,30 +14,56 @@ import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { BarcodeProfile, PayeeCodeSettings } from 'src/sdk/settings'
 
-export type Props = {
-  open: boolean
-  settings: PayeeCodeSettings
-  onCancelled: () => void
-  onSaved: (settings: PayeeCodeSettings) => void
+const centsToYuan = (price: number) => {
+  return `${price / 100}`
 }
 
-const PriceBox = (props: { barcode: BarcodeProfile }) => {
+const BarcodeEditor = (props: { barcode: BarcodeProfile; open: boolean; onClose: () => void }) => {
+  const { barcode, open, onClose } = props
+
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>{centsToYuan(barcode.price_cents)}</DialogTitle>
+      <DialogContent>
+        <img src={barcode.url} />
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+const BarcodeDisplay = (props: { barcode: BarcodeProfile }) => {
   const { barcode } = props
+  const [open, setOpen] = React.useState(false)
+
+  function handleClick() {
+    setOpen(true)
+  }
+
   return (
     <ImageListItem>
       <ButtonBase
         sx={{
           width: 120,
           height: 120,
-          bgcolor: barcode.url ? 'success.main' : 'secondary.main',
+          bgcolor: barcode.url ? 'success.main' : 'grey.400',
           fontSize: '2em',
         }}
+        onClick={handleClick}
       >
-        {barcode.price_cents / 100}
+        {centsToYuan(barcode.price_cents)}
       </ButtonBase>
       <ImageListItemBar sx={{ height: 30 }} title="CNY"></ImageListItemBar>
+
+      <BarcodeEditor barcode={barcode} open={open} onClose={() => setOpen(false)} />
     </ImageListItem>
   )
+}
+
+export type Props = {
+  open: boolean
+  settings: PayeeCodeSettings
+  onCancelled: () => void
+  onSaved: (settings: PayeeCodeSettings) => void
 }
 
 const Index = (props: Props) => {
@@ -63,15 +89,15 @@ const Index = (props: Props) => {
       <DialogTitle>{t(settings.kind)}</DialogTitle>
       <DialogContent>
         <Stack spacing={2}>
-          <Stack direction="row" spacing={1} sx={{ justifyContent: 'flex-end' }}>
+          <Stack direction="row" spacing={1} sx={{ justifyContent: 'flex-end', alignItems: 'center' }}>
             <Box sx={{ color: 'success.main' }}>&#9632;</Box>
             <Box>{t('uploaded')}</Box>
-            <Box sx={{ color: 'secondary.main' }}>&#9632;</Box>
+            <Box sx={{ color: 'grey.400' }}>&#9632;</Box>
             <Box>{t('not-uploaded')}</Box>
           </Stack>
           <ImageList cols={3}>
             {settings.barcodes.map((barcode) => {
-              return <PriceBox key={barcode.id} barcode={barcode}></PriceBox>
+              return <BarcodeDisplay key={barcode.id} barcode={barcode}></BarcodeDisplay>
             })}
           </ImageList>
         </Stack>
