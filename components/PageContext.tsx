@@ -1,5 +1,5 @@
 import * as React from 'react'
-import ROUTES, { Route } from 'src/routes'
+import ROUTES, { Route } from 'routes'
 
 export interface PageContextValue {
   activeRoute: Route | null

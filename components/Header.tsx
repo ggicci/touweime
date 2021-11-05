@@ -1,10 +1,10 @@
 import { AppBar, Box, Container, IconButton, Toolbar, useTheme } from '@mui/material'
+import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
+import Link from 'components/Link'
+import UserMenu from 'components/UserMenu'
 import Image from 'next/image'
 import React from 'react'
-import FontAwesomeSvgIcon from 'src/components/FontAwesomeSvgIcon'
-import Link from 'src/components/Link'
-import UserMenu from 'src/components/UserMenu'
-import { DiscoverRoute, HomeRoute, SupportRoute } from 'src/routes'
+import { DiscoverRoute, HomeRoute, SupportRoute } from 'routes'
 
 const SiteLogo = () => {
   return (

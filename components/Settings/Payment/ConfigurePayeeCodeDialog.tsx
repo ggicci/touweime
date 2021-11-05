@@ -13,14 +13,14 @@ import isEmpty from 'lodash/isEmpty'
 import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
 import React from 'react'
-import { PayeeCodeProfile, PayeeCodeSettings } from 'src/sdk/settings'
+import { PayeeCodeProfile, PayeeCodeSettings } from 'sdk/settings'
 
 const centsToYuan = (price: number) => {
   return `${price / 100}`
 }
 
-const PayeeCodeEditor = (props: { barcode: PayeeCodeProfile; open: boolean; onClose: () => void }) => {
-  const { barcode, open, onClose } = props
+const PayeeCodeEditor = (props: { payeeCode: PayeeCodeProfile; open: boolean; onClose: () => void }) => {
+  const { payeeCode: barcode, open, onClose } = props
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -32,30 +32,44 @@ const PayeeCodeEditor = (props: { barcode: PayeeCodeProfile; open: boolean; onCl
   )
 }
 
-const PayeeCodeDisplay = (props: { barcode: PayeeCodeProfile }) => {
-  const { barcode } = props
+const PayeeCodeDisplay = (props: { payeeCode: PayeeCodeProfile }) => {
+  const { payeeCode } = props
   const [open, setOpen] = React.useState(false)
+  const uploaderRef = React.useRef<HTMLInputElement>(null)
 
   function handleClick() {
+    if (!payeeCode.url) {
+      // Popup upload dialog directly.
+      uploaderRef.current?.click()
+      return
+    }
     setOpen(true)
+  }
+
+  function handleUploadImage(event: React.ChangeEvent<HTMLInputElement>) {
+    console.log(event.target.files)
   }
 
   return (
     <ImageListItem>
+      <Box sx={{ display: { xs: 'none' } }}>
+        <input ref={uploaderRef} type="file" accept="image/*" onChange={handleUploadImage} />
+      </Box>
       <ButtonBase
         sx={{
           width: 120,
           height: 120,
-          bgcolor: barcode.url ? 'success.main' : 'grey.400',
+          bgcolor: payeeCode.url ? 'success.main' : 'grey.400',
           fontSize: '2rem',
         }}
         onClick={handleClick}
       >
-        {centsToYuan(barcode.price_cents)}
+        {centsToYuan(payeeCode.price_cents)}
       </ButtonBase>
+
       <ImageListItemBar sx={{ height: 30 }} title="CNY"></ImageListItemBar>
 
-      <PayeeCodeEditor barcode={barcode} open={open} onClose={() => setOpen(false)} />
+      <PayeeCodeEditor payeeCode={payeeCode} open={open} onClose={() => setOpen(false)} />
     </ImageListItem>
   )
 }
@@ -98,7 +112,7 @@ const Index = (props: Props) => {
           </Stack>
           <ImageList cols={3}>
             {settings.barcodes.map((barcode) => {
-              return <PayeeCodeDisplay key={barcode.id} barcode={barcode}></PayeeCodeDisplay>
+              return <PayeeCodeDisplay key={barcode.id} payeeCode={barcode}></PayeeCodeDisplay>
             })}
           </ImageList>
         </Stack>

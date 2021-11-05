@@ -1,14 +1,14 @@
 import { Container, ThemeProvider } from '@mui/material'
+import Footer from 'components/Footer'
+import Header from 'components/Header'
+import PageContext from 'components/PageContext'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import React from 'react'
-import Footer from 'src/components/Footer'
-import Header from 'src/components/Header'
-import PageContext from 'src/components/PageContext'
-import ROUTES, { Route } from 'src/routes'
-import theme from 'src/themes/default'
+import ROUTES, { Route } from 'routes'
 import 'styles/globals.scss'
 import { SWRConfig } from 'swr'
+import theme from 'themes/default'
 
 /**
  *

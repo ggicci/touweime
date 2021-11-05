@@ -19,13 +19,13 @@ import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import DoubleFacedButton from 'components/DoubleFacedButton'
+import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
+import ConfigurePayeeCodeDialog from 'components/Settings/Payment/ConfigurePayeeCodeDialog'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import DoubleFacedButton from 'src/components/DoubleFacedButton'
-import FontAwesomeSvgIcon from 'src/components/FontAwesomeSvgIcon'
-import ConfigurePayeeCodeDialog from 'src/components/Settings/Payment/ConfigurePayeeCodeDialog'
-import { SettingsRoute } from 'src/routes'
-import { AlipaySettings, Settings, useSettings, WepaySettings } from 'src/sdk/settings'
+import { SettingsRoute } from 'routes'
+import { AlipaySettings, Settings, useSettings, WepaySettings } from 'sdk/settings'
 
 interface PaymentMethodListItemProps {
   settings: AlipaySettings | WepaySettings
