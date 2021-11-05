@@ -47,7 +47,11 @@ const PayeeCodeDisplay = (props: { payeeCode: PayeeCodeProfile }) => {
   }
 
   function handleUploadImage(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log(event.target.files)
+    if (isEmpty(event.target.files)) {
+      return // noop
+    }
+
+    const file = event.target.files![0]
   }
 
   return (
