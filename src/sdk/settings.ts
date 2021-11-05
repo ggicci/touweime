@@ -8,7 +8,7 @@ interface Food {
 
 type FavoriteFoods = Food[]
 
-export interface BarcodeProfile {
+export interface PayeeCodeProfile {
   id: number
   price_cents: number
   url?: string | null
@@ -17,7 +17,7 @@ export interface BarcodeProfile {
 export interface PayeeCodeSettings {
   id: number
   kind: string
-  barcodes: BarcodeProfile[]
+  barcodes: PayeeCodeProfile[]
   state: 'unprepared' | 'enabled' | 'disabled'
 }
 

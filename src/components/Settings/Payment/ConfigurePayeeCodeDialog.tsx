@@ -11,27 +11,28 @@ import ImageListItemBar from '@mui/material/ImageListItemBar'
 import Stack from '@mui/material/Stack'
 import isEmpty from 'lodash/isEmpty'
 import useTranslation from 'next-translate/useTranslation'
+import Image from 'next/image'
 import React from 'react'
-import { BarcodeProfile, PayeeCodeSettings } from 'src/sdk/settings'
+import { PayeeCodeProfile, PayeeCodeSettings } from 'src/sdk/settings'
 
 const centsToYuan = (price: number) => {
   return `${price / 100}`
 }
 
-const BarcodeEditor = (props: { barcode: BarcodeProfile; open: boolean; onClose: () => void }) => {
+const PayeeCodeEditor = (props: { barcode: PayeeCodeProfile; open: boolean; onClose: () => void }) => {
   const { barcode, open, onClose } = props
 
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>{centsToYuan(barcode.price_cents)}</DialogTitle>
       <DialogContent>
-        <img src={barcode.url} />
+        <Image src={barcode.url || '/images/image-placeholder.svg'} alt="barcode" height="400" width="400"></Image>
       </DialogContent>
     </Dialog>
   )
 }
 
-const BarcodeDisplay = (props: { barcode: BarcodeProfile }) => {
+const PayeeCodeDisplay = (props: { barcode: PayeeCodeProfile }) => {
   const { barcode } = props
   const [open, setOpen] = React.useState(false)
 
@@ -46,7 +47,7 @@ const BarcodeDisplay = (props: { barcode: BarcodeProfile }) => {
           width: 120,
           height: 120,
           bgcolor: barcode.url ? 'success.main' : 'grey.400',
-          fontSize: '2em',
+          fontSize: '2rem',
         }}
         onClick={handleClick}
       >
@@ -54,7 +55,7 @@ const BarcodeDisplay = (props: { barcode: BarcodeProfile }) => {
       </ButtonBase>
       <ImageListItemBar sx={{ height: 30 }} title="CNY"></ImageListItemBar>
 
-      <BarcodeEditor barcode={barcode} open={open} onClose={() => setOpen(false)} />
+      <PayeeCodeEditor barcode={barcode} open={open} onClose={() => setOpen(false)} />
     </ImageListItem>
   )
 }
@@ -97,18 +98,14 @@ const Index = (props: Props) => {
           </Stack>
           <ImageList cols={3}>
             {settings.barcodes.map((barcode) => {
-              return <BarcodeDisplay key={barcode.id} barcode={barcode}></BarcodeDisplay>
+              return <PayeeCodeDisplay key={barcode.id} barcode={barcode}></PayeeCodeDisplay>
             })}
           </ImageList>
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" onClick={handleCancel} color="secondary">
-          {t('common:cancel')}
-        </Button>
-        <Button variant="contained" onClick={handleSave}>
-          {t('common:save')}
-        </Button>
+        <Button onClick={handleCancel}>{t('common:cancel')}</Button>
+        <Button onClick={handleSave}>{t('common:save')}</Button>
       </DialogActions>
     </Dialog>
   )

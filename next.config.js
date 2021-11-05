@@ -4,7 +4,7 @@ const nextTranslate = require('next-translate')
 const config = {
   reactStrictMode: true,
   images: {
-    domains: ['ggicci.me', 'avatars.githubusercontent.com', 'images.unsplash.com'],
+    domains: ['touwei.ggicci.me', 'avatars.githubusercontent.com', 'images.unsplash.com'],
   },
 
   experimental: {
