@@ -1,17 +1,25 @@
+import { faEye, faUpload } from '@fortawesome/free-solid-svg-icons'
+import Backdrop from '@mui/material/Backdrop'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import ButtonBase from '@mui/material/ButtonBase'
+import Card from '@mui/material/Card'
+import CardActionArea from '@mui/material/CardActionArea'
+import CardContent from '@mui/material/CardContent'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
+import IconButton from '@mui/material/IconButton'
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
 import ImageListItemBar from '@mui/material/ImageListItemBar'
 import Stack from '@mui/material/Stack'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
+import ImageViewer from 'components/ImageViewer'
 import isEmpty from 'lodash/isEmpty'
 import useTranslation from 'next-translate/useTranslation'
-import Image from 'next/image'
 import React from 'react'
 import { PayeeCodeProfile, PayeeCodeSettings } from 'sdk/settings'
 
@@ -19,61 +27,108 @@ const centsToYuan = (price: number) => {
   return `${price / 100}`
 }
 
-const PayeeCodeEditor = (props: { payeeCode: PayeeCodeProfile; open: boolean; onClose: () => void }) => {
-  const { payeeCode: barcode, open, onClose } = props
-
-  return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>{centsToYuan(barcode.price_cents)}</DialogTitle>
-      <DialogContent>
-        <Image src={barcode.url || '/images/image-placeholder.svg'} alt="barcode" height="400" width="400"></Image>
-      </DialogContent>
-    </Dialog>
-  )
-}
-
-const PayeeCodeDisplay = (props: { payeeCode: PayeeCodeProfile }) => {
-  const { payeeCode } = props
-  const [open, setOpen] = React.useState(false)
+const PayeeCodeDisplayHoverActions = (props: { payeeCode: PayeeCodeProfile; onClose: () => void }) => {
+  const { payeeCode, onClose } = props
+  const [openImageViewer, setOpenImageViewer] = React.useState(false)
   const uploaderRef = React.useRef<HTMLInputElement>(null)
+  const { t } = useTranslation('settings')
 
-  function handleClick() {
-    if (!payeeCode.url) {
-      // Popup upload dialog directly.
-      uploaderRef.current?.click()
-      return
-    }
-    setOpen(true)
+  function handleUpload() {
+    uploaderRef.current?.click()
+  }
+
+  function handleView() {
+    setOpenImageViewer(true)
   }
 
   function handleUploadImage(event: React.ChangeEvent<HTMLInputElement>) {
     if (isEmpty(event.target.files)) {
+      onClose()
       return // noop
     }
 
     const file = event.target.files![0]
   }
 
+  const uploadButton = (
+    <Tooltip title={t('upload-payee-code')} placement="top" arrow>
+      <IconButton onClick={handleUpload}>
+        <FontAwesomeSvgIcon icon={faUpload} fontSize="small" sx={{ color: 'white' }}></FontAwesomeSvgIcon>
+      </IconButton>
+    </Tooltip>
+  )
+
+  const buttons = [uploadButton]
+
+  if (payeeCode.url) {
+    const viewButton = (
+      <React.Fragment>
+        <Tooltip title={t('view-payee-code')} placement="top" arrow>
+          <IconButton onClick={handleView}>
+            <FontAwesomeSvgIcon icon={faEye} fontSize="small" sx={{ color: 'white' }}></FontAwesomeSvgIcon>
+          </IconButton>
+        </Tooltip>
+        <ImageViewer
+          title={t('payee-code-image-viewer-title', { price: centsToYuan(payeeCode.price_cents) })}
+          src={payeeCode.url}
+          open={openImageViewer}
+          onClose={() => {
+            setOpenImageViewer(false)
+            onClose()
+          }}
+        ></ImageViewer>
+      </React.Fragment>
+    )
+
+    buttons.unshift(viewButton)
+  }
+
   return (
-    <ImageListItem>
+    <Stack direction="row">
       <Box sx={{ display: { xs: 'none' } }}>
         <input ref={uploaderRef} type="file" accept="image/*" onChange={handleUploadImage} />
       </Box>
-      <ButtonBase
+      {[...buttons]}
+    </Stack>
+  )
+}
+
+const PayeeCodeDisplay = (props: { payeeCode: PayeeCodeProfile }) => {
+  const { payeeCode } = props
+  const [show, setShow] = React.useState(false)
+
+  function showActions() {
+    setShow(true)
+  }
+
+  function hideActions() {
+    setShow(false)
+  }
+
+  return (
+    <ImageListItem>
+      <Card
         sx={{
           width: 120,
           height: 120,
           bgcolor: payeeCode.url ? 'success.main' : 'grey.400',
-          fontSize: '2rem',
+          borderRadius: 0,
         }}
-        onClick={handleClick}
       >
-        {centsToYuan(payeeCode.price_cents)}
-      </ButtonBase>
+        <CardActionArea onMouseOver={showActions} onMouseOut={hideActions} sx={{ height: '100%' }}>
+          <CardContent sx={{ textAlign: 'center' }}>
+            <Typography sx={{ fontSize: 32 }}>{centsToYuan(payeeCode.price_cents)}</Typography>
+            <Backdrop
+              open={show}
+              sx={{ position: 'absolute', bgcolor: '#444', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            >
+              <PayeeCodeDisplayHoverActions payeeCode={payeeCode} onClose={hideActions} />
+            </Backdrop>
+          </CardContent>
+        </CardActionArea>
+      </Card>
 
-      <ImageListItemBar sx={{ height: 30 }} title="CNY"></ImageListItemBar>
-
-      <PayeeCodeEditor payeeCode={payeeCode} open={open} onClose={() => setOpen(false)} />
+      <ImageListItemBar sx={{ height: 20 }} subtitle="CNY"></ImageListItemBar>
     </ImageListItem>
   )
 }
@@ -99,8 +154,8 @@ const Index = (props: Props) => {
 
   const PRICE_PRESETS = [100, 500, 1000, 2000, 5000, 10000]
 
-  if (isEmpty(settings.barcodes)) {
-    settings.barcodes = PRICE_PRESETS.map((x, i) => ({ id: i, price_cents: x, url: null }))
+  if (isEmpty(settings.codes)) {
+    settings.codes = PRICE_PRESETS.map((x, i) => ({ id: i, price_cents: x, url: null }))
   }
 
   return (
@@ -115,10 +170,11 @@ const Index = (props: Props) => {
             <Box>{t('not-uploaded')}</Box>
           </Stack>
           <ImageList cols={3}>
-            {settings.barcodes.map((barcode) => {
-              return <PayeeCodeDisplay key={barcode.id} payeeCode={barcode}></PayeeCodeDisplay>
+            {settings.codes.map((code) => {
+              return <PayeeCodeDisplay key={code.id} payeeCode={code}></PayeeCodeDisplay>
             })}
           </ImageList>
+          <Typography paragraph>{t('payee-code-upload-help')}</Typography>
         </Stack>
       </DialogContent>
       <DialogActions>

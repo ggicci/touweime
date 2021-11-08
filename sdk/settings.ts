@@ -17,7 +17,7 @@ export interface PayeeCodeProfile {
 export interface PayeeCodeSettings {
   id: number
   kind: string
-  barcodes: PayeeCodeProfile[]
+  codes: PayeeCodeProfile[]
   state: 'unprepared' | 'enabled' | 'disabled'
 }
 
@@ -75,13 +75,13 @@ export function useSettings() {
         alipay: {
           id: 1,
           kind: 'alipay-payee-code',
-          barcodes: [],
+          codes: [],
           state: 'unprepared',
         } as AlipaySettings,
         wepay: {
           id: 2,
           kind: 'wepay-payee-code',
-          barcodes: [
+          codes: [
             { id: 1, price_cents: 500, url: 'https://touwei.ggicci.me/images/drumstick.svg' },
             { id: 2, price_cents: 1000, url: 'https://touwei.ggicci.me/images/doughnut.svg' },
             { id: 3, price_cents: 1500, url: 'https://touwei.ggicci.me/images/coffee.svg' },
