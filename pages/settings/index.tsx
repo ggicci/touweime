@@ -127,7 +127,7 @@ const PaymentMethodSettings = (props: SettingsProps) => {
   return (
     <List>
       {[paymentMethods.alipay, paymentMethods.wepay].map((method) => {
-        return <PaymentMethodListItem key={method.id} settings={method}></PaymentMethodListItem>
+        return <PaymentMethodListItem key={method.kind} settings={method}></PaymentMethodListItem>
       })}
     </List>
   )
@@ -135,7 +135,6 @@ const PaymentMethodSettings = (props: SettingsProps) => {
 
 const LinkSettings = (props: SettingsProps) => {
   const { settings } = props
-  const linkSettings = settings.link
 
   return (
     <TextField
@@ -148,14 +147,19 @@ const LinkSettings = (props: SettingsProps) => {
           </React.Fragment>
         ),
       }}
-      defaultValue={linkSettings.key}
+      defaultValue={settings.link_key}
     ></TextField>
   )
 }
 
 const Index = () => {
   const { t } = useTranslation('settings')
-  const { data: settings } = useSettings()
+  // const { data: settings } = useSWR<Settings>(['settings', { url: `/api.proxy/gaia/v1/settings` }])
+  const { settings, isLoading } = useSettings()
+
+  if (isLoading) {
+    return <Typography variant="h5">{t('loading')}</Typography>
+  }
 
   return (
     <Container component={Paper} variant="outlined" sx={{ py: 4 }}>
@@ -170,14 +174,14 @@ const Index = () => {
         <Typography variant="subtitle1" color="text.secondary">
           {t('favorite-food-help')}
         </Typography>
-        <FavoriteFoodSettings settings={settings}></FavoriteFoodSettings>
+        <FavoriteFoodSettings settings={settings!}></FavoriteFoodSettings>
 
         {/* settings: payment methods */}
         <Typography variant="h2">{t('payment-methods')}</Typography>
         <Typography variant="subtitle1" color="text.secondary">
           {t('payment-methods-help')}
         </Typography>
-        <PaymentMethodSettings settings={settings}></PaymentMethodSettings>
+        <PaymentMethodSettings settings={settings!}></PaymentMethodSettings>
 
         {/* settings: tags */}
         <Typography variant="h2">{t('tag')}</Typography>
@@ -190,7 +194,7 @@ const Index = () => {
         <Typography variant="subtitle1" color="text.secondary">
           {t('page-link-help')}
         </Typography>
-        <LinkSettings settings={settings}></LinkSettings>
+        <LinkSettings settings={settings!}></LinkSettings>
 
         <Button variant="contained" size="large" color="primary" sx={{ borderRadius: 5 }}>
           {t('save-changes')}

@@ -52,7 +52,7 @@ const PayeeCodeDisplayHoverActions = (props: { payeeCode: PayeeCodeProfile; onCl
 
   const uploadButton = (
     <Tooltip title={t('upload-payee-code')} placement="top" arrow>
-      <IconButton onClick={handleUpload}>
+      <IconButton component="a" onClick={handleUpload}>
         <FontAwesomeSvgIcon icon={faUpload} fontSize="small" sx={{ color: 'white' }}></FontAwesomeSvgIcon>
       </IconButton>
     </Tooltip>
@@ -64,7 +64,7 @@ const PayeeCodeDisplayHoverActions = (props: { payeeCode: PayeeCodeProfile; onCl
     const viewButton = (
       <React.Fragment>
         <Tooltip title={t('view-payee-code')} placement="top" arrow>
-          <IconButton onClick={handleView}>
+          <IconButton component="a" onClick={handleView}>
             <FontAwesomeSvgIcon icon={faEye} fontSize="small" sx={{ color: 'white' }}></FontAwesomeSvgIcon>
           </IconButton>
         </Tooltip>
@@ -88,7 +88,9 @@ const PayeeCodeDisplayHoverActions = (props: { payeeCode: PayeeCodeProfile; onCl
       <Box sx={{ display: { xs: 'none' } }}>
         <input ref={uploaderRef} type="file" accept="image/*" onChange={handleUploadImage} />
       </Box>
-      {[...buttons]}
+      {buttons.map((button, index) => (
+        <React.Fragment key={index}>{button}</React.Fragment>
+      ))}
     </Stack>
   )
 }

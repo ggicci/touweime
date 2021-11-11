@@ -1,3 +1,5 @@
+import useRequest from 'lib/useRequest'
+
 interface Food {
   id: number
   name: string
@@ -15,19 +17,14 @@ export interface PayeeCodeProfile {
 }
 
 export interface PayeeCodeSettings {
-  id: number
   kind: string
+  code_ids: number[]
   codes: PayeeCodeProfile[]
   state: 'unprepared' | 'enabled' | 'disabled'
 }
 
 export type AlipaySettings = PayeeCodeSettings
 export type WepaySettings = PayeeCodeSettings
-
-export interface LinkSettings {
-  key: string
-  state: 'unprepared' | 'alive'
-}
 
 export interface Settings {
   id: number
@@ -37,62 +34,16 @@ export interface Settings {
     alipay: AlipaySettings
     wepay: WepaySettings
   }
-  link: LinkSettings
+  link_key: string
+  link_state: 'unprepared' | 'alive'
   tags: string[]
   google_analytics: string
 }
 
 export function useSettings() {
-  //   return useRequest<Settings>({ url: `/api.proxy/gaia/v1/users/${userId}/settings` })
+  const { data, error } = useRequest<Settings>({ url: `/api.proxy/gaia/v1/settings` })
   return {
-    data: {
-      id: 1,
-      user_id: 1,
-      favorite_foods: [
-        {
-          id: 1,
-          name: 'drumstick',
-          image_url: 'https://touwei.ggicci.me/images/drumstick.svg',
-          price_cents: 500,
-          is_available: true,
-        },
-        {
-          id: 2,
-          name: 'doughnut',
-          image_url: 'https://touwei.ggicci.me/images/doughnut.svg',
-          price_cents: 1500,
-          is_available: true,
-        },
-        {
-          id: 3,
-          name: 'coffee',
-          image_url: 'https://touwei.ggicci.me/images/coffee.svg',
-          price_cents: 3000,
-          is_available: true,
-        },
-      ],
-      payment: {
-        alipay: {
-          id: 1,
-          kind: 'alipay-payee-code',
-          codes: [],
-          state: 'unprepared',
-        } as AlipaySettings,
-        wepay: {
-          id: 2,
-          kind: 'wepay-payee-code',
-          codes: [
-            { id: 1, price_cents: 500, url: 'https://touwei.ggicci.me/images/drumstick.svg' },
-            { id: 2, price_cents: 1000, url: 'https://touwei.ggicci.me/images/doughnut.svg' },
-            { id: 3, price_cents: 1500, url: 'https://touwei.ggicci.me/images/coffee.svg' },
-          ],
-          state: 'enabled',
-        } as WepaySettings,
-      },
-      link: {
-        key: 'ggicci',
-        state: 'alive',
-      },
-    } as Settings,
+    settings: data,
+    isLoading: !error && !data,
   }
 }

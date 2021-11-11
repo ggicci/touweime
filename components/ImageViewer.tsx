@@ -1,3 +1,4 @@
+import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -10,7 +11,9 @@ const ImageViewer = (props: { title: string; src: string; open: boolean; onClose
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <Image src={src || '/images/image-placeholder.svg'} alt="barcode" height="400" width="400"></Image>
+        <Box sx={{ position: 'relative', height: 400, width: 400 }}>
+          <Image src={src || '/images/image-placeholder.svg'} alt="barcode" layout="fill" objectFit="contain"></Image>
+        </Box>
       </DialogContent>
     </Dialog>
   )
