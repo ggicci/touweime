@@ -16,5 +16,6 @@
   "username": "用户名",
   "password": "密码",
   "save": "保存",
-  "cancel": "取消"
+  "cancel": "取消",
+  "close": "关闭"
 }

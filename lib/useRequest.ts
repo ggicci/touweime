@@ -1,6 +1,7 @@
 // https://github.com/vercel/swr/blob/master/examples/axios-typescript/libs/useRequest.ts
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import useSWR, { SWRConfiguration, SWRResponse } from 'swr'
+import axios from './axios'
 
 export type GetRequest = AxiosRequestConfig
 
@@ -19,11 +20,6 @@ export default function useRequest<Data = unknown, Error = unknown>(
   request: GetRequest,
   { fallbackData, ...config }: Config<Data, Error> = {},
 ): Return<Data, Error> {
-  // Add default configs to request.
-  if (process.env.NODE_ENV === 'development') {
-    request.headers = { ...request.headers, 'X-Service-Id': 'touwei' }
-  }
-
   const cacheKey = JSON.stringify(request)
   // console.log('cacheKey:', cacheKey)
   const {

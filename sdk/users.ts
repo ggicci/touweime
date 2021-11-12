@@ -1,4 +1,4 @@
-import useRequest from 'lib/useRequest'
+import useSWR from 'swr'
 
 export interface User {
   id: number
@@ -7,5 +7,5 @@ export interface User {
 }
 
 export function useUser() {
-  return useRequest<User>({ url: '/api.proxy/gaia/v1/user' })
+  return useSWR<User>('/v1/user')
 }

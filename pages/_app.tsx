@@ -2,6 +2,7 @@ import { Container, ThemeProvider } from '@mui/material'
 import Footer from 'components/Footer'
 import Header from 'components/Header'
 import PageContext from 'components/PageContext'
+import { axiosFetcher } from 'lib/axios'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -45,7 +46,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const activeRoute = findActiveRoute(ROUTES, router.pathname)
 
   return (
-    <SWRConfig>
+    <SWRConfig value={{ fetcher: axiosFetcher }}>
       <PageContext.Provider value={{ activeRoute: activeRoute, routes: ROUTES }}>
         <ThemeProvider theme={theme}>
           <Header></Header>

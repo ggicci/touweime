@@ -1,17 +1,21 @@
 // https://swr.vercel.app/docs/global-configuration
 import axios, { AxiosRequestConfig } from 'axios'
 
-export type GetRequest = AxiosRequestConfig
+const gaiaApi = axios.create({
+  baseURL: `${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_GAIA_API_ENDPOINT}`,
+  timeout: 5000,
+})
 
-async function axiosFetcher<Data>(key: string, request: GetRequest): Promise<Data> {
-  if (process.env.NODE_ENV === 'development') {
-    request.headers = { ...request.headers, 'X-Service-Id': 'touwei' }
-  }
-
-  console.log('axiosFetcher(debug):', key, request)
-
-  const response = await axios.request<Data>(request)
-  return response.data
+gaiaApi.defaults.headers.common['X-User-Agent'] = 'axios'
+if (process.env.NODE_ENV === 'development') {
+  gaiaApi.defaults.headers.common['X-Service-Id'] = 'touwei'
 }
 
-export default axiosFetcher
+type GetRequest = AxiosRequestConfig
+
+export async function axiosFetcher<T>(url: string, params: GetRequest['params']): Promise<T> {
+  const resp = await gaiaApi.get(url, { params })
+  return resp.data
+}
+
+export default gaiaApi

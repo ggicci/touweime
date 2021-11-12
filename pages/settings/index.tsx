@@ -29,10 +29,11 @@ import { AlipaySettings, Settings, useSettings, WepaySettings } from 'sdk/settin
 
 interface PaymentMethodListItemProps {
   settings: AlipaySettings | WepaySettings
+  onSaved: () => void
 }
 
 const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
-  const { settings } = props
+  const { settings, onSaved } = props
   const { t } = useTranslation('settings')
   const payApp = settings.kind.startsWith('alipay')
     ? { icon: faAlipay, color: '#03a1e9' }
@@ -100,12 +101,11 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
       <ConfigurePayeeCodeDialog
         settings={settings}
         open={open}
-        onCancelled={() => {
+        onClose={() => {
           setOpen(false)
         }}
-        onSaved={(settings) => {
-          console.info('saved:', settings)
-          setOpen(false)
+        onSaved={() => {
+          onSaved()
         }}
       ></ConfigurePayeeCodeDialog>
     </React.Fragment>
@@ -120,14 +120,14 @@ const FavoriteFoodSettings = (props: SettingsProps) => {
   return <React.Fragment>TODO</React.Fragment>
 }
 
-const PaymentMethodSettings = (props: SettingsProps) => {
-  const { settings } = props
+const PaymentSettings = (props: SettingsProps & { onSaved: () => void }) => {
+  const { settings, onSaved } = props
   const paymentMethods = settings.payment
 
   return (
     <List>
       {[paymentMethods.alipay, paymentMethods.wepay].map((method) => {
-        return <PaymentMethodListItem key={method.kind} settings={method}></PaymentMethodListItem>
+        return <PaymentMethodListItem key={method.kind} settings={method} onSaved={onSaved}></PaymentMethodListItem>
       })}
     </List>
   )
@@ -147,18 +147,22 @@ const LinkSettings = (props: SettingsProps) => {
           </React.Fragment>
         ),
       }}
-      defaultValue={settings.link_key}
+      value={settings.link_key}
     ></TextField>
   )
 }
 
 const Index = () => {
   const { t } = useTranslation('settings')
-  // const { data: settings } = useSWR<Settings>(['settings', { url: `/api.proxy/gaia/v1/settings` }])
-  const { settings, isLoading } = useSettings()
+  const { data: settings, error, mutate } = useSettings()
+  const isLoading = !settings && !error
 
   if (isLoading) {
     return <Typography variant="h5">{t('loading')}</Typography>
+  }
+
+  function handleSaved() {
+    mutate(undefined, true)
   }
 
   return (
@@ -181,7 +185,7 @@ const Index = () => {
         <Typography variant="subtitle1" color="text.secondary">
           {t('payment-methods-help')}
         </Typography>
-        <PaymentMethodSettings settings={settings!}></PaymentMethodSettings>
+        <PaymentSettings settings={settings!} onSaved={handleSaved}></PaymentSettings>
 
         {/* settings: tags */}
         <Typography variant="h2">{t('tag')}</Typography>
@@ -203,5 +207,7 @@ const Index = () => {
     </Container>
   )
 }
+
+Index.className = 'Settings'
 
 export default Index

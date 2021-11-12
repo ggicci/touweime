@@ -21,14 +21,20 @@ import ImageViewer from 'components/ImageViewer'
 import isEmpty from 'lodash/isEmpty'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { PayeeCodeProfile, PayeeCodeSettings } from 'sdk/settings'
+import { PayeeCode, PayeeCodeSettings, uploadPayeeCodeImage } from 'sdk/settings'
 
 const centsToYuan = (price: number) => {
   return `${price / 100}`
 }
 
-const PayeeCodeDisplayHoverActions = (props: { payeeCode: PayeeCodeProfile; onClose: () => void }) => {
-  const { payeeCode, onClose } = props
+interface PayeeCodeHoverActionsProps {
+  payeeCode: PayeeCode
+  onLeave: () => void
+  onUploaded: () => void
+}
+
+const PayeeCodeHoverActions = (props: PayeeCodeHoverActionsProps) => {
+  const { payeeCode, onLeave, onUploaded } = props
   const [openImageViewer, setOpenImageViewer] = React.useState(false)
   const uploaderRef = React.useRef<HTMLInputElement>(null)
   const { t } = useTranslation('settings')
@@ -41,13 +47,16 @@ const PayeeCodeDisplayHoverActions = (props: { payeeCode: PayeeCodeProfile; onCl
     setOpenImageViewer(true)
   }
 
-  function handleUploadImage(event: React.ChangeEvent<HTMLInputElement>) {
+  async function handleUploadImage(event: React.ChangeEvent<HTMLInputElement>, payeeCode: PayeeCode) {
     if (isEmpty(event.target.files)) {
-      onClose()
+      onLeave()
       return // noop
     }
 
     const file = event.target.files![0]
+    const ticket = await uploadPayeeCodeImage(payeeCode.id, file)
+    // console.debug('uploaded successfully with ticket:', ticket)
+    onUploaded()
   }
 
   const uploadButton = (
@@ -74,7 +83,7 @@ const PayeeCodeDisplayHoverActions = (props: { payeeCode: PayeeCodeProfile; onCl
           open={openImageViewer}
           onClose={() => {
             setOpenImageViewer(false)
-            onClose()
+            onLeave()
           }}
         ></ImageViewer>
       </React.Fragment>
@@ -86,7 +95,7 @@ const PayeeCodeDisplayHoverActions = (props: { payeeCode: PayeeCodeProfile; onCl
   return (
     <Stack direction="row">
       <Box sx={{ display: { xs: 'none' } }}>
-        <input ref={uploaderRef} type="file" accept="image/*" onChange={handleUploadImage} />
+        <input ref={uploaderRef} type="file" accept="image/*" onChange={(e) => handleUploadImage(e, payeeCode)} />
       </Box>
       {buttons.map((button, index) => (
         <React.Fragment key={index}>{button}</React.Fragment>
@@ -95,8 +104,8 @@ const PayeeCodeDisplayHoverActions = (props: { payeeCode: PayeeCodeProfile; onCl
   )
 }
 
-const PayeeCodeDisplay = (props: { payeeCode: PayeeCodeProfile }) => {
-  const { payeeCode } = props
+const PayeeCodeBlock = (props: { payeeCode: PayeeCode; onSaved: () => void }) => {
+  const { payeeCode, onSaved } = props
   const [show, setShow] = React.useState(false)
 
   function showActions() {
@@ -124,7 +133,7 @@ const PayeeCodeDisplay = (props: { payeeCode: PayeeCodeProfile }) => {
               open={show}
               sx={{ position: 'absolute', bgcolor: '#444', zIndex: (theme) => theme.zIndex.drawer + 1 }}
             >
-              <PayeeCodeDisplayHoverActions payeeCode={payeeCode} onClose={hideActions} />
+              <PayeeCodeHoverActions payeeCode={payeeCode} onLeave={hideActions} onUploaded={onSaved} />
             </Backdrop>
           </CardContent>
         </CardActionArea>
@@ -138,21 +147,13 @@ const PayeeCodeDisplay = (props: { payeeCode: PayeeCodeProfile }) => {
 export type Props = {
   open: boolean
   settings: PayeeCodeSettings
-  onCancelled: () => void
-  onSaved: (settings: PayeeCodeSettings) => void
+  onClose: () => void
+  onSaved: () => void
 }
 
 const Index = (props: Props) => {
   const { t } = useTranslation('settings')
-  const { open, onCancelled, onSaved, settings } = props
-
-  function handleCancel() {
-    onCancelled()
-  }
-
-  function handleSave() {
-    onSaved(settings)
-  }
+  const { open, onClose, onSaved, settings } = props
 
   const PRICE_PRESETS = [100, 500, 1000, 2000, 5000, 10000]
 
@@ -173,15 +174,14 @@ const Index = (props: Props) => {
           </Stack>
           <ImageList cols={3}>
             {settings.codes.map((code) => {
-              return <PayeeCodeDisplay key={code.id} payeeCode={code}></PayeeCodeDisplay>
+              return <PayeeCodeBlock key={code.id} payeeCode={code} onSaved={onSaved}></PayeeCodeBlock>
             })}
           </ImageList>
           <Typography paragraph>{t('payee-code-upload-help')}</Typography>
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCancel}>{t('common:cancel')}</Button>
-        <Button onClick={handleSave}>{t('common:save')}</Button>
+        <Button onClick={onClose}>{t('common:close')}</Button>
       </DialogActions>
     </Dialog>
   )

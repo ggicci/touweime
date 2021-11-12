@@ -11,8 +11,8 @@ import Stack from '@mui/material/Stack'
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import axios from 'axios'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
+import { axios, touweiApi } from 'lib/axios'
 import { getRandomPhoto, Photo } from 'lib/unsplash'
 import { GetServerSideProps } from 'next'
 import useTranslation from 'next-translate/useTranslation'
@@ -21,7 +21,6 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { User } from 'sdk/users'
 import { format } from 'url'
-
 // See https://image-component.nextjs.gallery/background
 const BackgroundWrapper = styled('div')(
   ({ theme }) => `
@@ -36,7 +35,7 @@ function buildSigninUrl(returnTo: string): string {
   const authRedirectURL = { pathname: '/login', query: { return_to: returnTo || '/' } }
 
   const authURL = {
-    pathname: '/api.proxy/gaia/v1/login/oauth2',
+    pathname: '/v1/login/oauth2',
     query: {
       app_id: 'touwei-github',
       redirect_uri: format(authRedirectURL),
@@ -137,7 +136,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const cookies = req.headers.cookie || ''
 
   try {
-    await axios.get<User>(`${process.env.NEXT_PUBLIC_HOST}/api.proxy/gaia/v1/user`, {
+    await touweiApi.get<User>('/v1/user', {
       headers: {
         Cookie: cookies,
       },
