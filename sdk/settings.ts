@@ -20,11 +20,12 @@ export interface PayeeCode {
   url?: string | null
 }
 
+export type PaymentState = 'unprepared' | 'enabled' | 'disabled'
+export type LinkState = 'unprepared' | 'alive'
+
 export interface PayeeCodeSettings {
-  kind: string
-  code_ids: number[]
+  state: PaymentState
   codes: PayeeCode[]
-  state: 'unprepared' | 'enabled' | 'disabled'
 }
 
 export type AlipaySettings = PayeeCodeSettings
@@ -39,13 +40,28 @@ export interface Settings {
     wepay: WepaySettings
   }
   link_key: string
-  link_state: 'unprepared' | 'alive'
+  link_state: LinkState
   tags: string[]
   google_analytics: string
 }
 
 export function useSettings() {
   return useSWR<Settings>('/v1/settings')
+}
+
+type SettingsPatch = Pick<Settings, 'link_key' | 'tags'> & {
+  payment?: {
+    alipay?: Pick<AlipaySettings, 'state'>
+    wepay?: Pick<WepaySettings, 'state'>
+  }
+}
+
+export async function updateSettings(patch: SettingsPatch) {
+  await axios.patch(`/v1/settings`, {
+    payment: patch.payment,
+    link_key: patch.link_key,
+    tags: patch.tags,
+  })
 }
 
 export async function uploadPayeeCodeImage(id: number, file: File) {

@@ -147,13 +147,14 @@ const PayeeCodeBlock = (props: { payeeCode: PayeeCode; onSaved: () => void }) =>
 export type Props = {
   open: boolean
   settings: PayeeCodeSettings
+  kind: 'alipay' | 'wepay'
   onClose: () => void
   onSaved: () => void
 }
 
 const Index = (props: Props) => {
   const { t } = useTranslation('settings')
-  const { open, onClose, onSaved, settings } = props
+  const { open, onClose, onSaved, settings, kind } = props
 
   const PRICE_PRESETS = [100, 500, 1000, 2000, 5000, 10000]
 
@@ -163,7 +164,7 @@ const Index = (props: Props) => {
 
   return (
     <Dialog maxWidth="md" open={open} scroll="paper">
-      <DialogTitle>{t(settings.kind)}</DialogTitle>
+      <DialogTitle>{t(kind)}</DialogTitle>
       <DialogContent>
         <Stack spacing={2}>
           <Stack direction="row" spacing={1} sx={{ justifyContent: 'flex-end', alignItems: 'center' }}>
@@ -177,7 +178,10 @@ const Index = (props: Props) => {
               return <PayeeCodeBlock key={code.id} payeeCode={code} onSaved={onSaved}></PayeeCodeBlock>
             })}
           </ImageList>
-          <Typography paragraph>{t('payee-code-upload-help')}</Typography>
+          <Typography paragraph>
+            {settings.state === 'unprepared' ? t('payee-code-upload-help') : t('payee-code-after-upload-help')}
+          </Typography>
+          <Typography>{}</Typography>
         </Stack>
       </DialogContent>
       <DialogActions>

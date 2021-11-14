@@ -25,32 +25,62 @@ import ConfigurePayeeCodeDialog from 'components/Settings/Payment/ConfigurePayee
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { SettingsRoute } from 'routes'
-import { AlipaySettings, Settings, useSettings, WepaySettings } from 'sdk/settings'
+import { PaymentState, Settings, updateSettings, useSettings } from 'sdk/settings'
 
-interface PaymentMethodListItemProps {
-  settings: AlipaySettings | WepaySettings
+interface SettingsProps {
+  settings: Settings
+}
+
+const FavoriteFoodSettings = (props: SettingsProps) => {
+  return <React.Fragment>TODO</React.Fragment>
+}
+
+const PaymentSettings = (props: SettingsProps & { onSaved: () => void }) => {
+  const { settings, onSaved } = props
+  return (
+    <List>
+      <PaymentMethodListItem key="alipay" kind="alipay" settings={settings} onSaved={onSaved}></PaymentMethodListItem>
+      <PaymentMethodListItem key="wepay" kind="wepay" settings={settings} onSaved={onSaved}></PaymentMethodListItem>
+    </List>
+  )
+}
+
+interface PaymentMethodListItemProps extends SettingsProps {
+  kind: 'alipay' | 'wepay'
   onSaved: () => void
 }
 
 const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
-  const { settings, onSaved } = props
+  const { settings, kind, onSaved } = props
   const { t } = useTranslation('settings')
-  const payApp = settings.kind.startsWith('alipay')
-    ? { icon: faAlipay, color: '#03a1e9' }
-    : { icon: faWeixin, color: '#21ac38' }
+  const payApp = kind === 'alipay' ? { icon: faAlipay, color: '#03a1e9' } : { icon: faWeixin, color: '#21ac38' }
+  const [open, setOpen] = React.useState(false)
+  const currentPayment = settings.payment[kind]
+
+  async function setPaymentState(newState: PaymentState) {
+    await updateSettings({
+      payment: {
+        [kind]: {
+          state: newState,
+        },
+      },
+    })
+    onSaved()
+  }
 
   let ActionButton = null
-  if (settings.state === 'unprepared') {
+  if (currentPayment.state === 'unprepared') {
     ActionButton = (
       <Button
         variant="outlined"
         sx={{ borderRadius: 5 }}
         startIcon={<FontAwesomeSvgIcon icon={faExchangeAlt} fontSize="small" />}
+        onClick={() => setOpen(true)}
       >
         {t('activate')}
       </Button>
     )
-  } else if (settings.state === 'disabled') {
+  } else if (currentPayment.state === 'disabled') {
     ActionButton = (
       <DoubleFacedButton
         variant="outlined"
@@ -60,11 +90,12 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
         hoverChildren={t('enable')}
         hoverStartIcon={<FontAwesomeSvgIcon icon={faToggleOff} fontSize="small" />}
         hoverColor="success"
+        onClick={() => setPaymentState('enabled')}
       >
-        {t(settings.state)}
+        {t(currentPayment.state)}
       </DoubleFacedButton>
     )
-  } else if (settings.state === 'enabled') {
+  } else if (currentPayment.state === 'enabled') {
     ActionButton = (
       <DoubleFacedButton
         variant="outlined"
@@ -74,13 +105,12 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
         hoverChildren={t('disable')}
         hoverStartIcon={<FontAwesomeSvgIcon icon={faToggleOff} fontSize="small" />}
         hoverColor="error"
+        onClick={() => setPaymentState('disabled')}
       >
-        {t(settings.state)}
+        {t(currentPayment.state)}
       </DoubleFacedButton>
     )
   }
-
-  const [open, setOpen] = React.useState(false)
 
   return (
     <React.Fragment>
@@ -95,11 +125,12 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
               <FontAwesomeSvgIcon icon={payApp.icon} fontSize="large" sx={{ color: payApp.color }}></FontAwesomeSvgIcon>
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={t(settings.kind)} secondary={t(`${settings.kind}-help`)}></ListItemText>
+          <ListItemText primary={t(`${kind}-payee-code`)} secondary={t(`${kind}-payee-code-help`)}></ListItemText>
         </ListItemButton>
       </ListItem>
       <ConfigurePayeeCodeDialog
-        settings={settings}
+        settings={currentPayment}
+        kind={kind}
         open={open}
         onClose={() => {
           setOpen(false)
@@ -109,27 +140,6 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
         }}
       ></ConfigurePayeeCodeDialog>
     </React.Fragment>
-  )
-}
-
-interface SettingsProps {
-  settings: Settings
-}
-
-const FavoriteFoodSettings = (props: SettingsProps) => {
-  return <React.Fragment>TODO</React.Fragment>
-}
-
-const PaymentSettings = (props: SettingsProps & { onSaved: () => void }) => {
-  const { settings, onSaved } = props
-  const paymentMethods = settings.payment
-
-  return (
-    <List>
-      {[paymentMethods.alipay, paymentMethods.wepay].map((method) => {
-        return <PaymentMethodListItem key={method.kind} settings={method} onSaved={onSaved}></PaymentMethodListItem>
-      })}
-    </List>
   )
 }
 
