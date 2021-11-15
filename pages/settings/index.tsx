@@ -184,11 +184,11 @@ const Index = () => {
         </Typography>
 
         {/* settings: favorite foods */}
-        <Typography variant="h2">{t('favorite-food')}</Typography>
+        {/* <Typography variant="h2">{t('favorite-food')}</Typography>
         <Typography variant="subtitle1" color="text.secondary">
           {t('favorite-food-help')}
         </Typography>
-        <FavoriteFoodSettings settings={settings!}></FavoriteFoodSettings>
+        <FavoriteFoodSettings settings={settings!}></FavoriteFoodSettings> */}
 
         {/* settings: payment methods */}
         <Typography variant="h2">{t('payment-methods')}</Typography>
