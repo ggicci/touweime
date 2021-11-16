@@ -17,5 +17,7 @@
   "password": "密码",
   "save": "保存",
   "cancel": "取消",
-  "close": "关闭"
+  "close": "关闭",
+  "saved-successfully": "保存成功",
+  "save-failed": "保存失败"
 }

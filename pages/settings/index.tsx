@@ -20,13 +20,16 @@ import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import axios from 'axios'
 import DoubleFacedButton from 'components/DoubleFacedButton'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
 import ConfigurePayeeCodeDialog from 'components/Settings/Payment/ConfigurePayeeCodeDialog'
 import { isUndefined } from 'lodash'
 import useTranslation from 'next-translate/useTranslation'
+import { useSnackbar } from 'notistack'
 import React from 'react'
 import { SettingsRoute } from 'routes'
+import { ValidationError, ValidationErrorResponse } from 'sdk/errors'
 import { PaymentState, Settings, SettingsPatch, updateSettings, useSettings } from 'sdk/settings'
 
 interface SettingsProps {
@@ -141,12 +144,18 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
   )
 }
 
-const TagSettings = (props: { tags: string[]; onChange: (value: string[]) => void }) => {
-  const { tags, onChange } = props
+interface TagSettingsProps {
+  tags: string[]
+  onChange: (value: string[]) => void
+  error: boolean
+}
+
+const TagSettings = (props: TagSettingsProps) => {
+  const { tags, onChange, error } = props
   const top100Tags = ['开发者', '设计师', '书法创作', '国画创作', '艺术创作', '作家']
 
-  function renderInput(params: AutocompleteRenderInputParams) {
-    return <TextField {...params}></TextField>
+  function renderInput(params: AutocompleteRenderInputParams, error: boolean) {
+    return <TextField {...params} error={error}></TextField>
   }
 
   return (
@@ -155,38 +164,20 @@ const TagSettings = (props: { tags: string[]; onChange: (value: string[]) => voi
       freeSolo
       options={top100Tags}
       filterSelectedOptions
-      renderInput={renderInput}
+      renderInput={(params) => renderInput(params, error)}
       onChange={(_, value) => onChange(value)}
       value={tags}
     ></Autocomplete>
   )
 }
 
-const LinkSettings = (props: { linkKey: string; onChange: (value: string) => void }) => {
-  const { linkKey, onChange } = props
-
-  return (
-    <TextField
-      variant="outlined"
-      InputProps={{
-        startAdornment: (
-          <React.Fragment>
-            <FontAwesomeSvgIcon icon={faLink} />
-            <InputAdornment position="start">{`${process.env.NEXT_PUBLIC_HOST}/`}</InputAdornment>
-          </React.Fragment>
-        ),
-      }}
-      value={linkKey}
-      onChange={(e) => onChange(e.target.value)}
-    ></TextField>
-  )
-}
-
 const Index = () => {
   const { t } = useTranslation('settings')
-  const { data: settings, error, mutate } = useSettings()
+  const { data: settings, mutate } = useSettings()
   const [patch, setPatch] = React.useState({ tags: [] } as SettingsPatch)
   const [dirty, setDirty] = React.useState(false)
+  const [validationError, setValidationError] = React.useState(new ValidationError())
+  const { enqueueSnackbar } = useSnackbar()
 
   React.useEffect(() => {
     if (settings) {
@@ -210,13 +201,27 @@ const Index = () => {
   }
 
   async function saveChanges() {
-    await updateSettings(patch)
-    handleSaved()
+    try {
+      await updateSettings(patch)
+      handleSaved()
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const resp = error.response
+        if (resp && resp.status === 422) {
+          setValidationError(new ValidationError(resp.data as ValidationErrorResponse))
+          enqueueSnackbar(t('common:save-failed'), { variant: 'error' })
+          return
+        }
+      }
+      enqueueSnackbar((error as Error).message, { variant: 'error' })
+    }
   }
 
   function handleSaved() {
     mutate()
     setDirty(false)
+    enqueueSnackbar(t('common:saved-successfully'), { variant: 'success' })
+    setValidationError(new ValidationError())
   }
 
   return (
@@ -239,17 +244,33 @@ const Index = () => {
         <Typography variant="subtitle1" color="text.secondary">
           {t('tag-help')}
         </Typography>
-        <TagSettings tags={patch.tags!} onChange={handleTagsChanged}></TagSettings>
+        <TagSettings
+          tags={patch.tags!}
+          onChange={handleTagsChanged}
+          error={!isUndefined(validationError.getFieldError('tags'))}
+        ></TagSettings>
 
         {/* settings: page link */}
         <Typography variant="h2">{t('page-link')}</Typography>
         <Typography variant="subtitle1" color="text.secondary">
           {t('page-link-help')}
         </Typography>
-        <LinkSettings
-          linkKey={isUndefined(patch.link_key) ? settings.link_key : patch.link_key}
-          onChange={handleLinkKeyChanged}
-        ></LinkSettings>
+
+        <TextField
+          variant="outlined"
+          InputProps={{
+            startAdornment: (
+              <React.Fragment>
+                <FontAwesomeSvgIcon icon={faLink} />
+                <InputAdornment position="start">{`${process.env.NEXT_PUBLIC_HOST}/`}</InputAdornment>
+              </React.Fragment>
+            ),
+          }}
+          value={isUndefined(patch.link_key) ? settings.link_key : patch.link_key}
+          onChange={(e) => handleLinkKeyChanged(e.target.value)}
+          error={!isUndefined(validationError.getFieldError('link_key'))}
+          helperText={validationError.getFieldError('link_key')?.code}
+        ></TextField>
 
         <Button
           variant="contained"

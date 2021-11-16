@@ -5,6 +5,7 @@ import PageContext from 'components/PageContext'
 import { axiosFetcher } from 'lib/axios'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
+import { SnackbarProvider } from 'notistack'
 import React from 'react'
 import ROUTES, { Route } from 'routes'
 import 'styles/globals.scss'
@@ -46,14 +47,26 @@ function MyApp({ Component, pageProps }: AppProps) {
   const activeRoute = findActiveRoute(ROUTES, router.pathname)
 
   return (
-    <SWRConfig value={{ fetcher: axiosFetcher }}>
+    <SWRConfig
+      value={{
+        fetcher: axiosFetcher,
+        onError: (error, key) => {},
+      }}
+    >
       <PageContext.Provider value={{ activeRoute: activeRoute, routes: ROUTES }}>
         <ThemeProvider theme={theme}>
-          <Header></Header>
-          <Container component="main" maxWidth={false} disableGutters={true} sx={{ py: 3 }}>
-            <Component {...pageProps} />
-          </Container>
-          <Footer></Footer>
+          <SnackbarProvider
+            //https://iamhosseindhv.com/notistack/
+            maxSnack={3}
+            anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+            autoHideDuration={3000}
+          >
+            <Header></Header>
+            <Container component="main" maxWidth={false} disableGutters={true} sx={{ py: 3 }}>
+              <Component {...pageProps} />
+            </Container>
+            <Footer></Footer>
+          </SnackbarProvider>
         </ThemeProvider>
       </PageContext.Provider>
     </SWRConfig>
