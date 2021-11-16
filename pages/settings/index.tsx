@@ -6,6 +6,7 @@ import {
   faLink,
   faToggleOff,
 } from '@fortawesome/free-solid-svg-icons'
+import Autocomplete, { AutocompleteRenderInputParams } from '@mui/material/Autocomplete'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
@@ -29,10 +30,6 @@ import { PaymentState, Settings, updateSettings, useSettings } from 'sdk/setting
 
 interface SettingsProps {
   settings: Settings
-}
-
-const FavoriteFoodSettings = (props: SettingsProps) => {
-  return <React.Fragment>TODO</React.Fragment>
 }
 
 const PaymentSettings = (props: SettingsProps & { onSaved: () => void }) => {
@@ -143,6 +140,27 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
   )
 }
 
+const TagSettings = () => {
+  const top100Tags = [
+    { id: 1, zh: '艺术创作者', en: 'Artist' },
+    { id: 2, zh: '开发者', en: 'Developer' },
+  ]
+
+  function renderInput(params: AutocompleteRenderInputParams) {
+    return <TextField {...params}></TextField>
+  }
+
+  return (
+    <Autocomplete
+      multiple
+      options={top100Tags}
+      getOptionLabel={(option) => option.zh} // FIXME(ggicci): zh + en
+      filterSelectedOptions
+      renderInput={renderInput}
+    ></Autocomplete>
+  )
+}
+
 const LinkSettings = (props: SettingsProps) => {
   const { settings } = props
 
@@ -183,13 +201,6 @@ const Index = () => {
           {t('title')}
         </Typography>
 
-        {/* settings: favorite foods */}
-        {/* <Typography variant="h2">{t('favorite-food')}</Typography>
-        <Typography variant="subtitle1" color="text.secondary">
-          {t('favorite-food-help')}
-        </Typography>
-        <FavoriteFoodSettings settings={settings!}></FavoriteFoodSettings> */}
-
         {/* settings: payment methods */}
         <Typography variant="h2">{t('payment-methods')}</Typography>
         <Typography variant="subtitle1" color="text.secondary">
@@ -202,6 +213,7 @@ const Index = () => {
         <Typography variant="subtitle1" color="text.secondary">
           {t('tag-help')}
         </Typography>
+        <TagSettings></TagSettings>
 
         {/* settings: page link */}
         <Typography variant="h2">{t('page-link')}</Typography>
