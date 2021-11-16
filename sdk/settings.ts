@@ -49,7 +49,7 @@ export function useSettings() {
   return useSWR<Settings>('/v1/settings')
 }
 
-type SettingsPatch = Partial<Pick<Settings, 'link_key' | 'tags'>> & {
+export type SettingsPatch = Partial<Pick<Settings, 'link_key' | 'tags'>> & {
   payment?: {
     alipay?: Pick<AlipaySettings, 'state'>
     wepay?: Pick<WepaySettings, 'state'>

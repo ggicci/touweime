@@ -23,10 +23,11 @@ import Typography from '@mui/material/Typography'
 import DoubleFacedButton from 'components/DoubleFacedButton'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
 import ConfigurePayeeCodeDialog from 'components/Settings/Payment/ConfigurePayeeCodeDialog'
+import { isUndefined } from 'lodash'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { SettingsRoute } from 'routes'
-import { PaymentState, Settings, updateSettings, useSettings } from 'sdk/settings'
+import { PaymentState, Settings, SettingsPatch, updateSettings, useSettings } from 'sdk/settings'
 
 interface SettingsProps {
   settings: Settings
@@ -140,11 +141,9 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
   )
 }
 
-const TagSettings = () => {
-  const top100Tags = [
-    { id: 1, zh: '艺术创作者', en: 'Artist' },
-    { id: 2, zh: '开发者', en: 'Developer' },
-  ]
+const TagSettings = (props: { tags: string[]; onChange: (value: string[]) => void }) => {
+  const { tags, onChange } = props
+  const top100Tags = ['开发者', '设计师', '书法创作', '国画创作', '艺术创作', '作家']
 
   function renderInput(params: AutocompleteRenderInputParams) {
     return <TextField {...params}></TextField>
@@ -153,16 +152,18 @@ const TagSettings = () => {
   return (
     <Autocomplete
       multiple
+      freeSolo
       options={top100Tags}
-      getOptionLabel={(option) => option.zh} // FIXME(ggicci): zh + en
       filterSelectedOptions
       renderInput={renderInput}
+      onChange={(_, value) => onChange(value)}
+      value={tags}
     ></Autocomplete>
   )
 }
 
-const LinkSettings = (props: SettingsProps) => {
-  const { settings } = props
+const LinkSettings = (props: { linkKey: string; onChange: (value: string) => void }) => {
+  const { linkKey, onChange } = props
 
   return (
     <TextField
@@ -175,7 +176,8 @@ const LinkSettings = (props: SettingsProps) => {
           </React.Fragment>
         ),
       }}
-      value={settings.link_key}
+      value={linkKey}
+      onChange={(e) => onChange(e.target.value)}
     ></TextField>
   )
 }
@@ -183,14 +185,38 @@ const LinkSettings = (props: SettingsProps) => {
 const Index = () => {
   const { t } = useTranslation('settings')
   const { data: settings, error, mutate } = useSettings()
-  const isLoading = !settings && !error
+  const [patch, setPatch] = React.useState({ tags: [] } as SettingsPatch)
+  const [dirty, setDirty] = React.useState(false)
 
-  if (isLoading) {
+  React.useEffect(() => {
+    if (settings) {
+      setPatch((prevState) => ({ ...prevState, tags: settings.tags }))
+    }
+  }, [settings])
+
+  // const isLoading = !settings && !error
+  if (!settings) {
     return <Typography variant="h5">{t('loading')}</Typography>
   }
 
+  function handleTagsChanged(newTags: string[]): void {
+    setPatch((prevState) => ({ ...prevState, tags: newTags }))
+    setDirty(true)
+  }
+
+  function handleLinkKeyChanged(newLinkKey: string): void {
+    setPatch((prevState) => ({ ...prevState, link_key: newLinkKey }))
+    setDirty(true)
+  }
+
+  async function saveChanges() {
+    await updateSettings(patch)
+    handleSaved()
+  }
+
   function handleSaved() {
-    mutate(undefined, true)
+    mutate()
+    setDirty(false)
   }
 
   return (
@@ -206,23 +232,33 @@ const Index = () => {
         <Typography variant="subtitle1" color="text.secondary">
           {t('payment-methods-help')}
         </Typography>
-        <PaymentSettings settings={settings!} onSaved={handleSaved}></PaymentSettings>
+        <PaymentSettings settings={settings} onSaved={handleSaved}></PaymentSettings>
 
         {/* settings: tags */}
         <Typography variant="h2">{t('tag')}</Typography>
         <Typography variant="subtitle1" color="text.secondary">
           {t('tag-help')}
         </Typography>
-        <TagSettings></TagSettings>
+        <TagSettings tags={patch.tags!} onChange={handleTagsChanged}></TagSettings>
 
         {/* settings: page link */}
         <Typography variant="h2">{t('page-link')}</Typography>
         <Typography variant="subtitle1" color="text.secondary">
           {t('page-link-help')}
         </Typography>
-        <LinkSettings settings={settings!}></LinkSettings>
+        <LinkSettings
+          linkKey={isUndefined(patch.link_key) ? settings.link_key : patch.link_key}
+          onChange={handleLinkKeyChanged}
+        ></LinkSettings>
 
-        <Button variant="contained" size="large" color="primary" sx={{ borderRadius: 5 }}>
+        <Button
+          variant="contained"
+          size="large"
+          color="primary"
+          sx={{ borderRadius: 5 }}
+          disabled={!dirty}
+          onClick={saveChanges}
+        >
           {t('save-changes')}
         </Button>
       </Stack>
