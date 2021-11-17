@@ -1,11 +1,15 @@
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
+import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
 import Link from 'components/Link'
@@ -62,7 +66,7 @@ const AvatarWithMenu = (props: AvatarWithMenuProps) => {
     <React.Fragment>
       <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
         <Avatar sx={{ width: 32, height: 32 }} src={user.avatar} alt={user.username}>
-          {user.username[0]}
+          {user.display[0]}
         </Avatar>
       </IconButton>
 
@@ -75,9 +79,26 @@ const AvatarWithMenu = (props: AvatarWithMenuProps) => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         {/* display login info */}
-        <MenuItem>
-          {t('signed-in-as')} &nbsp;
-          <Typography sx={{ fontWeight: 'medium' }}>{user.username}</Typography>
+        <Card sx={{ boxShadow: 0, minWidth: 220 }}>
+          <CardContent>
+            <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
+              <Avatar sx={{ width: 48, height: 48 }} src={user.avatar} alt={user.username}>
+                {user.display[0]}
+              </Avatar>
+              <Typography variant="h6">{user.display}</Typography>
+            </Stack>
+          </CardContent>
+        </Card>
+
+        <MenuItem
+          component={Link}
+          variant="body2"
+          href={{ pathname: `/${user.username}` }}
+          target="_blank"
+          underline="hover"
+        >
+          {t('visit-my-page')}
+          <FontAwesomeSvgIcon icon={faExternalLinkAlt} fontSize="inherit"></FontAwesomeSvgIcon>
         </MenuItem>
 
         {/* my ... */}
@@ -95,7 +116,7 @@ const AvatarWithMenu = (props: AvatarWithMenuProps) => {
             )
           }
           return (
-            <MenuItem dense component={Link} key={id} href={formatHref(href)}>
+            <MenuItem component={Link} key={id} href={formatHref(href)}>
               {itemIcon}
               <ListItemText>{label}</ListItemText>
             </MenuItem>

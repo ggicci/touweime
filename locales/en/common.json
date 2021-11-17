@@ -16,5 +16,7 @@
   "signed-in-as": "Signed in as",
   "username": "Username",
   "password": "Password",
-  "saved-successfully": "Saved successfully"
+  "saved-successfully": "Saved successfully",
+  "save-failed": "Save failed",
+  "visit-my-page": "Visit my page"
 }
