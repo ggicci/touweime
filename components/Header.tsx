@@ -34,11 +34,12 @@ export default function Header() {
 
   return (
     <React.Fragment>
+      {/* TODO(ggicci): make the style reusable https://mui.com/customization/how-to-customize/#2-reusable-style-overrides */}
       <AppBar
         color="inherit"
         sx={{
           backgroundColor: 'rgba(255, 255, 255, 0.72)',
-          boxShadow: `inset 0px -1px 1px ${theme.palette.grey[200]}`,
+          boxShadow: `inset 0px -1px 1px ${theme.palette.grey[300]}`,
           backdropFilter: 'blur(5px)',
           transition: theme.transitions.create('top'),
           top: 0,

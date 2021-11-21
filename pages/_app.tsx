@@ -51,6 +51,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       value={{
         fetcher: axiosFetcher,
         onError: (error, key) => {},
+        revalidateOnFocus: false,
       }}
     >
       <PageContext.Provider value={{ activeRoute: activeRoute, routes: ROUTES }}>
@@ -62,7 +63,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             autoHideDuration={3000}
           >
             <Header></Header>
-            <Container component="main" maxWidth={false} disableGutters={true} sx={{ py: 3 }}>
+            <Container component="main" maxWidth={false} disableGutters={true}>
               <Component {...pageProps} />
             </Container>
             <Footer></Footer>

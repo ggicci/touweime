@@ -18,14 +18,11 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
 import ImageViewer from 'components/ImageViewer'
+import { centsToYuan } from 'lib/misc'
 import isEmpty from 'lodash/isEmpty'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { PayeeCode, PayeeCodeSettings, uploadPayeeCodeImage } from 'sdk/settings'
-
-const centsToYuan = (price: number) => {
-  return `${price / 100}`
-}
 
 interface PayeeCodeHoverActionsProps {
   payeeCode: PayeeCode

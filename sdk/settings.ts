@@ -2,17 +2,8 @@ import CryptoLatin1Encoder from 'crypto-js/enc-latin1'
 import CryptoMD5 from 'crypto-js/md5'
 import axios from 'lib/axios'
 import { uploadWithStorageTicket } from 'lib/upload'
+import { Profile } from 'sdk/users'
 import useSWR from 'swr'
-
-interface Food {
-  id: number
-  name: string
-  image_url: string
-  price_cents: number // cents
-  is_available: boolean
-}
-
-type FavoriteFoods = Food[]
 
 export interface PayeeCode {
   id: number
@@ -31,14 +22,16 @@ export interface PayeeCodeSettings {
 export type AlipaySettings = PayeeCodeSettings
 export type WepaySettings = PayeeCodeSettings
 
-export interface Settings {
-  id: number
-  user_id: number
-  favorite_foods: FavoriteFoods
+interface PaymentSettings {
   payment: {
     alipay: AlipaySettings
     wepay: WepaySettings
   }
+}
+
+export interface Settings extends Profile, PaymentSettings {
+  id: number
+  user_id: number
   link_key: string
   link_state: LinkState
   tags: string[]
@@ -49,7 +42,7 @@ export function useSettings() {
   return useSWR<Settings>('/v1/settings')
 }
 
-export type SettingsPatch = Partial<Pick<Settings, 'link_key' | 'tags'>> & {
+export type SettingsPatch = Partial<Settings> & {
   payment?: {
     alipay?: Pick<AlipaySettings, 'state'>
     wepay?: Pick<WepaySettings, 'state'>
@@ -57,11 +50,7 @@ export type SettingsPatch = Partial<Pick<Settings, 'link_key' | 'tags'>> & {
 }
 
 export async function updateSettings(patch: SettingsPatch) {
-  await axios.patch(`/v1/settings`, {
-    payment: patch.payment,
-    link_key: patch.link_key,
-    tags: patch.tags,
-  })
+  await axios.patch(`/v1/settings`, patch)
 }
 
 export async function uploadPayeeCodeImage(id: number, file: File) {

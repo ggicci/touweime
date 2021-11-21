@@ -27,7 +27,7 @@ function LoginButton() {
       href={formatHref(LoginRoute.href)}
       startIcon={<FontAwesomeSvgIcon icon={LoginRoute.icon!}></FontAwesomeSvgIcon>}
     >
-      {t(LoginRoute.id)}
+      {t(LoginRoute.i18nKey)}
     </Button>
   )
 }
@@ -55,11 +55,10 @@ const AvatarWithMenu = (props: AvatarWithMenuProps) => {
   }
 
   const myItems: MenuItem[] = [
-    // ...ConsoleRoute.children.map((x) => ({ ...x, label: t(x.id) })),
-    { ...SettingsRoute, label: t(SettingsRoute.id) },
-    { ...HelpRoute, label: t(HelpRoute.id) },
-    { id: 'divider-1', href: {}, isDivider: true },
-    { ...LogoutRoute, label: t(LogoutRoute.id) },
+    { ...SettingsRoute, label: t(SettingsRoute.i18nKey) },
+    { ...HelpRoute, label: t(HelpRoute.i18nKey) },
+    { id: 'divider-1', href: {}, i18nKey: '', isDivider: true },
+    { ...LogoutRoute, label: t(LogoutRoute.i18nKey) },
   ]
 
   return (
