@@ -19,6 +19,7 @@ import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
+import SupportWindow from 'components/SupportWindow'
 import DOMPurify from 'dompurify'
 import { centsToYuan } from 'lib/misc'
 import { marked } from 'marked'
@@ -26,7 +27,7 @@ import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { Settings } from 'sdk/settings'
+import { createSupportIntention, Settings, SupportIntention, SupportIntentionCreationPayload } from 'sdk/settings'
 import { useLogin, User } from 'sdk/users'
 import useSWR from 'swr'
 
@@ -149,6 +150,7 @@ const UserHome = () => {
   const [selectedFood, setSelectedFood] = React.useState<Food>(ALL_FOODS[0])
   const [message, setMessage] = React.useState('')
   const [sendAsPrivate, setSendAsPrivate] = React.useState(false)
+  const [supportIntention, setSupportIntention] = React.useState<SupportIntention | null>(null)
 
   if (!data) {
     return null
@@ -160,7 +162,18 @@ const UserHome = () => {
     return login?.id != user.id
   }
 
-  function doSupport() {}
+  async function doSupport() {
+    const payload = {
+      food_id: selectedFood.id,
+      price_cents: selectedFood.price_cents,
+      message,
+      is_private: sendAsPrivate,
+    } as SupportIntentionCreationPayload
+    try {
+      const { data: intention } = await createSupportIntention(user.username, payload)
+      setSupportIntention(intention)
+    } catch (error) {}
+  }
 
   const htmlAboutMe = DOMPurify.sanitize(marked.parse(settings.about_me))
 
@@ -207,6 +220,8 @@ const UserHome = () => {
                 </Stack>
               </CardContent>
             </Container>
+
+            <SupportWindow intention={supportIntention} onClose={() => setSupportIntention(null)}></SupportWindow>
           </Grid>
         </Grid>
       </Container>
