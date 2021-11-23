@@ -40,5 +40,6 @@
   "supportButton": {
     "title": "投喂 ¥{{ priceYuan }}",
     "disabledHelperText": "你不能投喂你自己"
-  }
+  },
+  "emptyAboutMe": "😳 哇~ Ta 什么都没写！"
 }
