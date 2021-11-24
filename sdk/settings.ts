@@ -7,8 +7,10 @@ import useSWR from 'swr'
 
 export interface PayeeCode {
   id: number
+  kind: string
   price_cents: number
   url?: string | null
+  qr_content?: string | null
 }
 
 export type PaymentState = 'unprepared' | 'enabled' | 'disabled'
