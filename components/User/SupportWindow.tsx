@@ -12,19 +12,14 @@ import { useQRCode } from 'next-qrcode'
 import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
 import { PayeeCode } from 'sdk/settings'
-import { SupportIntention } from 'sdk/support'
-
-interface Props {
-  intention: SupportIntention | null
-  onClose: () => void
-}
+import { getFoodById, SupportIntention } from 'sdk/support'
 
 const PayeeCodeQrCode = ({ text, color }: { text: string; color: string }) => {
   const { inputRef } = useQRCode<HTMLCanvasElement>({
     text: text,
     options: {
       level: 'H',
-      width: 300,
+      width: 240,
       scale: 1,
       margin: 3,
       color: {
@@ -68,6 +63,11 @@ const PayeeCodeDisplay = ({ code }: { code: PayeeCode }) => {
   )
 }
 
+interface Props {
+  intention: SupportIntention | null
+  onClose: () => void
+}
+
 const SupportWindow = (props: Props) => {
   const { intention, onClose } = props
   const theme = useTheme()
@@ -90,9 +90,18 @@ const SupportWindow = (props: Props) => {
     <PayeeCodeDisplay code={intention.payment.alipay_payee_code}></PayeeCodeDisplay>
   ) : null
 
+  const { supportee } = intention
+  const food = getFoodById(intention.food_id)
   return (
-    <Dialog open={true} onClose={onClose} maxWidth="md">
-      <DialogTitle>{t('supportWindow.title', { username: intention.supportee_id })}</DialogTitle>
+    <Dialog open={true} maxWidth="md">
+      <DialogTitle>
+        <Stack direction="row" alignItems="center">
+          <Image alt={food.title} src={food.image_url} width={40} height={40}></Image>
+          <Typography variant="inherit" sx={{ ml: 1 }}>
+            {t('supportWindow.title', { user: supportee.display, food: t(`food.${food.id}`) })}
+          </Typography>
+        </Stack>
+      </DialogTitle>
       <DialogContent>
         <Stack direction={isSmallerThenMd ? 'column' : 'row'} spacing={2}>
           {wepayImage}

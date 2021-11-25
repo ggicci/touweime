@@ -18,25 +18,16 @@ import { centsToYuan } from 'lib/misc'
 import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
 import React from 'react'
-import { createSupportIntention, SupportIntention, SupportIntentionCreationPayload, useUserSupport } from 'sdk/support'
+import {
+  createSupportIntention,
+  Food,
+  SupportIntention,
+  SupportIntentionCreationPayload,
+  useFoods,
+  useUserSupport,
+} from 'sdk/support'
 import { useLogin } from 'sdk/users'
 import SupportWindow from './SupportWindow'
-
-const ALL_FOODS: readonly Food[] = [
-  { id: 'fried_egg', price_cents: 100, title: 'Fried Egg', image_url: '/images/fried_egg.svg' },
-  { id: 'popsicle', price_cents: 500, title: 'Popsicle', image_url: '/images/popsicle.svg' },
-  { id: 'chips', price_cents: 1000, title: 'Chips', image_url: '/images/chips.svg' },
-  { id: 'doughnut', price_cents: 3000, title: 'Doughnut', image_url: '/images/doughnut.svg' },
-  { id: 'pizza', price_cents: 5000, title: 'Pizza', image_url: '/images/pizza.svg' },
-  { id: 'lobster', price_cents: 10000, title: 'Lobster', image_url: '/images/lobster.svg' },
-]
-
-interface Food {
-  id: string
-  price_cents: number
-  title: string
-  image_url: string
-}
 
 interface FoodListProps {
   allFoods: readonly Food[]
@@ -108,7 +99,8 @@ const SupportPannel = (props: { username: string }) => {
   const { t } = useTranslation('common')
   const { data: login } = useLogin()
   const { data } = useUserSupport(username)
-  const [selectedFood, setSelectedFood] = React.useState<Food>(ALL_FOODS[0])
+  const foodList = useFoods()
+  const [selectedFood, setSelectedFood] = React.useState<Food>(foodList[0])
   const [message, setMessage] = React.useState('')
   const [sendAsPrivate, setSendAsPrivate] = React.useState(false)
   const [supportIntention, setSupportIntention] = React.useState<SupportIntention | null>(null)
@@ -147,7 +139,7 @@ const SupportPannel = (props: { username: string }) => {
               </Box>
             </Typography>
           </Stack>
-          <FoodList allFoods={ALL_FOODS} selected={selectedFood} onSelect={setSelectedFood}></FoodList>
+          <FoodList allFoods={foodList} selected={selectedFood} onSelect={setSelectedFood}></FoodList>
           <SendMessage
             message={message}
             isPrivate={sendAsPrivate}
@@ -161,7 +153,7 @@ const SupportPannel = (props: { username: string }) => {
             sx={{ borderRadius: 5 }}
             onClick={doSupport}
             startIcon={<FontAwesomeSvgIcon icon={faIceCream}></FontAwesomeSvgIcon>}
-            disabled={!canSupport()}
+            // disabled={!canSupport()}
           >
             {t('supportButton.title', { priceYuan: centsToYuan(selectedFood.price_cents) })}
           </Button>

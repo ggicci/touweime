@@ -153,12 +153,6 @@ const Index = (props: Props) => {
   const { t } = useTranslation('settings')
   const { open, onClose, onSaved, settings, kind } = props
 
-  const PRICE_PRESETS = [100, 500, 1000, 2000, 5000, 10000]
-
-  if (isEmpty(settings.codes)) {
-    settings.codes = PRICE_PRESETS.map((x, i) => ({ id: i, price_cents: x, url: null }))
-  }
-
   return (
     <Dialog maxWidth="md" open={open} scroll="paper">
       <DialogTitle>{t(kind)}</DialogTitle>

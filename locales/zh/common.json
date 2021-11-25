@@ -43,7 +43,7 @@
   },
   "emptyAboutMe": "😳 哇~ Ta 什么都没写！",
   "supportWindow": {
-    "title": "投喂 {{ username }}",
+    "title": "喂 {{ user }} 吃{{ food }}",
     "help": "❤️ 请用支付宝或者微信扫描二维码进行投喂",
     "cancel": "不喂了 😝",
     "confirm": "已投喂 😘",
