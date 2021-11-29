@@ -8,6 +8,7 @@ import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import TimedButton from 'components/TimedButton'
 import { useQRCode } from 'next-qrcode'
 import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
@@ -65,18 +66,15 @@ const PayeeCodeDisplay = ({ code }: { code: PayeeCode }) => {
 
 interface Props {
   intention: SupportIntention | null
-  onClose: () => void
+  onCancelled: () => void
+  onConfirmed: () => void
 }
 
 const SupportWindow = (props: Props) => {
-  const { intention, onClose } = props
+  const { intention, onCancelled, onConfirmed } = props
   const theme = useTheme()
   const { t } = useTranslation('common')
   const isSmallerThenMd = useMediaQuery(theme.breakpoints.down('md'))
-
-  function handleConfirm() {
-    onClose()
-  }
 
   if (!intention) {
     return null
@@ -110,11 +108,11 @@ const SupportWindow = (props: Props) => {
         <DialogContentText sx={{ mt: 2 }}>{t('supportWindow.help')}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>{t('supportWindow.cancel')}</Button>
-        <Button variant="contained" onClick={handleConfirm}>
+        <Button onClick={onCancelled}>{t('supportWindow.cancel')}</Button>
+        <TimedButton variant="contained" enabledAfter={10} onClick={onConfirmed}>
           {/* TODO(ggicci): add a time 10s to enable click */}
           {t('supportWindow.confirm')}
-        </Button>
+        </TimedButton>
       </DialogActions>
     </Dialog>
   )

@@ -23,13 +23,6 @@ export interface Route {
   children?: Route[]
 }
 
-export const HomeRoute = {
-  id: 'home',
-  href: { pathname: '/' },
-  i18nKey: 'common:nav.home',
-  icon: faHome,
-}
-
 export const DashboardRoute = {
   id: 'dashboard',
   href: { pathname: '/dashboard' },
@@ -44,25 +37,26 @@ export const SupportRoute = {
   icon: faHeart,
 }
 
+export const ProfileSettingsRoute = {
+  id: 'settings.profile',
+  href: { pathname: '/settings/profile' },
+  i18nKey: 'settings:nav.profile',
+  icon: faUser,
+}
+
+export const PaymentSettingsRoute = {
+  id: 'settings.payment',
+  href: { pathname: '/settings/payment' },
+  i18nKey: 'settings:nav.payment',
+  icon: faCreditCard,
+}
+
 export const SettingsRoute = {
   id: 'settings',
   href: { pathname: '/settings' },
   i18nKey: 'common:nav.settings',
   icon: faCog,
-  children: [
-    {
-      id: 'settings.profile',
-      href: { pathname: '/settings/profile' },
-      i18nKey: 'settings:nav.profile',
-      icon: faUser,
-    },
-    {
-      id: 'settings.payment',
-      href: { pathname: '/settings/payment' },
-      i18nKey: 'settings:nav.payment',
-      icon: faCreditCard,
-    },
-  ] as Route[],
+  children: [ProfileSettingsRoute, PaymentSettingsRoute] as Route[],
 }
 
 export const DiscoverRoute = {
@@ -93,15 +87,53 @@ export const LogoutRoute = {
   icon: faSignOutAlt,
 }
 
-const ROUTES: readonly Route[] = [
-  HomeRoute,
-  DiscoverRoute,
-  DashboardRoute,
-  SupportRoute,
-  SettingsRoute,
-  HelpRoute,
-  LoginRoute,
-  LogoutRoute,
-]
+export const HomeRoute = {
+  id: 'home',
+  href: { pathname: '/' },
+  i18nKey: 'common:nav.home',
+  icon: faHome,
+  children: [SettingsRoute, DiscoverRoute, SupportRoute, DashboardRoute, LoginRoute, LogoutRoute, HelpRoute],
+}
 
-export default ROUTES
+export const RootRoute = HomeRoute
+
+/**
+ * Find the active route according to the current URL.
+ * @param root The root route defined for the app.
+ * @param pathname The current pathname.
+ * @returns The active (longest match) route or null.
+ */
+export function findActiveRoute(root: Route, pathname: string): Route | null {
+  function isActive(route: Route, pathname: string): boolean {
+    const slashedPathname = route.href.pathname?.endsWith('/') ? route.href.pathname : `${route.href.pathname}/`
+    return pathname === route.href.pathname || pathname.indexOf(slashedPathname) === 0
+  }
+
+  const queue: [Route, number][] = [[root, 0]]
+  // const activeRoutes: [Route, number][] = []
+  let active: [Route | null, number] = [null, -1]
+
+  while (true) {
+    const item = queue.shift()
+    if (!item) {
+      // empty queue
+      break
+    }
+    const [route, depth] = item
+    if (!isActive(route, pathname)) {
+      continue
+    }
+    // activeRoutes.push(item)
+    if (depth > active[1]) {
+      active = [route, depth]
+    }
+    for (const child of route.children || []) {
+      queue.push([child, depth + 1])
+    }
+  }
+
+  // return activeRoutes.length > 0 ? activeRoutes[activeRoutes.length - 1][0] : null
+  return active[0]
+}
+
+export default RootRoute

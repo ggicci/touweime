@@ -16,12 +16,15 @@ import ImageListItemBar from '@mui/material/ImageListItemBar'
 import Stack from '@mui/material/Stack'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
+import axios from 'axios'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
 import ImageViewer from 'components/ImageViewer'
 import { centsToYuan } from 'lib/misc'
 import isEmpty from 'lodash/isEmpty'
 import useTranslation from 'next-translate/useTranslation'
+import { useSnackbar } from 'notistack'
 import React from 'react'
+import { ValidationError, ValidationErrorResponse } from 'sdk/errors'
 import { PayeeCode, PayeeCodeSettings, uploadPayeeCodeImage } from 'sdk/settings'
 
 interface PayeeCodeHoverActionsProps {
@@ -35,6 +38,7 @@ const PayeeCodeHoverActions = (props: PayeeCodeHoverActionsProps) => {
   const [openImageViewer, setOpenImageViewer] = React.useState(false)
   const uploaderRef = React.useRef<HTMLInputElement>(null)
   const { t } = useTranslation('settings')
+  const { enqueueSnackbar } = useSnackbar()
 
   function handleUpload() {
     uploaderRef.current?.click()
@@ -51,9 +55,22 @@ const PayeeCodeHoverActions = (props: PayeeCodeHoverActionsProps) => {
     }
 
     const file = event.target.files![0]
-    const ticket = await uploadPayeeCodeImage(payeeCode.id, file)
-    // console.debug('uploaded successfully with ticket:', ticket)
-    onUploaded()
+    try {
+      await uploadPayeeCodeImage(payeeCode.id, file)
+      onUploaded()
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const resp = error.response
+        if (resp && resp.status === 422) {
+          const verr = new ValidationError(resp.data as ValidationErrorResponse)
+          if (!!verr.getFieldError('qr_content')) {
+            enqueueSnackbar(t('invalid-payee-code', { kind: t(payeeCode.kind) }), { variant: 'error' })
+          }
+        }
+      } else {
+        enqueueSnackbar(t('common:uploadFailed'), { variant: 'error' })
+      }
+    }
   }
 
   const uploadButton = (

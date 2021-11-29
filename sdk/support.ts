@@ -24,10 +24,19 @@ const ALL_FOODS: readonly Food[] = [
   { id: 'lobster', price_cents: 10000, title: 'Lobster', image_url: '/images/lobster.svg' },
 ]
 
+export function useFoods() {
+  return ALL_FOODS
+}
+
+export function getFoodById(id: string): Food {
+  return ALL_FOODS.find((food) => food.id === id)!
+}
+
 export interface SupportIntention {
   id: number
   created_at: string
   updated_at: string
+  uuid: string
   supportee_id: number
   supporter_id: number // can be 0 (anonymous)
   supportee: User
@@ -53,18 +62,18 @@ export type SupportIntentionCreationPayload = Pick<
   'food_id' | 'price_cents' | 'message' | 'is_private'
 >
 
-export function useFoods() {
-  return ALL_FOODS
-}
-
-export function getFoodById(id: string): Food {
-  return ALL_FOODS.find((food) => food.id === id)!
-}
-
 export async function createSupportIntention(supporteeUserName: string, payload: SupportIntentionCreationPayload) {
   const resp = await axios.post<unknown>(`/v1/support/${supporteeUserName}`, payload)
   // const intentionId = resp.headers['location'].split('/').pop()
   return axios.get<SupportIntention>(resp.headers['location'])
+}
+
+export type SupportIntentionUpdatePayload = {
+  confirmed?: boolean
+}
+
+export async function patchSupportIntention(intentionUUID: string, payload: SupportIntentionUpdatePayload) {
+  return await axios.patch<unknown>(`/v1/support_intentions/${intentionUUID}`, payload)
 }
 
 export function useUserSupport(username: string) {

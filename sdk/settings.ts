@@ -5,16 +5,16 @@ import { uploadWithStorageTicket } from 'lib/upload'
 import { Profile } from 'sdk/users'
 import useSWR from 'swr'
 
+export type PayeeCodeKind = 'alipay' | 'wepay'
+export type PaymentState = 'unprepared' | 'enabled' | 'disabled'
+export type LinkState = 'unprepared' | 'alive'
 export interface PayeeCode {
   id: number
-  kind: string
+  kind: PayeeCodeKind
   price_cents: number
   url?: string | null
   qr_content?: string | null
 }
-
-export type PaymentState = 'unprepared' | 'enabled' | 'disabled'
-export type LinkState = 'unprepared' | 'alive'
 
 export interface PayeeCodeSettings {
   state: PaymentState
@@ -24,7 +24,7 @@ export interface PayeeCodeSettings {
 export type AlipaySettings = PayeeCodeSettings
 export type WepaySettings = PayeeCodeSettings
 
-interface PaymentSettings {
+export interface PaymentSettings {
   payment: {
     alipay: AlipaySettings
     wepay: WepaySettings
@@ -44,7 +44,19 @@ export function useSettings() {
   return useSWR<Settings>('/v1/settings')
 }
 
-export type SettingsPatch = Partial<Settings> & {
+export type SettingsPatch = Partial<
+  Pick<
+    Settings,
+    | 'bio'
+    | 'about_me'
+    | 'link_key'
+    | 'tags'
+    | 'websites'
+    | 'featured_image'
+    | 'featured_video'
+    | 'display_supporters_count'
+  >
+> & {
   payment?: {
     alipay?: Pick<AlipaySettings, 'state'>
     wepay?: Pick<WepaySettings, 'state'>
@@ -59,7 +71,7 @@ export async function uploadPayeeCodeImage(id: number, file: File) {
   const reader = new FileReader()
   reader.readAsBinaryString(file)
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     reader.onloadend = async (e) => {
       const imageData = e.target!.result as string
       const imageHash = CryptoMD5(CryptoLatin1Encoder.parse(imageData))
@@ -72,10 +84,15 @@ export async function uploadPayeeCodeImage(id: number, file: File) {
         },
       })
       const ticket = resp.data
-      await uploadWithStorageTicket(file, ticket)
 
-      // Notify touwei server that we have uploaded the image to the cloud storage.
-      await axios.patch(`/v1/settings/payee_codes/${id}`, { uploaded: true })
+      try {
+        await uploadWithStorageTicket(file, ticket)
+        // Notify touwei server that we have uploaded the image to the cloud storage.
+        await axios.patch(`/v1/settings/payee_codes/${id}`, { uploaded: true })
+      } catch (error) {
+        reject(error)
+      }
+
       resolve(ticket)
     }
   })

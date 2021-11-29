@@ -1,14 +1,14 @@
 import * as React from 'react'
-import ROUTES, { Route } from 'routes'
+import { RootRoute, Route } from 'routes'
 
 export interface PageContextValue {
   activeRoute: Route | null
-  routes: readonly Route[]
+  rootRoute: Route
 }
 
 const PageContext = React.createContext<PageContextValue>({
   activeRoute: null,
-  routes: ROUTES,
+  rootRoute: RootRoute,
 })
 
 if (process.env.NODE_ENV !== 'production') {

@@ -1,4 +1,3 @@
-import { LinkProps as MuiLinkProps } from '@mui/material/Link'
-import { LinkProps } from 'next/link'
+import { LinkProps } from './Link'
 
-export default function Link(props: LinkProps & MuiLinkProps): JSX.Element
+export default function Link(props: LinkProps): JSX.Element

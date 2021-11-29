@@ -18,5 +18,34 @@
   "password": "Password",
   "saved-successfully": "Saved successfully",
   "save-failed": "Save failed",
-  "visit-my-page": "Visit my page"
+  "visit-my-page": "Visit my page",
+  "touwei": "Feed",
+  "food": {
+    "fried_egg": "Fried Egg",
+    "popsicle": "Popsicle",
+    "chips": "Chips",
+    "doughnut": "Doughnut",
+    "pizza": "Pizza",
+    "lobster": "Lobster"
+  },
+  "sendMessage": {
+    "placeholder": "Say something...(optional)",
+    "privateHelp": "Private"
+  },
+  "supportButton": {
+    "title": "Support ¥{{ priceYuan }}",
+    "disabledHelperText": "You can't support yourself"
+  },
+  "emptyAboutMe": "😳 Um... They left nothing here.",
+  "supportWindow": {
+    "title": "Feed {{ user }} {{ food }}",
+    "help": "Feed them by scanning the QR codes using AliPay or WeChat",
+    "cancel": "Leave 😝",
+    "confirm": "Fed 😘",
+    "wepay": "WeChat",
+    "alipay": "AliPay"
+  },
+  "defaultThanks": "Thanks for your support\nHave a good day",
+  "share": "Share",
+  "edit-profile": "Edit Profile"
 }

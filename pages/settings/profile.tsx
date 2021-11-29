@@ -123,6 +123,9 @@ const Profile = () => {
 
           {/* about me */}
           <Typography variant="h3">{t('aboutMe.title')}</Typography>
+          <Typography variant="subtitle1" color="text.secondary">
+            {t('aboutMe.subtitle')}
+          </Typography>
           <TextField
             variant="outlined"
             multiline

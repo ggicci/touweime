@@ -1,6 +1,6 @@
 import { faIceCream } from '@fortawesome/free-solid-svg-icons'
+import LoadingButton from '@mui/lab/LoadingButton'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import ButtonBase from '@mui/material/ButtonBase'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -21,6 +21,7 @@ import React from 'react'
 import {
   createSupportIntention,
   Food,
+  patchSupportIntention,
   SupportIntention,
   SupportIntentionCreationPayload,
   useFoods,
@@ -28,6 +29,7 @@ import {
 } from 'sdk/support'
 import { useLogin } from 'sdk/users'
 import SupportWindow from './SupportWindow'
+import ThanksWindow from './ThanksWindow'
 
 interface FoodListProps {
   allFoods: readonly Food[]
@@ -104,6 +106,8 @@ const SupportPannel = (props: { username: string }) => {
   const [message, setMessage] = React.useState('')
   const [sendAsPrivate, setSendAsPrivate] = React.useState(false)
   const [supportIntention, setSupportIntention] = React.useState<SupportIntention | null>(null)
+  const [openThanks, setOpenThanks] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
 
   if (!data) {
     return null
@@ -121,10 +125,28 @@ const SupportPannel = (props: { username: string }) => {
       message,
       is_private: sendAsPrivate,
     } as SupportIntentionCreationPayload
+    setLoading(true)
     try {
       const { data: intention } = await createSupportIntention(user.username, payload)
       setSupportIntention(intention)
+    } catch (error) {
+      setLoading(false)
+    }
+  }
+
+  function afterSupport(intention: SupportIntention) {
+    try {
+      patchSupportIntention(intention.uuid, { confirmed: true })
     } catch (error) {}
+    closeSupportWindow()
+    setTimeout(() => {
+      setOpenThanks(true)
+    }, 1000)
+  }
+
+  function closeSupportWindow() {
+    setSupportIntention(null)
+    setLoading(false)
   }
 
   return (
@@ -147,20 +169,27 @@ const SupportPannel = (props: { username: string }) => {
             onTogglePrivate={setSendAsPrivate}
           ></SendMessage>
 
-          <Button
+          <LoadingButton
             variant="contained"
             color="primary"
             sx={{ borderRadius: 5 }}
             onClick={doSupport}
             startIcon={<FontAwesomeSvgIcon icon={faIceCream}></FontAwesomeSvgIcon>}
-            // disabled={!canSupport()}
+            disabled={!canSupport()}
+            loading={loading}
           >
             {t('supportButton.title', { priceYuan: centsToYuan(selectedFood.price_cents) })}
-          </Button>
+          </LoadingButton>
         </Stack>
       </CardContent>
 
-      <SupportWindow intention={supportIntention} onClose={() => setSupportIntention(null)}></SupportWindow>
+      <SupportWindow
+        intention={supportIntention}
+        onConfirmed={() => afterSupport(supportIntention!)}
+        onCancelled={closeSupportWindow}
+      ></SupportWindow>
+
+      <ThanksWindow open={openThanks} user={user} thanks={''} onClose={() => setOpenThanks(false)}></ThanksWindow>
     </Container>
   )
 }

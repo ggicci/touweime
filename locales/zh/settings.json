@@ -19,6 +19,7 @@
   "not-uploaded": "未上传",
   "view-payee-code": "查看收款码",
   "upload-payee-code": "上传收款码",
+  "invalid-payee-code": "无效的收款码，请上传{{ kind }}收款码",
   "payee-code-upload-help": "请上传对应金额的收款码，上传全部金额后可激活",
   "payee-code-after-upload-help": "全部收款码已上传",
   "payee-code-image-viewer-title": "收款码 ¥{{ price }}",
@@ -40,7 +41,8 @@
     "title": "一句话介绍自己"
   },
   "aboutMe": {
-    "title": "关于我"
+    "title": "关于我",
+    "subtitle": "自我介绍将展示在个人的投喂主页上，支持 Markdown 语法"
   },
   "websites": {
     "title": "网站链接"

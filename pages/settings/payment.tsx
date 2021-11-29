@@ -11,7 +11,7 @@ import {
   ListItemText,
   Paper,
   Stack,
-  Typography
+  Typography,
 } from '@mui/material'
 import DoubleFacedButton from 'components/DoubleFacedButton'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
@@ -20,23 +20,19 @@ import ConfigurePayeeCodeDialog from 'components/Settings/Payment/ConfigurePayee
 import useTranslation from 'next-translate/useTranslation'
 import { useSnackbar } from 'notistack'
 import React from 'react'
-import { PaymentState, Settings, updateSettings, useSettings } from 'sdk/settings'
+import { PayeeCodeKind, PayeeCodeSettings, PaymentState, updateSettings, useSettings } from 'sdk/settings'
 
-interface SettingsProps {
-  settings: Settings
-}
-
-interface PaymentMethodListItemProps extends SettingsProps {
-  kind: 'alipay' | 'wepay'
+interface PaymentMethodListItemProps {
+  payment: PayeeCodeSettings
+  kind: PayeeCodeKind
   onSaved: () => void
 }
 
-const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
-  const { settings, kind, onSaved } = props
+const PaymentItem = (props: PaymentMethodListItemProps) => {
+  const { kind, payment, onSaved } = props
   const { t } = useTranslation('settings')
   const payApp = kind === 'alipay' ? { icon: faAlipay, color: '#03a1e9' } : { icon: faWeixin, color: '#21ac38' }
   const [open, setOpen] = React.useState(false)
-  const currentPayment = settings.payment[kind]
 
   async function setPaymentState(newState: PaymentState) {
     await updateSettings({
@@ -50,7 +46,7 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
   }
 
   let ActionButton = null
-  if (currentPayment.state === 'unprepared') {
+  if (payment.state === 'unprepared') {
     ActionButton = (
       <Button
         variant="outlined"
@@ -61,7 +57,7 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
         {t('activate')}
       </Button>
     )
-  } else if (currentPayment.state === 'disabled') {
+  } else if (payment.state === 'disabled') {
     ActionButton = (
       <DoubleFacedButton
         variant="outlined"
@@ -73,10 +69,10 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
         hoverColor="success"
         onClick={() => setPaymentState('enabled')}
       >
-        {t(currentPayment.state)}
+        {t(payment.state)}
       </DoubleFacedButton>
     )
-  } else if (currentPayment.state === 'enabled') {
+  } else if (payment.state === 'enabled') {
     ActionButton = (
       <DoubleFacedButton
         variant="outlined"
@@ -88,7 +84,7 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
         hoverColor="error"
         onClick={() => setPaymentState('disabled')}
       >
-        {t(currentPayment.state)}
+        {t(payment.state)}
       </DoubleFacedButton>
     )
   }
@@ -119,7 +115,7 @@ const PaymentMethodListItem = (props: PaymentMethodListItemProps) => {
         </ListItemButton>
       </ListItem>
       <ConfigurePayeeCodeDialog
-        settings={currentPayment}
+        settings={payment}
         kind={kind}
         open={open}
         onClose={() => {
@@ -156,18 +152,13 @@ const Payment = () => {
             {t('payment-methods-help')}
           </Typography>
           <List>
-            <PaymentMethodListItem
+            <PaymentItem
               key="alipay"
               kind="alipay"
-              settings={settings}
+              payment={settings.payment.alipay}
               onSaved={handleSaved}
-            ></PaymentMethodListItem>
-            <PaymentMethodListItem
-              key="wepay"
-              kind="wepay"
-              settings={settings}
-              onSaved={handleSaved}
-            ></PaymentMethodListItem>
+            ></PaymentItem>
+            <PaymentItem key="wepay" kind="wepay" payment={settings.payment.wepay} onSaved={handleSaved}></PaymentItem>
           </List>
         </Stack>
       </Container>

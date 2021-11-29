@@ -2,6 +2,7 @@ import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import AboutMe from 'components/User/AboutMe'
 import Header from 'components/User/Header'
+import UserNotFound from 'components/User/NotFound'
 import SupportPannel from 'components/User/SupportPannel'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -9,9 +10,10 @@ import { useUserSupport } from 'sdk/support'
 
 const UserHome = () => {
   const router = useRouter()
-  const { data } = useUserSupport(router.query.user as string)
+  const username = router.query.user as string
+  const { data } = useUserSupport(username)
   if (!data) {
-    return null
+    return <UserNotFound username={username} />
   }
 
   const { user, settings } = data

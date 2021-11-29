@@ -7,44 +7,14 @@ import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import { SnackbarProvider } from 'notistack'
 import React from 'react'
-import ROUTES, { Route } from 'routes'
+import RootRoute, { findActiveRoute } from 'routes'
 import 'styles/globals.scss'
 import { SWRConfig } from 'swr'
 import theme from 'themes/default'
 
-/**
- *
- * @param routes All the routes defined in the app
- * @param pathname The current pathname
- * @returns The active route or null.
- * @reference https://github.com/mui-org/material-ui/blob/master/docs/pages/_app.js#L282
- */
-function findActiveRoute(routes: readonly Route[], pathname: string): Route | null {
-  const activeRoute = routes.find((route) => {
-    if (route.children) {
-      if (pathname.indexOf(`${route.href.pathname}/`) === 0) {
-        return findActiveRoute(route.children, pathname)
-      }
-    }
-    // Should be an exact match if no children.
-    return pathname === route.href.pathname
-  })
-
-  if (!activeRoute) {
-    return null
-  }
-
-  // We need to drill down.
-  if (activeRoute.children) {
-    return findActiveRoute(activeRoute.children, pathname)
-  }
-
-  return activeRoute
-}
-
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
-  const activeRoute = findActiveRoute(ROUTES, router.pathname)
+  const activeRoute = findActiveRoute(RootRoute, router.pathname)
 
   return (
     <SWRConfig
@@ -54,7 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         revalidateOnFocus: false,
       }}
     >
-      <PageContext.Provider value={{ activeRoute: activeRoute, routes: ROUTES }}>
+      <PageContext.Provider value={{ activeRoute: activeRoute, rootRoute: RootRoute }}>
         <ThemeProvider theme={theme}>
           <SnackbarProvider
             //https://iamhosseindhv.com/notistack/
