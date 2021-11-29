@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid'
 import AboutMe from 'components/User/AboutMe'
 import Header from 'components/User/Header'
 import UserNotFound from 'components/User/NotFound'
-import SupportPannel from 'components/User/SupportPannel'
+import SupportPanel from 'components/User/SupportPanel'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useUserSupport } from 'sdk/support'
@@ -26,7 +26,7 @@ const UserHome = () => {
             <AboutMe settings={settings}></AboutMe>
           </Grid>
           <Grid item xs={12} sm={'auto'} md={4}>
-            <SupportPannel username={user.username}></SupportPannel>
+            <SupportPanel username={user.username}></SupportPanel>
           </Grid>
         </Grid>
       </Container>

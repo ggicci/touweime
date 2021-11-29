@@ -15,6 +15,7 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
 import { centsToYuan } from 'lib/misc'
+import { useSnackError } from 'lib/useError'
 import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
 import React from 'react'
@@ -25,7 +26,7 @@ import {
   SupportIntention,
   SupportIntentionCreationPayload,
   useFoods,
-  useUserSupport,
+  useUserSupport
 } from 'sdk/support'
 import { useLogin } from 'sdk/users'
 import SupportWindow from './SupportWindow'
@@ -96,7 +97,7 @@ const SendMessage = (props: SendMessageProps) => {
   )
 }
 
-const SupportPannel = (props: { username: string }) => {
+const SupportPanel = (props: { username: string }) => {
   const { username } = props
   const { t } = useTranslation('common')
   const { data: login } = useLogin()
@@ -108,6 +109,7 @@ const SupportPannel = (props: { username: string }) => {
   const [supportIntention, setSupportIntention] = React.useState<SupportIntention | null>(null)
   const [openThanks, setOpenThanks] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
+  const snackError = useSnackError()
 
   if (!data) {
     return null
@@ -130,6 +132,10 @@ const SupportPannel = (props: { username: string }) => {
       const { data: intention } = await createSupportIntention(user.username, payload)
       setSupportIntention(intention)
     } catch (error) {
+      snackError(error, {
+        404: t('supportPanel.intentionNotFound'),
+      })
+    } finally {
       setLoading(false)
     }
   }
@@ -194,4 +200,4 @@ const SupportPannel = (props: { username: string }) => {
   )
 }
 
-export default SupportPannel
+export default SupportPanel

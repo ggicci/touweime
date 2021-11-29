@@ -101,7 +101,7 @@ const SupportWindow = (props: Props) => {
         </Stack>
       </DialogTitle>
       <DialogContent>
-        <Stack direction={isSmallerThenMd ? 'column' : 'row'} spacing={2}>
+        <Stack direction={isSmallerThenMd ? 'column' : 'row'} spacing={2} sx={{ justifyContent: 'center' }}>
           {wepayImage}
           {alipayImage}
         </Stack>

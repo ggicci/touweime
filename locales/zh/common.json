@@ -49,6 +49,9 @@
     "title": "投喂 ¥{{ priceYuan }}",
     "disabledHelperText": "你不能投喂你自己"
   },
+  "supportPanel": {
+    "intentionNotFound": "投喂失败，请刷新页面重试"
+  },
   "emptyAboutMe": "😳 哇~ Ta 什么都没写！",
   "supportWindow": {
     "title": "喂 {{ user }} 吃{{ food }}",
@@ -66,5 +69,8 @@
     "guestTip": "用户不存在或者未激活投喂主页",
     "gotoSettings": "前往设置",
     "gotoHome": "前往首页"
+  },
+  "errors": {
+    "internalServerError": "服务器内部错误"
   }
 }
