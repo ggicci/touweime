@@ -96,7 +96,7 @@ const AvatarWithMenu = (props: AvatarWithMenuProps) => {
           target="_blank"
           underline="hover"
         >
-          {t('visit-my-page')}
+          {t('nav.visit-my-page')}
           <FontAwesomeSvgIcon icon={faExternalLinkAlt} fontSize="inherit"></FontAwesomeSvgIcon>
         </MenuItem>
 

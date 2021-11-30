@@ -18,7 +18,7 @@ interface Props {
 const ThanksWindow = (props: Props) => {
   const { t } = useTranslation('common')
   const { open, user, thanks, onClose } = props
-  const defualtThanks = t('defaultThanks')
+  const defualtThanks = t('thanks-window.default-content')
   const linearGradient = 'linear-gradient(to left top, #ff6f91, #ff807d, #ff966d, #ffae61, #ffc75f)'
   const sentences = (thanks || defualtThanks).split('\n')
 

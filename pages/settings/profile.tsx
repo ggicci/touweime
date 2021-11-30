@@ -1,11 +1,13 @@
-import { faLink } from '@fortawesome/free-solid-svg-icons'
+import { faLaugh, faLink, faMehBlank } from '@fortawesome/free-solid-svg-icons'
 import Autocomplete, { AutocompleteRenderInputParams } from '@mui/material/Autocomplete'
 import Button from '@mui/material/Button'
+import Chip from '@mui/material/Chip'
 import Container from '@mui/material/Container'
 import InputAdornment from '@mui/material/InputAdornment'
 import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import axios from 'axios'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
@@ -41,6 +43,31 @@ const TagSettings = (props: TagSettingsProps) => {
       onChange={(_, value) => onChange(value)}
       value={tags}
     ></Autocomplete>
+  )
+}
+
+const PageAliveIndicator = ({ alive }: { alive: boolean }) => {
+  const { t } = useTranslation('settings')
+
+  if (alive) {
+    return (
+      <Chip
+        size="small"
+        icon={<FontAwesomeSvgIcon icon={faLaugh}></FontAwesomeSvgIcon>}
+        label={t('profile.page-link.alive')}
+        color="success"
+      ></Chip>
+    )
+  }
+  return (
+    <Tooltip title={t('profile.page-link.not-alive-help')} placement="top">
+      <Chip
+        size="small"
+        icon={<FontAwesomeSvgIcon icon={faMehBlank}></FontAwesomeSvgIcon>}
+        label={t('profile.page-link.not-alive')}
+        color="info"
+      ></Chip>
+    </Tooltip>
   )
 }
 
@@ -87,7 +114,7 @@ const Profile = () => {
       await updateSettings(patch)
       const updatedSettings = await mutate()
       setDirty(false)
-      enqueueSnackbar(t('common:saved-successfully'), { variant: 'success' })
+      enqueueSnackbar(t('common:message.saved'), { variant: 'success' })
       setValidationError(new ValidationError())
       resetPatchState(updatedSettings!)
     } catch (error) {
@@ -95,7 +122,7 @@ const Profile = () => {
         const resp = error.response
         if (resp && resp.status === 422) {
           setValidationError(new ValidationError(resp.data as ValidationErrorResponse))
-          enqueueSnackbar(t('common:save-failed'), { variant: 'error' })
+          enqueueSnackbar(t('common:message.save-failed'), { variant: 'error' })
           return
         }
       }
@@ -112,7 +139,7 @@ const Profile = () => {
       <Container component={Paper} variant="outlined" sx={{ py: 2 }}>
         <Stack spacing={2}>
           {/* bio */}
-          <Typography variant="h3">{t('bio.title')}</Typography>
+          <Typography variant="h3">{t('profile.bio.title')}</Typography>
           <TextField
             variant="outlined"
             value={isUndefined(patch.bio) ? settings.bio : patch.bio}
@@ -122,9 +149,9 @@ const Profile = () => {
           ></TextField>
 
           {/* about me */}
-          <Typography variant="h3">{t('aboutMe.title')}</Typography>
+          <Typography variant="h3">{t('profile.about-me.title')}</Typography>
           <Typography variant="subtitle1" color="text.secondary">
-            {t('aboutMe.subtitle')}
+            {t('profile.about-me.subtitle')}
           </Typography>
           <TextField
             variant="outlined"
@@ -138,9 +165,9 @@ const Profile = () => {
           ></TextField>
 
           {/* tags */}
-          <Typography variant="h3">{t('tag')}</Typography>
+          <Typography variant="h3">{t('profile.tags.title')}</Typography>
           <Typography variant="subtitle1" color="text.secondary">
-            {t('tag-help')}
+            {t('profile.tags.subtitle')}
           </Typography>
           <TagSettings
             tags={patch.tags!}
@@ -149,9 +176,12 @@ const Profile = () => {
           ></TagSettings>
 
           {/* link_key */}
-          <Typography variant="h3">{t('page-link')}</Typography>
+          <Stack direction="row" spacing={2} alignItems="center">
+            <Typography variant="h3">{t('profile.page-link.title')}</Typography>
+            <PageAliveIndicator alive={settings.is_alive}></PageAliveIndicator>
+          </Stack>
           <Typography variant="subtitle1" color="text.secondary">
-            {t('page-link-help')}
+            {t('profile.page-link.subtitle')}
           </Typography>
 
           <TextField
@@ -178,7 +208,7 @@ const Profile = () => {
             disabled={!dirty}
             onClick={saveChanges}
           >
-            {t('save-changes')}
+            {t('profile.save-changes-button')}
           </Button>
         </Stack>
       </Container>

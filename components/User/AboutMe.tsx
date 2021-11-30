@@ -19,7 +19,7 @@ const AboutMe = (props: AboutMeProps) => {
   const htmlAboutMe = DOMPurify.sanitize(marked.parse(settings.about_me))
 
   if (htmlAboutMe === '') {
-    aboutMeContent = <Typography textAlign="center">{t('emptyAboutMe')}</Typography>
+    aboutMeContent = <Typography textAlign="center">{t('user-page.about-me.empty-bio')}</Typography>
   } else {
     aboutMeContent = <Typography dangerouslySetInnerHTML={{ __html: htmlAboutMe }}></Typography>
   }

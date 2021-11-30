@@ -71,7 +71,7 @@ const Index = (props: Props) => {
                 {t('site.welcome')}
               </Typography>
               <Typography variant="body1" align="center">
-                {t('site.description', { count_users: 0 })}
+                {t('site.description', { countUsers: 0 })}
               </Typography>
               {/* continue with GitHub */}
               <Link href={buildSigninUrl('/')} locale={false} passHref>
@@ -84,7 +84,7 @@ const Index = (props: Props) => {
                   onClick={() => setIsSigningWithGitHub(true)}
                   loading={isSigningWithGitHub}
                 >
-                  {t('continue-with-github')}
+                  {t('login-page.continue-with-github')}
                 </LoadingButton>
               </Link>
 
@@ -95,7 +95,7 @@ const Index = (props: Props) => {
                 startIcon={<FontAwesomeSvgIcon icon={faApple}></FontAwesomeSvgIcon>}
                 fullWidth
               >
-                {t('continue-with-apple')}
+                {t('login-page.continue-with-apple')}
               </Button>
 
               <Divider variant="middle">OR</Divider>
@@ -103,7 +103,7 @@ const Index = (props: Props) => {
               {/* user */}
               <TextField
                 variant="standard"
-                label={t('username')}
+                label={t('login-page.username')}
                 InputProps={{
                   startAdornment: <FontAwesomeSvgIcon icon={faUser}></FontAwesomeSvgIcon>,
                 }}
@@ -112,7 +112,7 @@ const Index = (props: Props) => {
               {/* password */}
               <TextField
                 variant="standard"
-                label={t('password')}
+                label={t('login-page.password')}
                 type="password"
                 InputProps={{
                   startAdornment: <FontAwesomeSvgIcon icon={faKey}></FontAwesomeSvgIcon>,
@@ -121,7 +121,7 @@ const Index = (props: Props) => {
 
               {/* submit */}
               <Button variant="contained" color="primary" size="large">
-                {t('login')}
+                {t('login-page.login')}
               </Button>
             </Stack>
           </CardContent>

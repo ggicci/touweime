@@ -27,6 +27,8 @@ import React from 'react'
 import { ValidationError, ValidationErrorResponse } from 'sdk/errors'
 import { PayeeCode, PayeeCodeSettings, uploadPayeeCodeImage } from 'sdk/settings'
 
+const i18nKeyPrefix = 'payment.configure-payee-code-dialog'
+
 interface PayeeCodeHoverActionsProps {
   payeeCode: PayeeCode
   onLeave: () => void
@@ -68,13 +70,13 @@ const PayeeCodeHoverActions = (props: PayeeCodeHoverActionsProps) => {
           }
         }
       } else {
-        enqueueSnackbar(t('common:uploadFailed'), { variant: 'error' })
+        enqueueSnackbar(t('common:message.upload-failed'), { variant: 'error' })
       }
     }
   }
 
   const uploadButton = (
-    <Tooltip title={t('upload-payee-code')} placement="top" arrow>
+    <Tooltip title={t(`${i18nKeyPrefix}.upload-button`)} placement="top" arrow>
       <IconButton component="a" onClick={handleUpload}>
         <FontAwesomeSvgIcon icon={faUpload} fontSize="small" sx={{ color: 'white' }}></FontAwesomeSvgIcon>
       </IconButton>
@@ -86,13 +88,13 @@ const PayeeCodeHoverActions = (props: PayeeCodeHoverActionsProps) => {
   if (payeeCode.url) {
     const viewButton = (
       <React.Fragment>
-        <Tooltip title={t('view-payee-code')} placement="top" arrow>
+        <Tooltip title={t(`${i18nKeyPrefix}.view-button`)} placement="top" arrow>
           <IconButton component="a" onClick={handleView}>
             <FontAwesomeSvgIcon icon={faEye} fontSize="small" sx={{ color: 'white' }}></FontAwesomeSvgIcon>
           </IconButton>
         </Tooltip>
         <ImageViewer
-          title={t('payee-code-image-viewer-title', { price: centsToYuan(payeeCode.price_cents) })}
+          title={t(`${i18nKeyPrefix}.viewer-title`, { price: centsToYuan(payeeCode.price_cents) })}
           src={payeeCode.url}
           open={openImageViewer}
           onClose={() => {
@@ -172,14 +174,14 @@ const Index = (props: Props) => {
 
   return (
     <Dialog maxWidth="md" open={open} scroll="paper">
-      <DialogTitle>{t(kind)}</DialogTitle>
+      <DialogTitle>{t(`${i18nKeyPrefix}.title`, { kind: t(`payment.${kind}`) })}</DialogTitle>
       <DialogContent>
         <Stack spacing={2}>
           <Stack direction="row" spacing={1} sx={{ justifyContent: 'flex-end', alignItems: 'center' }}>
             <Box sx={{ color: 'success.main' }}>&#9632;</Box>
-            <Box>{t('uploaded')}</Box>
+            <Box>{t('payment.uploaded')}</Box>
             <Box sx={{ color: 'grey.400' }}>&#9632;</Box>
-            <Box>{t('not-uploaded')}</Box>
+            <Box>{t('payment.not-uploaded')}</Box>
           </Stack>
           <ImageList cols={3}>
             {settings.codes.map((code) => {
@@ -187,13 +189,15 @@ const Index = (props: Props) => {
             })}
           </ImageList>
           <Typography paragraph>
-            {settings.state === 'unprepared' ? t('payee-code-upload-help') : t('payee-code-after-upload-help')}
+            {settings.state === 'unprepared'
+              ? t(`${i18nKeyPrefix}.upload-help`)
+              : t(`${i18nKeyPrefix}.upload-help-done`)}
           </Typography>
           <Typography>{}</Typography>
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>{t('common:close')}</Button>
+        <Button onClick={onClose}>{t('common:action.close')}</Button>
       </DialogActions>
     </Dialog>
   )

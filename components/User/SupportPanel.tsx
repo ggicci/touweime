@@ -26,7 +26,7 @@ import {
   SupportIntention,
   SupportIntentionCreationPayload,
   useFoods,
-  useUserSupport
+  useUserSupport,
 } from 'sdk/support'
 import { useLogin } from 'sdk/users'
 import SupportWindow from './SupportWindow'
@@ -87,11 +87,11 @@ const SendMessage = (props: SendMessageProps) => {
         value={message}
         onChange={(e) => onChange(e.target.value)}
         fullWidth
-        placeholder={t('common:sendMessage.placeholder')}
+        placeholder={t('common:support-panel.send-message-placeholder')}
       ></TextField>
       <FormControlLabel
         control={<Checkbox checked={isPrivate} onChange={(e) => onTogglePrivate(e.target.checked)}></Checkbox>}
-        label={t('common:sendMessage.privateHelp')}
+        label={t('common:support-panel.send-private-message-help')}
       ></FormControlLabel>
     </Stack>
   )
@@ -133,7 +133,7 @@ const SupportPanel = (props: { username: string }) => {
       setSupportIntention(intention)
     } catch (error) {
       snackError(error, {
-        404: t('supportPanel.intentionNotFound'),
+        404: t('support-panel.support-failed'),
       })
     } finally {
       setLoading(false)
@@ -161,7 +161,7 @@ const SupportPanel = (props: { username: string }) => {
         <Stack spacing={2}>
           <Stack direction="row" sx={{ alignItems: 'center' }}>
             <Typography fontSize={'1.5rem'}>
-              {t('touwei')}
+              {t('support-panel.title')}
               <Box component="span" sx={{ ml: 1, fontSize: '1.25rem' }}>
                 {user.display}
               </Box>
@@ -184,7 +184,7 @@ const SupportPanel = (props: { username: string }) => {
             disabled={!canSupport()}
             loading={loading}
           >
-            {t('supportButton.title', { priceYuan: centsToYuan(selectedFood.price_cents) })}
+            {t('support-panel.support-button', { priceYuan: centsToYuan(selectedFood.price_cents) })}
           </LoadingButton>
         </Stack>
       </CardContent>

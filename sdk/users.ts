@@ -21,6 +21,7 @@ export interface Profile {
   social_sharing: {
     weibo: string
   }
+  is_alive: boolean
 }
 
 export function useUser() {

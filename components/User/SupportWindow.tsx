@@ -35,7 +35,7 @@ const PayeeCodeQrCode = ({ text, color }: { text: string; color: string }) => {
 
 const PayeeCodeDisplay = ({ code }: { code: PayeeCode }) => {
   const { t } = useTranslation('common')
-  const title = t(`supportWindow.${code.kind}`)
+  const title = t(`support-window.${code.kind}`)
   const color = code.kind === 'alipay' ? '#1678fe' : '#21ac38'
 
   let display = null
@@ -96,7 +96,7 @@ const SupportWindow = (props: Props) => {
         <Stack direction="row" alignItems="center">
           <Image alt={food.title} src={food.image_url} width={40} height={40}></Image>
           <Typography variant="inherit" sx={{ ml: 1 }}>
-            {t('supportWindow.title', { user: supportee.display, food: t(`food.${food.id}`) })}
+            {t('support-window.title', { user: supportee.display, food: t(`food.${food.id}`) })}
           </Typography>
         </Stack>
       </DialogTitle>
@@ -105,13 +105,13 @@ const SupportWindow = (props: Props) => {
           {wepayImage}
           {alipayImage}
         </Stack>
-        <DialogContentText sx={{ mt: 2 }}>{t('supportWindow.help')}</DialogContentText>
+        <DialogContentText sx={{ mt: 2 }}>{t('support-window.help')}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onCancelled}>{t('supportWindow.cancel')}</Button>
+        <Button onClick={onCancelled}>{t('support-window.cancel')}</Button>
         <TimedButton variant="contained" enabledAfter={10} onClick={onConfirmed}>
           {/* TODO(ggicci): add a time 10s to enable click */}
-          {t('supportWindow.confirm')}
+          {t('support-window.confirm')}
         </TimedButton>
       </DialogActions>
     </Dialog>

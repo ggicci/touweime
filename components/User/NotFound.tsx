@@ -14,18 +14,18 @@ interface Props {
   username: string
 }
 
-const ForAnoymous = () => {
+const ForAnonym = () => {
   const { t } = useTranslation('common')
 
   return (
     <Card variant="outlined" sx={{ width: 400 }}>
       <CardHeader title={404}></CardHeader>
       <CardContent>
-        <Typography>{t('notAlivedPage.guestTip')}</Typography>
+        <Typography>{t('user-page.not-found.title-for-anonym')}</Typography>
       </CardContent>
       <CardActions>
         <Link href={HomeRoute.href} underline="none">
-          <Button>{t('notAlivedPage.gotoHome')}</Button>
+          <Button>{t('user-page.not-found.goto-home')}</Button>
         </Link>
       </CardActions>
     </Card>
@@ -39,11 +39,11 @@ const ForPageOwner = () => {
     <Card variant="outlined" sx={{ width: 400 }}>
       <CardHeader title={404}></CardHeader>
       <CardContent>
-        <Typography>{t('notAlivedPage.ownerTip')}</Typography>
+        <Typography>{t('user-page.not-found.title')}</Typography>
       </CardContent>
       <CardActions>
         <Link href={PaymentSettingsRoute.href} underline="none">
-          <Button>{t('notAlivedPage.gotoSettings')}</Button>
+          <Button>{t('user-page.not-found.goto-settings')}</Button>
         </Link>
       </CardActions>
     </Card>
@@ -52,7 +52,7 @@ const ForPageOwner = () => {
 
 const UserNotFound = (props: Props) => {
   const { data: login } = useLogin()
-  const Display = login?.username === props.username ? ForPageOwner : ForAnoymous
+  const Display = login?.username === props.username ? ForPageOwner : ForAnonym
 
   return (
     <Container sx={{ py: 5, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

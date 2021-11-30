@@ -54,7 +54,7 @@ const PaymentItem = (props: PaymentMethodListItemProps) => {
         startIcon={<FontAwesomeSvgIcon icon={faExchangeAlt} fontSize="small" />}
         onClick={() => setOpen(true)}
       >
-        {t('activate')}
+        {t('payment.activate')}
       </Button>
     )
   } else if (payment.state === 'disabled') {
@@ -64,12 +64,12 @@ const PaymentItem = (props: PaymentMethodListItemProps) => {
         color="error"
         sx={{ borderRadius: 5 }}
         startIcon={<FontAwesomeSvgIcon icon={faExclamationCircle} fontSize="small" />}
-        hoverChildren={t('enable')}
+        hoverChildren={t('payment.enable')}
         hoverStartIcon={<FontAwesomeSvgIcon icon={faToggleOff} fontSize="small" />}
         hoverColor="success"
         onClick={() => setPaymentState('enabled')}
       >
-        {t(payment.state)}
+        {t(`payment.${payment.state}`)}
       </DoubleFacedButton>
     )
   } else if (payment.state === 'enabled') {
@@ -79,12 +79,12 @@ const PaymentItem = (props: PaymentMethodListItemProps) => {
         color="success"
         sx={{ borderRadius: 5 }}
         startIcon={<FontAwesomeSvgIcon icon={faCheckCircle} fontSize="small" />}
-        hoverChildren={t('disable')}
+        hoverChildren={t('payment.disable')}
         hoverStartIcon={<FontAwesomeSvgIcon icon={faToggleOff} fontSize="small" />}
         hoverColor="error"
         onClick={() => setPaymentState('disabled')}
       >
-        {t(payment.state)}
+        {t(`payment.${payment.state}`)}
       </DoubleFacedButton>
     )
   }
@@ -111,7 +111,7 @@ const PaymentItem = (props: PaymentMethodListItemProps) => {
               <FontAwesomeSvgIcon icon={payApp.icon} fontSize="large" sx={{ color: payApp.color }}></FontAwesomeSvgIcon>
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={t(`${kind}-payee-code`)} secondary={t(`${kind}-payee-code-help`)}></ListItemText>
+          <ListItemText primary={t(`payment.${kind}`)} secondary={t(`payment.${kind}-help`)}></ListItemText>
         </ListItemButton>
       </ListItem>
       <ConfigurePayeeCodeDialog
@@ -136,7 +136,7 @@ const Payment = () => {
 
   function handleSaved() {
     mutate()
-    enqueueSnackbar(t('common:saved-successfully'), { variant: 'success' })
+    enqueueSnackbar(t('common:message.saved'), { variant: 'success' })
   }
 
   if (!settings) {
@@ -147,9 +147,9 @@ const Payment = () => {
     <SettingsLayout>
       <Container component={Paper} variant="outlined" sx={{ py: 2 }}>
         <Stack spacing={2}>
-          <Typography variant="h3">{t('payment-methods')}</Typography>
+          <Typography variant="h3">{t('payment.methods.title')}</Typography>
           <Typography variant="subtitle1" color="text.secondary">
-            {t('payment-methods-help')}
+            {t('payment.methods.subtitle')}
           </Typography>
           <List>
             <PaymentItem

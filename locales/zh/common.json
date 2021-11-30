@@ -6,33 +6,55 @@
   },
   "nav": {
     "home": "首页",
-    "support": "投喂主",
+    "support": "投喂",
     "discover": "发现",
     "settings": "设置",
     "help": "帮助",
     "login": "登录",
-    "logout": "登出"
+    "logout": "登出",
+    "visit-my-page": "查看我的主页"
   },
-  "continue-with-github": "GitHub 用户一键登录",
-  "continue-with-apple": "苹果用户一键登录",
-  "signed-in-as": "登录用户",
-  "username": "用户名",
-  "password": "密码",
-  "save": "保存",
-  "cancel": "取消",
-  "close": "关闭",
-  "saved-successfully": "保存成功",
-  "save-failed": "保存失败",
+  "action": {
+    "save": "保存",
+    "cancel": "取消",
+    "create": "创建",
+    "close": "关闭",
+    "upload": "上传",
+    "edit": "编辑",
+    "follow": "关注",
+    "unfollow": "取消关注",
+    "share": "分享"
+  },
   "message": {
     "saved": "保存成功",
-    "saveFailed": "保存失败",
+    "save-failed": "保存失败",
+    "updated": "更新成功",
+    "update-failed": "更新失败",
     "uploaded": "上传成功",
-    "uploadFailed": "上传失败",
-    "deleted": "删除成功",
-    "deleteFailed": "删除失败"
+    "upload-failed": "上传失败"
   },
-  "visit-my-page": "查看我的主页",
-  "touwei": "投喂",
+
+  "login-page": {
+    "continue-with-github": "GitHub 用户一键登录",
+    "continue-with-apple": "苹果用户一键登录",
+    "username": "用户名",
+    "password": "密码",
+    "login": "登录"
+  },
+
+  "user-page": {
+    "edit-profile": "编辑资料",
+    "about-me": {
+      "empty-bio": "😳 哇~ Ta 什么都没写！"
+    },
+    "not-found": {
+      "title": "投喂主页需要激活收款方式才能展示",
+      "title-for-anonym": "用户不存在或者未激活投喂主页",
+      "goto-settings": "前往设置",
+      "goto-home": "前往首页"
+    }
+  },
+
   "food": {
     "fried_egg": "煎鸡蛋",
     "popsicle": "雪糕",
@@ -41,35 +63,29 @@
     "pizza": "批萨",
     "lobster": "大龙虾"
   },
-  "sendMessage": {
-    "placeholder": "说些什么...(可选)",
-    "privateHelp": "私信（只有你和被投喂者可见）"
+
+  "support-panel": {
+    "title": "投喂",
+    "send-message-placeholder": "说些什么...(可选)",
+    "send-private-message-help": "私信（只有你和被投喂者可见）",
+    "support-button": "投喂 ¥{{ priceYuan }}",
+    "support-button-disabled-help": "你不能投喂你自己",
+    "support-failed": "投喂失败，请刷新页面重试"
   },
-  "supportButton": {
-    "title": "投喂 ¥{{ priceYuan }}",
-    "disabledHelperText": "你不能投喂你自己"
-  },
-  "supportPanel": {
-    "intentionNotFound": "投喂失败，请刷新页面重试"
-  },
-  "emptyAboutMe": "😳 哇~ Ta 什么都没写！",
-  "supportWindow": {
+
+  "support-window": {
     "title": "喂 {{ user }} 吃{{ food }}",
-    "help": "❤️ 请用支付宝或者微信扫描二维码进行投喂",
+    "help": "ℹ️ 请用支付宝或者微信扫描二维码进行投喂",
     "cancel": "不喂了 😝",
     "confirm": "已投喂 😘",
     "wepay": "微信",
     "alipay": "支付宝"
   },
-  "defaultThanks": "谢谢您的支持\n祝您生活愉快",
-  "share": "分享",
-  "edit-profile": "编辑资料",
-  "notAlivedPage": {
-    "ownerTip": "投喂主页需要激活收款方式才能展示",
-    "guestTip": "用户不存在或者未激活投喂主页",
-    "gotoSettings": "前往设置",
-    "gotoHome": "前往首页"
+
+  "thanks-window": {
+    "default-content": "谢谢您的支持\n祝您生活愉快"
   },
+
   "errors": {
     "internalServerError": "服务器内部错误"
   }

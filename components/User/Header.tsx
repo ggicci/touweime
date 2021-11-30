@@ -35,7 +35,7 @@ const Header = (props: { username: string }) => {
 
   const editButton = canEditProfile() ? (
     <Link href={ProfileSettingsRoute.href}>
-      <Button variant="contained">{t('edit-profile')}</Button>
+      <Button variant="contained">{t('user-page.edit-profile')}</Button>
     </Link>
   ) : null
 
@@ -61,7 +61,7 @@ const Header = (props: { username: string }) => {
             <Stack direction="row" spacing={1}>
               {editButton}
               <Button variant="outlined" startIcon={<FontAwesomeSvgIcon icon={faShareAlt}></FontAwesomeSvgIcon>}>
-                {t('share')}
+                {t('action.share')}
               </Button>
             </Stack>
           </Grid>
