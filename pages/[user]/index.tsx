@@ -11,7 +11,15 @@ import { useUserSupport } from 'sdk/support'
 const UserHome = () => {
   const router = useRouter()
   const username = router.query.user as string
-  const { data } = useUserSupport(username)
+  const { data, error } = useUserSupport(username)
+  const isLoading = !data && !error
+
+  if (isLoading) {
+    // return <LinearProgress></LinearProgress>
+    // TODO(ggicci): if not loaded after 1s, show a loading indicator
+    return null
+  }
+
   if (!data) {
     return <UserNotFound username={username} />
   }
