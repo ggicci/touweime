@@ -1,24 +1,61 @@
 {
   "site": {
     "title": "Feed Me",
-    "description": "We are babies!",
-    "welcome": "Feed our favorite babies!"
+    "description": "We are creating awesome things, we need your support!",
+    "welcome": "Support the creative contributors!"
   },
-  "home": "Home",
-  "dashboard": "Dashboard",
-  "support": "Support",
-  "settings": "Settings",
-  "help": "Help",
-  "login": "Log In",
-  "logout": "Log Out",
-  "continue-with-github": "Continue with GitHub",
-  "continue-with-apple": "Continue with Apple",
-  "username": "Username",
-  "password": "Password",
-  "saved-successfully": "Saved successfully",
-  "save-failed": "Save failed",
-  "visit-my-page": "Visit my page",
-  "touwei": "Feed",
+
+  "nav": {
+    "home": "Home",
+    "support": "Support",
+    "discover": "Discover",
+    "settings": "Settings",
+    "help": "Help",
+    "login": "Log in",
+    "logout": "Log out",
+    "visit-my-page": "Visit my page"
+  },
+  "action": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "create": "Create",
+    "close": "Close",
+    "upload": "Upload",
+    "edit": "Edit",
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "share": "Share"
+  },
+  "message": {
+    "saved": "Saved successfully",
+    "save-failed": "Save failed",
+    "updated": "Updated successfully",
+    "update-failed": "Update failed",
+    "uploaded": "Uploaded successfully",
+    "upload-failed": "Upload failed"
+  },
+
+  "login-page": {
+    "continue-with-github": "Continue with GitHub",
+    "continue-with-apple": "Continue with Apple",
+    "username": "Username",
+    "password": "Password",
+    "login": "Log in"
+  },
+
+  "user-page": {
+    "edit-profile": "Edit Profile",
+    "about-me": {
+      "empty-bio": "😳 Um... They left nothing here."
+    },
+    "not-found": {
+      "title": "Configure your payment to enable this page.",
+      "title-for-anonym": "User not found or not activated.",
+      "goto-settings": "Goto Settings",
+      "goto-home": "Go back home"
+    }
+  },
+
   "food": {
     "fried_egg": "Fried Egg",
     "popsicle": "Popsicle",
@@ -27,24 +64,33 @@
     "pizza": "Pizza",
     "lobster": "Lobster"
   },
-  "sendMessage": {
-    "placeholder": "Say something...(optional)",
-    "privateHelp": "Private"
+
+  "support-panel": {
+    "title": "Feed",
+    "send-message-placeholder": "Say something...(optional)",
+    "send-private-message-help": "Make it private",
+    "support-button": "Support ¥{{ priceYuan }}",
+    "support-button-disabled-help": "You can't support yourself",
+    "support-failed": "Feed failed, refresh the page and try again."
   },
-  "supportButton": {
-    "title": "Support ¥{{ priceYuan }}",
-    "disabledHelperText": "You can't support yourself"
-  },
-  "emptyAboutMe": "😳 Um... They left nothing here.",
-  "supportWindow": {
+
+  "support-window": {
     "title": "Feed {{ user }} {{ food }}",
-    "help": "Feed them by scanning the QR codes using AliPay or WeChat",
+    "help": "ℹ️ Feed them by scanning the QR codes using AliPay or WeChat",
     "cancel": "Leave 😝",
     "confirm": "Fed 😘",
     "wepay": "WeChat",
     "alipay": "AliPay"
   },
-  "defaultThanks": "Thanks for your support\nHave a good day",
-  "share": "Share",
-  "edit-profile": "Edit Profile"
+
+  "thanks-window": {
+    "default-content": "Thanks for your support\nHave a good day"
+  },
+
+  "share-window": {
+    "title": "Share with your friends and fans 🎉",
+    "content": "I found an excellent creator here! Let's support them together!",
+    "tweet": "Tweet this",
+    "weibo": "Share to Weibo"
+  }
 }

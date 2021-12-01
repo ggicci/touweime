@@ -1,15 +1,21 @@
 import { AppBar, Box, Container, IconButton, Toolbar, useTheme } from '@mui/material'
+import Typography from '@mui/material/Typography'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
 import Link from 'components/Link'
 import UserMenu from 'components/UserMenu'
+import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
 import React from 'react'
 import { DiscoverRoute, HomeRoute, SupportRoute } from 'routes'
 
 const SiteLogo = () => {
+  const { t } = useTranslation('common')
   return (
     <Box sx={{ display: 'inline-flex', alignItems: 'center' }}>
       <Image src="/logo.svg" width={40} height={40} alt="site logo"></Image>
+      <Typography variant="h1" sx={{ ml: 2, fontSize: '1.75rem', fontWeight: 400 }}>
+        {t('site.title')}
+      </Typography>
     </Box>
   )
 }

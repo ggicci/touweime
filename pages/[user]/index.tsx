@@ -4,9 +4,36 @@ import AboutMe from 'components/User/AboutMe'
 import Header from 'components/User/Header'
 import UserNotFound from 'components/User/NotFound'
 import SupportPanel from 'components/User/SupportPanel'
+import useTranslation from 'next-translate/useTranslation'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React from 'react'
+import { Settings } from 'sdk/settings'
 import { useUserSupport } from 'sdk/support'
+import { User } from 'sdk/users'
+interface MetaTagsProps {
+  user: User
+  settings: Settings
+}
+
+const MetaTags = ({ user, settings }: MetaTagsProps) => {
+  const router = useRouter()
+  const { t } = useTranslation('common')
+  const title = settings.bio ? `${user.display} - ${settings.bio}` : user.display
+  const siteTitle = t('site.title')
+
+  return (
+    <Head>
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={settings.about_me.substring(0, 220)} />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={`${process.env.NEXT_PUBLIC_HOST}${router.asPath}`} />
+      <meta property="og:image" content={user.avatar} />
+      <meta property="og:site_name" content={siteTitle} />
+      <meta property="og:locale" content={router.locale} />
+    </Head>
+  )
+}
 
 const UserHome = () => {
   const router = useRouter()
@@ -27,6 +54,7 @@ const UserHome = () => {
   const { user, settings } = data
   return (
     <React.Fragment>
+      <MetaTags user={user} settings={settings}></MetaTags>
       <Header username={user.username}></Header>
       <Container sx={{ py: 3 }}>
         <Grid container spacing={2}>

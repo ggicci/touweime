@@ -1,6 +1,6 @@
 {
   "site": {
-    "title": "投喂",
+    "title": "投喂么",
     "description": "我们致力于投喂中文社区最棒的创作者，他们都是可爱的宝宝！！！",
     "welcome": "投喂我们最爱的宝贝"
   },
@@ -84,6 +84,13 @@
 
   "thanks-window": {
     "default-content": "谢谢您的支持\n祝您生活愉快"
+  },
+
+  "share-window": {
+    "title": "分享给你的朋友和粉丝 🎉",
+    "content": "我在这里发现了一个优秀的创作者，快来投喂 Ta 吧！",
+    "tweet": "推特",
+    "weibo": "微博"
   },
 
   "errors": {

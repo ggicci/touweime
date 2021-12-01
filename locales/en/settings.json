@@ -1,0 +1,69 @@
+{
+  "title": "Settings",
+
+  "nav": {
+    "subheader": {
+      "account-settings": "Account Settings"
+    },
+    "profile": "Profile",
+    "payment": "Payment"
+  },
+
+  "profile": {
+    "bio": {
+      "title": "BIO"
+    },
+    "about-me": {
+      "title": "About Me",
+      "subtitle": "Introduce yourself to the world. It will be displayed on your home page. Support Markdown."
+    },
+    "tags": {
+      "title": "Tags",
+      "subtitle": "These tags won't be shown on your profile, but may help others to discover you. You can add up to 5 tags. 🏷"
+    },
+    "page-link": {
+      "title": "Your page link",
+      "subtitle": "This is your exclusive link. Let your feeders feed you here 😋",
+      "alive": "Your page is alive",
+      "not-alive": "Your page is not alive",
+      "not-alive-help": "Configure payment to make your page alive"
+    },
+    "websites": {
+      "title": "Websites"
+    },
+    "displaySupportersCount": {
+      "title": "Display feeder count",
+      "subtitle": "Disclosure of feeder count shows credibility and inspires more support from your audience."
+    },
+    "save-changes-button": "Save Changes"
+  },
+
+  "payment": {
+    "methods": {
+      "title": "Receive Payments",
+      "subtitle": "Your feeders can choose one of the following methods to pay 💰"
+    },
+    "unprepared": "Unprepared",
+    "loading": "Loading...",
+    "activate": "Activate",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "enable": "Enable",
+    "disable": "Disable",
+    "uploaded": "Uploaded",
+    "not-uploaded": "Not Uploaded",
+    "alipay": "AliPay",
+    "wepay": "WePay",
+    "alipay-help": "Upload your AliPay payment code to receive payments.",
+    "wepay-help": "Upload your WePay payment code to receive payments.",
+    "configure-payee-code-dialog": {
+      "title": "Configure Payment Code - {{ kind }}",
+      "view-button": "View",
+      "upload-button": "Upload",
+      "viewer-title": "Payment Code ¥{{ price }}",
+      "invalid-payee-code": "Invalid payment code, please upload a {{ kind }} payment code.",
+      "upload-help": "Upload payment code corresponding to the amount.",
+      "upload-help-done": "All uploaded."
+    }
+  }
+}

@@ -12,9 +12,11 @@ import Typography from '@mui/material/Typography'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
 import Link from 'components/Link'
 import useTranslation from 'next-translate/useTranslation'
+import React from 'react'
 import { ProfileSettingsRoute } from 'routes'
 import { useUserSupport } from 'sdk/support'
 import { useLogin } from 'sdk/users'
+import ShareWindow from './ShareWindow'
 
 const Header = (props: { username: string }) => {
   const theme = useTheme()
@@ -22,6 +24,7 @@ const Header = (props: { username: string }) => {
   const { t } = useTranslation('common')
   const { username } = props
   const { data } = useUserSupport(username)
+  const [openShareWindow, setOpenShareWindow] = React.useState(false)
 
   if (!data) {
     return null
@@ -60,9 +63,15 @@ const Header = (props: { username: string }) => {
           <Grid item md={4} xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Stack direction="row" spacing={1}>
               {editButton}
-              <Button variant="outlined" startIcon={<FontAwesomeSvgIcon icon={faShareAlt}></FontAwesomeSvgIcon>}>
+              <Button
+                variant="outlined"
+                startIcon={<FontAwesomeSvgIcon icon={faShareAlt}></FontAwesomeSvgIcon>}
+                onClick={() => setOpenShareWindow(true)}
+              >
                 {t('action.share')}
               </Button>
+
+              <ShareWindow open={openShareWindow} onClose={() => setOpenShareWindow(false)}></ShareWindow>
             </Stack>
           </Grid>
         </Grid>

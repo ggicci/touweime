@@ -173,9 +173,9 @@ const Index = (props: Props) => {
   const { open, onClose, onSaved, settings, kind } = props
 
   return (
-    <Dialog maxWidth="md" open={open} scroll="paper">
+    <Dialog maxWidth={false} open={open} scroll="paper">
       <DialogTitle>{t(`${i18nKeyPrefix}.title`, { kind: t(`payment.${kind}`) })}</DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ width: 368 }}>
         <Stack spacing={2}>
           <Stack direction="row" spacing={1} sx={{ justifyContent: 'flex-end', alignItems: 'center' }}>
             <Box sx={{ color: 'success.main' }}>&#9632;</Box>
