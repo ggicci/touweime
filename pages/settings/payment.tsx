@@ -166,6 +166,6 @@ const Payment = () => {
   )
 }
 
-Payment.className = 'Payment'
+Payment.className = 'Settings-Payment'
 
 export default Payment

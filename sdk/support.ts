@@ -15,7 +15,7 @@ export interface Food {
   image_url: string
 }
 
-const ALL_FOODS: readonly Food[] = [
+export const ALL_FOODS: readonly Food[] = [
   { id: 'fried_egg', price_cents: 100, title: 'Fried Egg', image_url: '/images/fried_egg.svg' },
   { id: 'popsicle', price_cents: 500, title: 'Popsicle', image_url: '/images/popsicle.svg' },
   { id: 'chips', price_cents: 1000, title: 'Chips', image_url: '/images/chips.svg' },

@@ -6,7 +6,8 @@
       "account-settings": "Account Settings"
     },
     "profile": "Profile",
-    "payment": "Payment"
+    "payment": "Payment",
+    "buttons": "Website Buttons"
   },
 
   "profile": {
@@ -65,5 +66,11 @@
       "upload-help": "Upload payment code corresponding to the amount.",
       "upload-help-done": "All uploaded."
     }
+  },
+
+  "buttons": {
+    "generate-button-url": "Generate Button URL",
+    "default-text": "Feed me a {{ food }}",
+    "button-text-input-label": "Button Text"
   }
 }

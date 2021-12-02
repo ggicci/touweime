@@ -7,6 +7,7 @@ import {
   faHeart,
   faHome,
   faQuestionCircle,
+  faShareAlt,
   faSignInAlt,
   faSignOutAlt,
   faUser,
@@ -51,12 +52,19 @@ export const PaymentSettingsRoute = {
   icon: faCreditCard,
 }
 
+export const ButtonsSettingsRoute = {
+  id: 'settings.buttons',
+  href: { pathname: '/settings/buttons' },
+  i18nKey: 'settings:nav.buttons',
+  icon: faShareAlt,
+}
+
 export const SettingsRoute = {
   id: 'settings',
   href: { pathname: '/settings' },
   i18nKey: 'common:nav.settings',
   icon: faCog,
-  children: [ProfileSettingsRoute, PaymentSettingsRoute] as Route[],
+  children: [ProfileSettingsRoute, PaymentSettingsRoute, ButtonsSettingsRoute] as Route[],
 }
 
 export const DiscoverRoute = {

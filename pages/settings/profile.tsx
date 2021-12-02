@@ -216,6 +216,6 @@ const Profile = () => {
   )
 }
 
-Profile.className = 'Profile'
+Profile.className = 'Settings-Profile'
 
 export default Profile

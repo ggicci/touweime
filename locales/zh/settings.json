@@ -6,7 +6,8 @@
       "account-settings": "帐号设置"
     },
     "profile": "主页资料",
-    "payment": "支付收款"
+    "payment": "支付收款",
+    "buttons": "投喂按钮"
   },
 
   "profile": {
@@ -65,5 +66,11 @@
       "upload-help": "请上传对应金额的收款码，上传全部金额后可激活",
       "upload-help-done": "全部收款码已上传"
     }
+  },
+
+  "buttons": {
+    "generate-button-url": "生成按钮链接",
+    "default-text": "喂我吃{{ food }}",
+    "button-text-input-label": "按钮文案"
   }
 }
