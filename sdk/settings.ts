@@ -1,5 +1,5 @@
 import axios from 'lib/axios'
-import md5Hex from 'lib/md5'
+import { md5Hex } from 'lib/hash'
 import { uploadWithStorageTicket } from 'lib/upload'
 import { Profile } from 'sdk/users'
 import useSWR from 'swr'
