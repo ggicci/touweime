@@ -57,7 +57,7 @@
   },
 
   "food": {
-    "fried_egg": "Fried Egg",
+    "fried-egg": "Fried Egg",
     "popsicle": "Popsicle",
     "chips": "Chips",
     "doughnut": "Doughnut",

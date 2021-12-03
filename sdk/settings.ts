@@ -1,6 +1,5 @@
-import CryptoLatin1Encoder from 'crypto-js/enc-latin1'
-import CryptoMD5 from 'crypto-js/md5'
 import axios from 'lib/axios'
+import md5Hex from 'lib/md5'
 import { uploadWithStorageTicket } from 'lib/upload'
 import { Profile } from 'sdk/users'
 import useSWR from 'swr'
@@ -68,32 +67,15 @@ export async function updateSettings(patch: SettingsPatch) {
 }
 
 export async function uploadPayeeCodeImage(id: number, file: File) {
-  const reader = new FileReader()
-  reader.readAsBinaryString(file)
-
-  return new Promise((resolve, reject) => {
-    reader.onloadend = async (e) => {
-      const imageData = e.target!.result as string
-      const imageHash = CryptoMD5(CryptoLatin1Encoder.parse(imageData))
-      const hexMD5 = imageHash.toString()
-      const resp = await axios.get(`/v1/settings/payee_codes/${id}/upload_ticket`, {
-        params: {
-          md5: hexMD5,
-          content_type: file.type,
-          filename: file.name,
-        },
-      })
-      const ticket = resp.data
-
-      try {
-        await uploadWithStorageTicket(file, ticket)
-        // Notify touwei server that we have uploaded the image to the cloud storage.
-        await axios.patch(`/v1/settings/payee_codes/${id}`, { uploaded: true })
-      } catch (error) {
-        reject(error)
-      }
-
-      resolve(ticket)
-    }
+  const md5String = await md5Hex(file)
+  const resp = await axios.get(`/v1/settings/payee_codes/${id}/upload_ticket`, {
+    params: {
+      md5: md5String,
+      content_type: file.type,
+      filename: file.name,
+    },
   })
+  await uploadWithStorageTicket(file, resp.data)
+  // Notify touwei server that we have uploaded the image to the cloud storage.
+  await axios.patch(`/v1/settings/payee_codes/${id}`, { uploaded: true })
 }

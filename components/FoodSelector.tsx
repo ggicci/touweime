@@ -77,8 +77,8 @@ const FoodSelector = (props: FoodSelectorProps) => {
     return <ButtonSelect food={food} onSelect={handleSelect}></ButtonSelect>
   }
 
-  function foodName(id: string) {
-    return t(`food.${id}`)
+  function foodTitle(id: string) {
+    return t(`food.${id}.title`)
   }
 
   function handleChange(event: SelectChangeEvent) {
@@ -97,7 +97,7 @@ const FoodSelector = (props: FoodSelectorProps) => {
         return (
           <Stack direction="row" spacing={2}>
             <Image alt={food.title} src={food.image_url} width={20} height={20}></Image>
-            <Typography>{foodName(food.id)}</Typography>
+            <Typography>{foodTitle(food.id)}</Typography>
           </Stack>
         )
       }}
@@ -107,7 +107,7 @@ const FoodSelector = (props: FoodSelectorProps) => {
           <ListItemIcon>
             <Image alt={food.title} src={food.image_url} width={32} height={32}></Image>
           </ListItemIcon>
-          <ListItemText inset primary={foodName(food.id)}></ListItemText>
+          <ListItemText inset primary={foodTitle(food.id)}></ListItemText>
         </MenuItem>
       ))}
     </Select>

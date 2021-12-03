@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography'
 import FoodSelector from 'components/FoodSelector'
 import SettingsLayout from 'components/Settings/Layout'
 import { toPng } from 'html-to-image'
+import md5Hex from 'lib/md5'
 import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
 import React, { useCallback, useRef } from 'react'
@@ -78,9 +79,12 @@ const Buttons = () => {
     }
 
     try {
-      const dataUrl = await toPng(ref.current, { cacheBust: true })
+      const dataUrl = await toPng(ref.current, { cacheBust: false })
       const link = document.createElement('a')
-      console.info(dataUrl)
+      const resp = await fetch(dataUrl)
+      const blob = await resp.blob()
+      const md5String = await md5Hex(blob)
+      console.info('md5:', md5String)
       link.href = dataUrl
       link.download = 'button.png'
       link.click()

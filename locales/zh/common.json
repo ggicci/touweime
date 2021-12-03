@@ -56,7 +56,7 @@
   },
 
   "food": {
-    "fried_egg": "煎鸡蛋",
+    "fried-egg": "煎鸡蛋",
     "popsicle": "雪糕",
     "chips": "炸薯条",
     "doughnut": "甜甜圈",

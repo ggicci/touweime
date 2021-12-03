@@ -70,7 +70,7 @@
 
   "buttons": {
     "generate-button-url": "生成按钮链接",
-    "default-text": "喂我吃{{ food }}",
+    "default-text": "投喂{{ food }}",
     "button-text-input-label": "按钮文案"
   }
 }

@@ -26,7 +26,7 @@ import {
   SupportIntention,
   SupportIntentionCreationPayload,
   useFoods,
-  useUserSupport,
+  useUserSupport
 } from 'sdk/support'
 import { useLogin } from 'sdk/users'
 import SupportWindow from './SupportWindow'
