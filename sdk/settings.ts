@@ -1,4 +1,4 @@
-import axios from 'lib/axios'
+import { gaiaApi } from 'lib/axios'
 import { md5Hex } from 'lib/hash'
 import { uploadWithStorageTicket } from 'lib/upload'
 import { Profile } from 'sdk/users'
@@ -63,12 +63,12 @@ export type SettingsPatch = Partial<
 }
 
 export async function updateSettings(patch: SettingsPatch) {
-  await axios.patch(`/v1/settings`, patch)
+  await gaiaApi.patch(`/v1/settings`, patch)
 }
 
 export async function uploadPayeeCodeImage(id: number, file: File) {
   const md5String = await md5Hex(file)
-  const resp = await axios.get(`/v1/settings/payee_codes/${id}/upload_ticket`, {
+  const resp = await gaiaApi.get(`/v1/settings/payee_codes/${id}/upload_ticket`, {
     params: {
       md5: md5String,
       content_type: file.type,
@@ -77,5 +77,5 @@ export async function uploadPayeeCodeImage(id: number, file: File) {
   })
   await uploadWithStorageTicket(file, resp.data)
   // Notify touwei server that we have uploaded the image to the cloud storage.
-  await axios.patch(`/v1/settings/payee_codes/${id}`, { uploaded: true })
+  await gaiaApi.patch(`/v1/settings/payee_codes/${id}`, { uploaded: true })
 }

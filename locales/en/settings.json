@@ -71,6 +71,7 @@
   "buttons": {
     "generate-button-url": "Generate Button URL",
     "default-text": "Feed me a {{ food }}",
-    "button-text-input-label": "Button Text"
+    "button-text-input-label": "Button Text",
+    "button-url": "Button URL"
   }
 }

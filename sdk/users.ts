@@ -24,8 +24,8 @@ export interface Profile {
   is_alive: boolean
 }
 
-export function useUser() {
-  return useSWR<User>('/v1/user')
+export function useUser(username: string) {
+  return useSWR<User>(`/v1/users/${username}`)
 }
 
 export function useLogin() {

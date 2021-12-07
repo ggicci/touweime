@@ -16,7 +16,7 @@ import Link from 'components/Link'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { formatHref, HelpRoute, LoginRoute, LogoutRoute, Route, SettingsRoute } from 'routes'
-import { User, useUser } from 'sdk/users'
+import { useLogin, User } from 'sdk/users'
 
 function LoginButton() {
   const { t } = useTranslation('common')
@@ -127,7 +127,7 @@ const AvatarWithMenu = (props: AvatarWithMenuProps) => {
 }
 
 const Index = () => {
-  const { data: user } = useUser()
+  const { data: user } = useLogin()
 
   // Not logged in.
   if (!user) {

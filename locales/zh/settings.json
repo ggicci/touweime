@@ -69,8 +69,9 @@
   },
 
   "buttons": {
-    "generate-button-url": "生成按钮链接",
+    "generate-button-url": "生成按钮图片",
     "default-text": "投喂{{ food }}",
-    "button-text-input-label": "按钮文案"
+    "button-text-input-label": "按钮文案",
+    "button-url": "按钮图片 URL"
   }
 }

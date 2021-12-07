@@ -40,7 +40,7 @@ const theme: ThemeOptions = createTheme({
       main: '#A6B1E1',
     },
     info: {
-      main: '#DCD6F7',
+      main: '#864879', // https://colorhunt.co/palette/1f1d363f3351864879e9a6a6
     },
     success: {
       main: '#4E9F3D', // https://colorhunt.co/palette/191a191e51284e9f3dd8e9a8

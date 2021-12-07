@@ -1,4 +1,4 @@
-import axios from 'lib/axios'
+import { gaiaApi } from 'lib/axios'
 import useSWR from 'swr'
 import { PayeeCode, Settings } from './settings'
 import { User } from './users'
@@ -63,9 +63,9 @@ export type SupportIntentionCreationPayload = Pick<
 >
 
 export async function createSupportIntention(supporteeUserName: string, payload: SupportIntentionCreationPayload) {
-  const resp = await axios.post<unknown>(`/v1/support/${supporteeUserName}`, payload)
+  const resp = await gaiaApi.post<unknown>(`/v1/support/${supporteeUserName}`, payload)
   // const intentionId = resp.headers['location'].split('/').pop()
-  return axios.get<SupportIntention>(resp.headers['location'])
+  return gaiaApi.get<SupportIntention>(resp.headers['location'])
 }
 
 export type SupportIntentionUpdatePayload = {
@@ -73,7 +73,7 @@ export type SupportIntentionUpdatePayload = {
 }
 
 export async function patchSupportIntention(intentionUUID: string, payload: SupportIntentionUpdatePayload) {
-  return await axios.patch<unknown>(`/v1/support_intentions/${intentionUUID}`, payload)
+  return await gaiaApi.patch<unknown>(`/v1/support_intentions/${intentionUUID}`, payload)
 }
 
 export function useUserSupport(username: string) {

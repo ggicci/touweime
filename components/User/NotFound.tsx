@@ -1,10 +1,6 @@
 import Button from '@mui/material/Button'
-import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
-import CardContent from '@mui/material/CardContent'
-import CardHeader from '@mui/material/CardHeader'
 import Container from '@mui/material/Container'
-import Typography from '@mui/material/Typography'
+import Information from 'components/Information'
 import Link from 'components/Link'
 import useTranslation from 'next-translate/useTranslation'
 import { HomeRoute, PaymentSettingsRoute } from 'routes'
@@ -18,17 +14,16 @@ const ForAnonym = () => {
   const { t } = useTranslation('common')
 
   return (
-    <Card variant="outlined" sx={{ width: 400 }}>
-      <CardHeader title={404}></CardHeader>
-      <CardContent>
-        <Typography>{t('user-page.not-found.title-for-anonym')}</Typography>
-      </CardContent>
-      <CardActions>
+    <Information
+      variant="info"
+      title="404"
+      text={t('user-page.not-found.title-for-anonym')}
+      actions={
         <Link href={HomeRoute.href} underline="none">
           <Button>{t('user-page.not-found.goto-home')}</Button>
         </Link>
-      </CardActions>
-    </Card>
+      }
+    ></Information>
   )
 }
 
@@ -36,17 +31,16 @@ const ForPageOwner = () => {
   const { t } = useTranslation('common')
 
   return (
-    <Card variant="outlined" sx={{ width: 400 }}>
-      <CardHeader title={404}></CardHeader>
-      <CardContent>
-        <Typography>{t('user-page.not-found.title')}</Typography>
-      </CardContent>
-      <CardActions>
+    <Information
+      variant="warning"
+      title="404"
+      text={t('user-page.not-found.title')}
+      actions={
         <Link href={PaymentSettingsRoute.href} underline="none">
           <Button>{t('user-page.not-found.goto-settings')}</Button>
         </Link>
-      </CardActions>
-    </Card>
+      }
+    ></Information>
   )
 }
 

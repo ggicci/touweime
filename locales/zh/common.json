@@ -1,6 +1,6 @@
 {
   "site": {
-    "title": "投喂么",
+    "title": "投喂我",
     "description": "我们致力于投喂中文社区最棒的创作者，他们都是可爱的宝宝！！！",
     "welcome": "投喂我们最爱的宝贝"
   },
@@ -23,7 +23,9 @@
     "edit": "编辑",
     "follow": "关注",
     "unfollow": "取消关注",
-    "share": "分享"
+    "share": "分享",
+    "goto-home": "返回首页",
+    "goto-login": "登录"
   },
   "message": {
     "saved": "保存成功",
@@ -31,7 +33,9 @@
     "updated": "更新成功",
     "update-failed": "更新失败",
     "uploaded": "上传成功",
-    "upload-failed": "上传失败"
+    "upload-failed": "上传失败",
+    "logged-out": "登出成功",
+    "logout-failed": "登出失败"
   },
 
   "login-page": {
@@ -51,7 +55,7 @@
       "title": "投喂主页需要激活收款方式才能展示",
       "title-for-anonym": "用户不存在或者未激活投喂主页",
       "goto-settings": "前往设置",
-      "goto-home": "前往首页"
+      "goto-home": "返回首页"
     }
   },
 

@@ -13,7 +13,7 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import axios from 'axios'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
-import gaiaApi from 'lib/axios'
+import { gaiaApi } from 'lib/axios'
 import { getRandomPhoto, Photo } from 'lib/unsplash'
 import { GetServerSideProps } from 'next'
 import useTranslation from 'next-translate/useTranslation'
@@ -22,7 +22,9 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { User } from 'sdk/users'
 import { format } from 'url'
+
 // See https://image-component.nextjs.gallery/background
+
 const BackgroundWrapper = styled('div')(
   ({ theme }) => `
     position: 'fixed';
@@ -60,8 +62,6 @@ const Index = (props: Props) => {
       <BackgroundWrapper>
         <Image alt="Background" src={imageURL} layout="fill" objectFit="cover" quality={100}></Image>
       </BackgroundWrapper>
-      {/* <Grid container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Grid item xs={12} sm={10} md={8} sx={{ maxWidth: 'sm' }}> */}
       <Box sx={{ flexGrow: 1, maxWidth: 600 }}>
         <Card variant="outlined" sx={{ backgroundColor: 'rgba(255, 255, 255, 0.72)', backdropFilter: 'blur(5px)' }}>
           {/* <CardMedia component="img" height="280" image="/site-enter-cover.jpg" alt="site enter cover"></CardMedia> */}
@@ -126,8 +126,6 @@ const Index = (props: Props) => {
             </Stack>
           </CardContent>
         </Card>
-        {/* </Grid>
-      </Grid> */}
       </Box>
     </Container>
   )
