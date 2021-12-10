@@ -87,7 +87,6 @@ const Buttons = () => {
 
     try {
       const dataUrl = await toPng(ref.current, { cacheBust: false })
-      // const link = document.createElement('a')
       const blob = await (await fetch(dataUrl)).blob()
       const formData = new FormData()
       formData.append('file', blob, 'button.png')
@@ -99,11 +98,6 @@ const Buttons = () => {
 
       const newButtonUrl = `${process.env.NEXT_PUBLIC_GAIA_API_ENDPOINT}${resp.headers['location']}`
       setButtonUrl(newButtonUrl)
-
-      // const md5String = await md5Hex(blob)
-      // link.href = dataUrl
-      // link.download = 'button.png'
-      // link.click()
     } catch (error) {
       console.error(error)
       // FIXME(ggicci): display error
@@ -165,6 +159,14 @@ const Buttons = () => {
                 <TwitterPicker
                   onChangeComplete={(color) => handleBgcolorChanged(color.hex)}
                   triangle="hide"
+                  styles={{
+                    default: {
+                      card: {
+                        boxShadow: 'none',
+                        border: `1px solid ${theme.palette.divider}`,
+                      },
+                    },
+                  }}
                 ></TwitterPicker>
 
                 <Button variant="contained" sx={{ width: 1 }} onClick={generatePNG}>
