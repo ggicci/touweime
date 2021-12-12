@@ -24,7 +24,9 @@
     "edit": "Edit",
     "follow": "Follow",
     "unfollow": "Unfollow",
-    "share": "Share"
+    "share": "Share",
+    "goto-home": "Go back home",
+    "goto-login": "Go to login"
   },
   "message": {
     "saved": "Saved successfully",
@@ -92,5 +94,10 @@
     "content": "I found an excellent creator here! Let's support them together!",
     "tweet": "Tweet this",
     "weibo": "Share to Weibo"
+  },
+
+  "errors": {
+    "internal-server-error": "Internal Server Error",
+    "not-implemented": "Under Construction"
   }
 }

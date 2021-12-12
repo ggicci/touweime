@@ -1,11 +1,10 @@
 import Button from '@mui/material/Button'
-import Container from '@mui/material/Container'
 import Information from 'components/Information'
 import Link from 'components/Link'
 import useTranslation from 'next-translate/useTranslation'
+import React from 'react'
 import { HomeRoute, PaymentSettingsRoute } from 'routes'
 import { useLogin } from 'sdk/users'
-
 interface Props {
   username: string
 }
@@ -46,13 +45,11 @@ const ForPageOwner = () => {
 
 const UserNotFound = (props: Props) => {
   const { data: login } = useLogin()
-  const Display = login?.username === props.username ? ForPageOwner : ForAnonym
 
-  return (
-    <Container sx={{ py: 5, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <Display />
-    </Container>
-  )
+  if (login?.username === props.username) {
+    return <ForPageOwner></ForPageOwner>
+  }
+  return <ForAnonym></ForAnonym>
 }
 
 export default UserNotFound
