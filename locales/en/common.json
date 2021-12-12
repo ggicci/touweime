@@ -13,7 +13,11 @@
     "help": "Help",
     "login": "Log in",
     "logout": "Log out",
-    "visit-my-page": "Visit my page"
+    "visit-my-page": "Visit my page",
+    "about": "About",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "contact": "Contact Us"
   },
   "action": {
     "save": "Save",
@@ -99,5 +103,9 @@
   "errors": {
     "internal-server-error": "Internal Server Error",
     "not-implemented": "Under Construction"
+  },
+
+  "footer": {
+    "copyright": "© {{ year }} Touwei.me"
   }
 }

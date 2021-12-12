@@ -81,6 +81,27 @@ export const HelpRoute = {
   icon: faQuestionCircle,
 }
 
+export const AboutRoute = {
+  id: 'about',
+  href: { pathname: '/about' },
+  i18nKey: 'common:nav.about',
+  icon: faQuestionCircle,
+}
+
+export const PrivacyRoute = {
+  id: 'privacy',
+  href: { pathname: '/privacy' },
+  i18nKey: 'common:nav.privacy',
+  icon: faQuestionCircle,
+}
+
+export const TermsRoute = {
+  id: 'terms',
+  href: { pathname: '/terms' },
+  i18nKey: 'common:nav.terms',
+  icon: faQuestionCircle,
+}
+
 export const LoginRoute = {
   id: 'login',
   href: { pathname: '/login' },

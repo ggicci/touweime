@@ -56,7 +56,7 @@ const Information = (props: Props) => {
   ) : null
 
   return (
-    <Container sx={{ minHeight: '80vh', display: 'flex', py: 5, alignItems: 'flex-start', justifyContent: 'center' }}>
+    <Container sx={{ minHeight: '90vh', display: 'flex', py: 5, alignItems: 'flex-start', justifyContent: 'center' }}>
       <Card variant="outlined" sx={{ width: 450 }}>
         <CardContent>
           <Stack direction="row" spacing={2} alignItems="center">

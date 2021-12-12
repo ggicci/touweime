@@ -12,7 +12,7 @@ const MarkdownDocument = (props: Props) => {
   const router = useRouter()
 
   return (
-    <Container component={Paper} variant="outlined" sx={{ my: 3, py: 2 }}>
+    <Container component={Paper} variant="outlined" sx={{ my: 3, py: 2, minHeight: '90vh' }}>
       <MarkdownRenderer remote={`/files/${router.locale || 'zh'}/${name}.md`}></MarkdownRenderer>
     </Container>
   )

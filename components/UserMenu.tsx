@@ -89,6 +89,7 @@ const AvatarWithMenu = (props: AvatarWithMenuProps) => {
           </CardContent>
         </Card>
 
+        {/* FIXME(ggicci): use a route with path parameter? */}
         <MenuItem
           component={Link}
           variant="body2"

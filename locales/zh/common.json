@@ -12,7 +12,11 @@
     "help": "帮助",
     "login": "登录",
     "logout": "登出",
-    "visit-my-page": "查看我的主页"
+    "visit-my-page": "查看我的主页",
+    "about": "关于",
+    "privacy": "隐私政策",
+    "terms": "服务条款",
+    "contact": "联系我们"
   },
   "action": {
     "save": "保存",
@@ -100,5 +104,9 @@
   "errors": {
     "internal-server-error": "服务器内部错误",
     "not-implemented": "此功能正在建设中"
+  },
+
+  "footer": {
+    "copyright": "© {{ year }} 投喂我"
   }
 }
