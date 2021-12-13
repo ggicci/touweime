@@ -16,7 +16,7 @@
     "visit-my-page": "Visit my page",
     "about": "About",
     "privacy": "Privacy Policy",
-    "terms": "Terms of Service",
+    "terms": "Terms & Conditions",
     "contact": "Contact Us"
   },
   "action": {
@@ -106,6 +106,6 @@
   },
 
   "footer": {
-    "copyright": "© {{ year }} Touwei.me"
+    "copyright": "© {{ year }} TOUWEI.ME"
   }
 }
