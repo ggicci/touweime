@@ -5,9 +5,9 @@
     "subheader": {
       "account-settings": "帐号设置"
     },
-    "profile": "主页资料",
-    "payment": "支付收款",
-    "buttons": "投喂按钮"
+    "profile": "个人主页",
+    "payment": "收款设置",
+    "buttons": "网站按钮"
   },
 
   "profile": {
