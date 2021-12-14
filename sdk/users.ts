@@ -5,6 +5,7 @@ export interface User {
   username: string
   avatar: string
   display: string
+  email: string
 }
 
 export interface Profile {

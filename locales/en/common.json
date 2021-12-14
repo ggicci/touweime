@@ -107,5 +107,9 @@
 
   "footer": {
     "copyright": "© {{ year }} TOUWEI.ME"
+  },
+
+  "chatwoot": {
+    "launcher-title": "Chat with us"
   }
 }

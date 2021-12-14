@@ -121,7 +121,18 @@ export const HomeRoute = {
   href: { pathname: '/' },
   i18nKey: 'common:nav.home',
   icon: faHome,
-  children: [SettingsRoute, DiscoverRoute, SupportRoute, DashboardRoute, LoginRoute, LogoutRoute, HelpRoute],
+  children: [
+    SettingsRoute,
+    DiscoverRoute,
+    SupportRoute,
+    DashboardRoute,
+    AboutRoute,
+    HelpRoute,
+    PrivacyRoute,
+    TermsRoute,
+    LoginRoute,
+    LogoutRoute,
+  ],
 }
 
 export const RootRoute = HomeRoute
@@ -164,5 +175,22 @@ export function findActiveRoute(root: Route, pathname: string): Route | null {
   // return activeRoutes.length > 0 ? activeRoutes[activeRoutes.length - 1][0] : null
   return active[0]
 }
+
+// type RouteIndexByPathname = { [key: string]: Route }
+
+// function __traverse(root: Route, all: RouteIndexByPathname) {
+//   if (root.href.pathname) {
+//     all[root.href.pathname] = root
+//   }
+//   for (const child of root.children || []) {
+//     __traverse(child, all)
+//   }
+// }
+// const __ALL_ROUTES: RouteIndexByPathname = {}
+// __traverse(RootRoute, __ALL_ROUTES)
+
+// export function getRouteByPathname(pathname: string): Route | undefined {
+//   return __ALL_ROUTES[pathname]
+// }
 
 export default RootRoute

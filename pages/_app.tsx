@@ -1,4 +1,5 @@
 import { Container, ThemeProvider } from '@mui/material'
+import { onPageLoaded as chatwootOnPageLoaded } from 'components/Chatwoot'
 import Footer from 'components/Footer'
 import Header from 'components/Header'
 import PageContext from 'components/PageContext'
@@ -6,15 +7,23 @@ import { axiosFetcher } from 'lib/axios'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import { SnackbarProvider } from 'notistack'
-import React from 'react'
+import React, { useEffect } from 'react'
 import RootRoute, { findActiveRoute } from 'routes'
 import 'styles/globals.scss'
 import { SWRConfig } from 'swr'
 import theme from 'themes/default'
 
+function onPageLoaded() {
+  chatwootOnPageLoaded()
+}
+
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const activeRoute = findActiveRoute(RootRoute, router.pathname)
+
+  useEffect(() => {
+    onPageLoaded()
+  })
 
   return (
     <SWRConfig

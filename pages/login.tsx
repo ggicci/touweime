@@ -52,7 +52,7 @@ interface Props {
   backgroundImage: Photo | null
 }
 
-const Index = (props: Props) => {
+const Login = (props: Props) => {
   const { t } = useTranslation('common')
   const [isSigningWithGitHub, setIsSigningWithGitHub] = useState(false)
   const imageURL = props.backgroundImage ? props.backgroundImage.urls.full : ''
@@ -160,4 +160,4 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   return { props: { backgroundImage: photo } }
 }
 
-export default Index
+export default Login

@@ -108,5 +108,9 @@
 
   "footer": {
     "copyright": "© {{ year }} 投喂我"
+  },
+
+  "chatwoot": {
+    "launcher-title": "联系我们"
   }
 }

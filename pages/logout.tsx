@@ -16,6 +16,10 @@ const Logout = (props: LogoutProps) => {
   const { mutate } = useSWRConfig()
 
   useEffect(() => {
+    if (!error && window.$chatwoot) {
+      window.$chatwoot.reset()
+    }
+
     mutate('/v1/user', null)
   })
 
