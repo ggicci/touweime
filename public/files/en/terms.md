@@ -10,7 +10,7 @@ The following terminology applies to these Terms and Conditions, Privacy Stateme
 
 ## Cookies
 
-We employ the use of cookies. By accessing TOUWEI.ME, you agreed to use cookies in agreement with the TOUWEI.ME's [Privacy Policy](/privacy).
+We employ the use of cookies. By accessing TOUWEI.ME, you agreed to use cookies in agreement with the TOUWEI.ME's [Privacy Policy](/en/privacy).
 
 Most interactive websites use cookies to let us retrieve the user’s details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.
 
@@ -82,7 +82,7 @@ We shall not be hold responsible for any content that appears on your Website. Y
 
 ## Your Privacy
 
-Please read [Privacy Policy](/privacy)
+Please read [Privacy Policy](/en/privacy)
 
 ## Reservation of Rights
 

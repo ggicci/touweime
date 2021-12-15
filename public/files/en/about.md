@@ -15,16 +15,6 @@ If Xiao Ming’s fans feel that Xiao Ming’s sharing is helpful to them, and pl
 then Xiao Ming’s fans can choose to "feed" Xiao Ming on Xiao Ming’s homepage at touwei.me.
 Completing the "feeding" operation requires a certain fee, and the fee will be paid to Xiao Ming to encourage him to persist in comic creation and sharing.
 
-## FAQ
-
-1. Can anyone register as a creator on the touwei.me website? How to register?
-
-   Yes. New users can click the login button in the upper right corner to register.
-
-2. Do I (creators) need to pay a certain amount of processing fees when receiving support from my "feeders" ?
-
-   No.
-
 ## Credit
 
 Thanks to the following creators for providing free materials for this site:
@@ -33,4 +23,6 @@ Thanks to the following creators for providing free materials for this site:
 
 ## Contacts
 
-For business cooperation, please contact coop@touwei.me
+For business cooperation, please send us an email at [coop@touwei.me](mailto:coop@touwei.me?Subject=%5Btouwei.me%5D%20Intention%20of%20Business%20Cooperation)
+
+For service support, please move to [help](/en/help).

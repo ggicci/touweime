@@ -1,10 +1,13 @@
 import CryptoHmacSha256 from 'crypto-js/hmac-sha256'
 import useTranslation from 'next-translate/useTranslation'
-import { useRouter } from 'next/router'
 import Script from 'next/script'
 import { useLogin, User } from 'sdk/users'
 
-const RE_SHOULD_SHOW_CHATWOOT_ON_URL = /^(\/\w+?)?\/(help|privacy|terms)(\/.+?)?$/
+{
+  /* Chatwoot SDK: https://www.chatwoot.com/docs/product/channels/live-chat/sdk/setup */
+}
+
+const RE_SHOULD_SHOW_CHATWOOT_ON_URL = /^(\/\w+?)?\/(about|help|privacy|terms)(\/.+?)?$/
 
 function computeIdentifierHash(identifier: string): string {
   // FIXME(ggicci): move this to server side (get user api)
@@ -28,7 +31,6 @@ function showChatwoot(show: boolean) {
 }
 
 export function onPageLoaded() {
-  console.info('chatwoot::onPageLoaded')
   if (window.$chatwoot && window.$chatwoot.isOpen) {
     return
   }
@@ -41,16 +43,12 @@ export function onPageLoaded() {
 
 const Chatwoot = () => {
   const { t } = useTranslation('common')
-  const router = useRouter()
   const { data: login, isValidating } = useLogin()
 
   if (isValidating) {
     return null
   }
 
-  {
-    /* Chatwoot SDK: https://www.chatwoot.com/docs/product/channels/live-chat/sdk/setup */
-  }
   return (
     <Script
       id="chatwoot"
@@ -90,16 +88,24 @@ const Chatwoot = () => {
             username: login.username,
           })
 
+          console.debug('chatwoot: login as', login)
           return true
         }
 
-        if (!loginChatwootAs(login)) {
-          setTimeout(() => {
-            loginChatwootAs(login)
-          }, 3000)
-        }
+        // Try to login chatwoot as the user, max 10 times.
+
+        let retries = 0
+        const interval = setInterval(() => {
+          if (loginChatwootAs(login)) {
+            clearInterval(interval)
+          } else if (retries >= 10) {
+            clearInterval(interval)
+          } else {
+            retries++
+          }
+        }, 1000)
       }}
-    ></Script>
+    />
   )
 }
 

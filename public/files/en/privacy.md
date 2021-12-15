@@ -8,7 +8,7 @@ This Privacy Policy applies only to our online activities and is valid for visit
 
 ## Consent
 
-By using our website, you hereby consent to our Privacy Policy and agree to its terms.
+By using our website, you hereby consent to our Privacy Policy and agree to its [terms](/en/terms).
 
 ## Information we collect
 
