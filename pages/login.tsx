@@ -71,7 +71,7 @@ const Login = (props: Props) => {
                 {t('site.welcome')}
               </Typography>
               <Typography variant="body1" align="center">
-                {t('site.description', { countUsers: 0 })}
+                {t('site.slogan', { countUsers: 0 })}
               </Typography>
               {/* continue with GitHub */}
               <Link href={buildSigninUrl('/')} locale={false} passHref>

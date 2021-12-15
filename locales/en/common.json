@@ -1,10 +1,10 @@
 {
   "site": {
     "title": "Feed Me",
-    "description": "We are creating awesome things, we need your support!",
-    "welcome": "Support the creative contributors!"
+    "slogan": "Make sharing and supporting a positive circle",
+    "description": "Share your creation with the world anywhere, and get paid from the community.",
+    "welcome": "Let's support these excellent creators together!"
   },
-
   "nav": {
     "home": "Home",
     "support": "Support",
@@ -39,6 +39,10 @@
     "update-failed": "Update failed",
     "uploaded": "Uploaded successfully",
     "upload-failed": "Upload failed"
+  },
+
+  "home-page": {
+    "make-it-alive": "Make it alive"
   },
 
   "login-page": {

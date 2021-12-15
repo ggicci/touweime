@@ -190,7 +190,7 @@ const Profile = () => {
               startAdornment: (
                 <React.Fragment>
                   <FontAwesomeSvgIcon icon={faLink} />
-                  <InputAdornment position="start">{`${process.env.NEXT_PUBLIC_HOST}/`}</InputAdornment>
+                  <InputAdornment position="start">{`${process.env.NEXT_PUBLIC_DOMAIN}/`}</InputAdornment>
                 </React.Fragment>
               ),
             }}

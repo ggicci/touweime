@@ -1,8 +1,9 @@
 {
   "site": {
     "title": "投喂我",
-    "description": "我们致力于投喂中文社区最棒的创作者，他们都是可爱的宝宝！！！",
-    "welcome": "投喂我们最爱的宝贝"
+    "slogan": "让分享和支持成为一个良性循环",
+    "description": "在任何地方与世界分享你的创作，并从社区获得报酬。",
+    "welcome": "让我们一起来支持这些优秀的创作者！"
   },
   "nav": {
     "home": "首页",
@@ -40,6 +41,10 @@
     "upload-failed": "上传失败",
     "logged-out": "登出成功",
     "logout-failed": "登出失败"
+  },
+
+  "home-page": {
+    "make-it-alive": "激活我的主页"
   },
 
   "login-page": {

@@ -1,6 +1,6 @@
 # About
 
-TOUWEI.ME (aka. Feed Me) is a website aimed to help creators gaining support from the community。
+TOUWEI.ME (aka. Feed Me) is a website aimed to help creators gaining support from the community.
 
 ## Terminologies
 
