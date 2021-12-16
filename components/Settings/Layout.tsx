@@ -12,7 +12,7 @@ import Link from 'components/Link'
 import PageContext from 'components/PageContext'
 import useTranslation from 'next-translate/useTranslation'
 import { ReactChild } from 'react'
-import { formatHref, SettingsRoute } from 'routes'
+import { SettingsRoute } from 'routes'
 
 const SettingsLayout = ({ children }: { children: ReactChild }) => {
   const { t } = useTranslation('settings')
@@ -28,13 +28,7 @@ const SettingsLayout = ({ children }: { children: ReactChild }) => {
                   subheader={<ListSubheader component="div">{t('nav.subheader.account-settings')}</ListSubheader>}
                 >
                   {SettingsRoute.children.map((route) => (
-                    <ListItem
-                      key={route.id}
-                      component={Link}
-                      href={formatHref(route.href)}
-                      color="inherit"
-                      disablePadding
-                    >
+                    <ListItem key={route.id} component={Link} to={route.href} color="inherit" disablePadding>
                       <ListItemButton selected={activeRoute?.id == route.id}>
                         <ListItemIcon>
                           <FontAwesomeSvgIcon icon={route.icon!}></FontAwesomeSvgIcon>

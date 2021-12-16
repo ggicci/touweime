@@ -12,9 +12,7 @@ import {
   faSignOutAlt,
   faUser,
 } from '@fortawesome/free-solid-svg-icons'
-import { format, UrlObject } from 'url'
-
-export const formatHref = format
+import { UrlObject } from 'url'
 
 export interface Route {
   id: string

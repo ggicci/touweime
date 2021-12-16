@@ -13,12 +13,14 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import axios from 'axios'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
+import Link from 'components/Link'
 import { gaiaApi } from 'lib/axios'
+import { localeRedirect } from 'lib/misc'
 import { getRandomPhoto, Photo } from 'lib/unsplash'
 import { GetServerSideProps } from 'next'
 import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { User } from 'sdk/users'
 import { format } from 'url'
@@ -54,8 +56,11 @@ interface Props {
 
 const Login = (props: Props) => {
   const { t } = useTranslation('common')
+  const router = useRouter()
   const [isSigningWithGitHub, setIsSigningWithGitHub] = useState(false)
   const imageURL = props.backgroundImage ? props.backgroundImage.urls.full : ''
+  const passedInReturnTo = typeof router.query.return_to === 'string' ? router.query.return_to || '/' : '/'
+  const returnTo = localeRedirect(passedInReturnTo, router.locale, router.defaultLocale)
 
   return (
     <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 16 }}>
@@ -68,25 +73,26 @@ const Login = (props: Props) => {
           <CardContent>
             <Stack spacing={2}>
               <Typography variant="h5" align="center">
-                {t('site.welcome')}
+                {t('site.slogan')}
               </Typography>
               <Typography variant="body1" align="center">
-                {t('site.slogan', { countUsers: 0 })}
+                {t('site.welcome', { count: 0 })}
               </Typography>
               {/* continue with GitHub */}
-              <Link href={buildSigninUrl('/')} locale={false} passHref>
-                <LoadingButton
-                  variant="contained"
-                  color="github"
-                  size="large"
-                  startIcon={<FontAwesomeSvgIcon icon={faGithub}></FontAwesomeSvgIcon>}
-                  fullWidth
-                  onClick={() => setIsSigningWithGitHub(true)}
-                  loading={isSigningWithGitHub}
-                >
-                  {t('login-page.continue-with-github')}
-                </LoadingButton>
-              </Link>
+              <LoadingButton
+                component={Link}
+                to={buildSigninUrl(returnTo)}
+                locale={false}
+                variant="contained"
+                color="github"
+                size="large"
+                startIcon={<FontAwesomeSvgIcon icon={faGithub}></FontAwesomeSvgIcon>}
+                fullWidth
+                onClick={() => setIsSigningWithGitHub(true)}
+                loading={isSigningWithGitHub}
+              >
+                {t('login-page.continue-with-github')}
+              </LoadingButton>
 
               <Button
                 variant="contained"
@@ -131,8 +137,9 @@ const Login = (props: Props) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
   const cookies = req.headers.cookie || ''
+  const returnTo = typeof query.return_to === 'string' ? query.return_to : '/'
 
   try {
     await gaiaApi.get<User>('/v1/user', {
@@ -143,7 +150,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     return {
       redirect: {
         permanent: false,
-        destination: '/',
+        destination: returnTo || '/',
       },
     }
   } catch (err) {

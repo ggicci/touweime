@@ -43,7 +43,7 @@ const Information = (props: Props) => {
 
   const defaultActions = (
     <React.Fragment>
-      <Link href={HomeRoute.href} underline="none">
+      <Link to={HomeRoute.href} underline="none">
         <Button>{t('action.goto-home')}</Button>
       </Link>
     </React.Fragment>

@@ -22,6 +22,7 @@ export default function Footer() {
         variant="outlined"
         elevation={0}
         sx={{
+          mt: 3,
           backgroundColor: 'rgba(255, 255, 255, 0.72)',
           backdropFilter: 'blur(5px)',
         }}
@@ -30,7 +31,7 @@ export default function Footer() {
           <Toolbar>
             <Stack direction="row" spacing={2} sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
-                <Link key={page.id} href={page.href} underline="hover">
+                <Link key={page.id} to={page.href} underline="hover">
                   <Typography variant="body2" color="textSecondary">
                     {t(page.i18nKey)}
                   </Typography>

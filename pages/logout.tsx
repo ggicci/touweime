@@ -20,7 +20,9 @@ const Logout = (props: LogoutProps) => {
       window.$chatwoot.reset()
     }
 
+    // Clean session dependent data.
     mutate('/v1/user', null)
+    mutate('/v1/settings', null)
   })
 
   const title = error ? t('message.logout-failed') : t('message.logged-out')

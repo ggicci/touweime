@@ -38,7 +38,9 @@
     "updated": "Updated successfully",
     "update-failed": "Update failed",
     "uploaded": "Uploaded successfully",
-    "upload-failed": "Upload failed"
+    "upload-failed": "Upload failed",
+    "logged-out": "Logged out successfully",
+    "logout-failed": "Logout failed"
   },
 
   "home-page": {
@@ -105,8 +107,14 @@
   },
 
   "errors": {
+    "no-response": "No response from server",
+    "no-connections": "No connections, please check your network",
     "internal-server-error": "Internal Server Error",
     "not-implemented": "Under Construction"
+  },
+
+  "error-report": {
+    "see-docs": "See documentation"
   },
 
   "footer": {

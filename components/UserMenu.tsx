@@ -15,7 +15,7 @@ import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
 import Link from 'components/Link'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { formatHref, HelpRoute, LoginRoute, LogoutRoute, Route, SettingsRoute } from 'routes'
+import { HelpRoute, LoginRoute, LogoutRoute, Route, SettingsRoute } from 'routes'
 import { useLogin, User } from 'sdk/users'
 
 function LoginButton() {
@@ -24,7 +24,8 @@ function LoginButton() {
   return (
     <Button
       color="inherit"
-      href={formatHref(LoginRoute.href)}
+      component={Link}
+      to={LoginRoute.href}
       startIcon={<FontAwesomeSvgIcon icon={LoginRoute.icon!}></FontAwesomeSvgIcon>}
     >
       {t(LoginRoute.i18nKey)}
@@ -90,13 +91,7 @@ const AvatarWithMenu = (props: AvatarWithMenuProps) => {
         </Card>
 
         {/* FIXME(ggicci): use a route with path parameter? */}
-        <MenuItem
-          component={Link}
-          variant="body2"
-          href={{ pathname: `/${user.username}` }}
-          target="_blank"
-          underline="hover"
-        >
+        <MenuItem component={Link} variant="body2" to={{ pathname: `/${user.username}` }} target="_blank">
           {t('nav.visit-my-page')}
           <FontAwesomeSvgIcon icon={faExternalLinkAlt} fontSize="inherit"></FontAwesomeSvgIcon>
         </MenuItem>
@@ -116,7 +111,7 @@ const AvatarWithMenu = (props: AvatarWithMenuProps) => {
             )
           }
           return (
-            <MenuItem component={Link} key={id} href={formatHref(href)}>
+            <MenuItem component={Link} key={id} to={href}>
               {itemIcon}
               <ListItemText>{label}</ListItemText>
             </MenuItem>

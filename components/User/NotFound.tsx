@@ -18,7 +18,7 @@ const ForAnonym = () => {
       title="404"
       text={t('user-page.not-found.title-for-anonym')}
       actions={
-        <Link href={HomeRoute.href} underline="none">
+        <Link to={HomeRoute.href} underline="none">
           <Button>{t('user-page.not-found.goto-home')}</Button>
         </Link>
       }
@@ -35,7 +35,7 @@ const ForPageOwner = () => {
       title="404"
       text={t('user-page.not-found.title')}
       actions={
-        <Link href={PaymentSettingsRoute.href} underline="none">
+        <Link to={PaymentSettingsRoute.href} underline="none">
           <Button>{t('user-page.not-found.goto-settings')}</Button>
         </Link>
       }

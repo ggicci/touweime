@@ -4,26 +4,30 @@ import MuiLink, { LinkProps as MuiLinkProps } from '@mui/material/Link'
 import { styled } from '@mui/material/styles'
 import clsx from 'clsx'
 import NextLink, { LinkProps as NextLinkProps } from 'next/link'
-import { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router'
 import React from 'react'
+import { format } from 'url'
 
 // Add support for the sx prop for consistency with the other branches.
 const Anchor = styled('a')({})
 
 type Url = NextLinkProps['href']
 
+function reloadPage() {
+  Router.reload()
+}
+
 interface NextLinkComposedProps
   extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>,
     Omit<NextLinkProps, 'href' | 'as' | 'passHref'> {
   to: Url
-  href?: Url
 }
 
 const NextLinkComposed = React.forwardRef<HTMLAnchorElement, NextLinkComposedProps>(function NextLinkComposed(
   props,
   ref,
 ) {
-  const { to, href, replace, scroll, shallow, prefetch, locale, ...other } = props
+  const { to, replace, scroll, shallow, prefetch, locale, ...other } = props
 
   return (
     <NextLink
@@ -42,10 +46,15 @@ const NextLinkComposed = React.forwardRef<HTMLAnchorElement, NextLinkComposedPro
 
 export type LinkProps = {
   activeClassName?: string
-  href: Url
+  to: Url
   noLinkStyle?: boolean
+  forceReload?: boolean
 } & Omit<NextLinkComposedProps, 'to' | 'linkAs' | 'href'> &
   Omit<MuiLinkProps, 'href'>
+
+function isExternalLink(href: Url | string): boolean {
+  return typeof href === 'string' && (href.indexOf('http') === 0 || href.indexOf('mailto:') === 0)
+}
 
 // A styled version of the Next.js Link component:
 // https://nextjs.org/docs/#with-link
@@ -53,32 +62,34 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(props,
   const {
     activeClassName = 'active',
     className: classNameProps,
-    href,
+    to,
     noLinkStyle,
     role, // Link don't have roles.
+    forceReload,
     ...other
   } = props
 
   const router = useRouter()
-  const pathname = typeof href === 'string' ? href : href.pathname
+  const pathname = typeof to === 'string' ? to : to.pathname
   const className = clsx(classNameProps, {
     [activeClassName]: router.pathname === pathname && activeClassName,
   })
 
-  const isExternal = typeof href === 'string' && (href.indexOf('http') === 0 || href.indexOf('mailto:') === 0)
-  if (isExternal) {
+  const strUrl = typeof to === 'string' ? to : format(to)
+
+  if (isExternalLink(to)) {
     if (noLinkStyle) {
-      return <Anchor className={className} href={href} ref={ref} {...other} />
+      return <Anchor className={className} href={strUrl} ref={ref} {...other} />
     }
 
-    return <MuiLink className={className} href={href} ref={ref} {...other} />
+    return <MuiLink className={className} href={strUrl} ref={ref} {...other} />
   }
 
   if (noLinkStyle) {
-    return <NextLinkComposed className={className} ref={ref} to={href} {...other} />
+    return <NextLinkComposed className={className} ref={ref} to={to} {...other} />
   }
 
-  return <MuiLink component={NextLinkComposed} className={className} ref={ref} to={href} {...other} />
+  return <MuiLink component={NextLinkComposed} className={className} ref={ref} to={to} {...other} />
 })
 
 export default Link

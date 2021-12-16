@@ -1,5 +1,5 @@
+import { localeRedirect } from 'lib/misc'
 import { GetServerSideProps } from 'next'
-import { formatHref, SettingsRoute } from 'routes'
 
 const Settings = () => {
   return null
@@ -7,11 +7,11 @@ const Settings = () => {
 
 Settings.className = 'Settings'
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ locale, defaultLocale }) => {
   return {
     redirect: {
       permanent: false,
-      destination: formatHref(SettingsRoute.children[0].href),
+      destination: localeRedirect('/settings/profile', locale, defaultLocale),
     },
   }
 }

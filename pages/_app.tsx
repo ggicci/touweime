@@ -1,4 +1,5 @@
 import { Container, ThemeProvider } from '@mui/material'
+import axios from 'axios'
 import { onPageLoaded as chatwootOnPageLoaded } from 'components/Chatwoot'
 import Footer from 'components/Footer'
 import Header from 'components/Header'
@@ -17,6 +18,20 @@ function onPageLoaded() {
   chatwootOnPageLoaded()
 }
 
+function swrIsSessionDependentKey(key: string) {
+  const SESSIONED_KEYS = new Set(['/v1/user', '/v1/settings'])
+  return SESSIONED_KEYS.has(key)
+}
+
+function swrShouldLoginOnAuthError(error: any, key: string): boolean {
+  if (axios.isAxiosError(error)) {
+    if (error.response?.status === 401 && swrIsSessionDependentKey(key)) {
+      return true
+    }
+  }
+  return false
+}
+
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const activeRoute = findActiveRoute(RootRoute, router.pathname)
@@ -29,6 +44,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <SWRConfig
       value={{
         fetcher: axiosFetcher,
+        onErrorRetry: (error, key) => {},
         onError: (error, key) => {},
         revalidateOnFocus: false,
       }}

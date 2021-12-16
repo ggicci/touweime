@@ -37,7 +37,7 @@ const Header = (props: { username: string }) => {
   }
 
   const editButton = canEditProfile() ? (
-    <Link href={ProfileSettingsRoute.href}>
+    <Link to={ProfileSettingsRoute.href}>
       <Button variant="contained">{t('user-page.edit-profile')}</Button>
     </Link>
   ) : null

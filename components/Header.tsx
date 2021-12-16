@@ -8,11 +8,38 @@ import Image from 'next/image'
 import React from 'react'
 import { DiscoverRoute, HomeRoute, SupportRoute } from 'routes'
 
+const LOGOS = [
+  'fried-egg.svg',
+  'popsicle.svg',
+  'chips.svg',
+  'doughnut.svg',
+  'pizza.svg',
+  'lobster.svg',
+  'grapes.svg',
+  'drumstick.svg',
+  'fish.svg',
+  'apple.svg',
+  'cheese.svg',
+  'shrimp.svg',
+  'instant-noodles.svg',
+  'sushi.svg',
+  'hot-dog.svg',
+  'avocado.svg',
+  'leaves.svg',
+  'bread.svg',
+  'onion.svg',
+  'kamaboko.svg',
+  'cupcake.svg',
+  'beef.svg',
+  'burger.svg',
+]
+
 const SiteLogo = () => {
   const { t } = useTranslation('common')
+  const logo = LOGOS[Math.floor(Math.random() * LOGOS.length)]
   return (
     <Box sx={{ display: 'inline-flex', alignItems: 'center' }}>
-      <Image src="/logo.svg" width={40} height={40} alt="site logo"></Image>
+      <Image src={`/images/${logo}`} width={40} height={40} alt="site logo"></Image>
       <Typography variant="h1" sx={{ ml: 2, fontSize: '1.75rem', fontWeight: 400 }}>
         {t('site.title')}
       </Typography>
@@ -26,7 +53,7 @@ const AppNavItems = () => {
   return (
     <Box sx={{ px: 2 }}>
       {items.map(({ id, href, icon }) => (
-        <IconButton component={Link} key={id} href={href} color="inherit">
+        <IconButton component={Link} key={id} to={href} color="inherit">
           <FontAwesomeSvgIcon icon={icon}></FontAwesomeSvgIcon>
         </IconButton>
       ))}
@@ -53,7 +80,7 @@ export default function Header() {
       >
         <Container disableGutters={true}>
           <Toolbar>
-            <Link href={HomeRoute.href} underline="none">
+            <Link to="/" underline="none" forceReload>
               <SiteLogo></SiteLogo>
             </Link>
             <Box sx={{ flexGrow: 1 }}></Box>
