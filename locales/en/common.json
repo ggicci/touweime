@@ -44,7 +44,9 @@
   },
 
   "home-page": {
-    "make-it-alive": "Make it alive"
+    "make-it-alive": "Make it alive",
+    "visit-my-page": "Visit my page",
+    "activate-my-page": "Activate my page"
   },
 
   "login-page": {

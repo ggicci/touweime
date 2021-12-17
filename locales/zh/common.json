@@ -44,7 +44,9 @@
   },
 
   "home-page": {
-    "make-it-alive": "激活我的主页"
+    "make-it-alive": "注册我的主页",
+    "visit-my-page": "访问我的主页",
+    "activate-my-page": "激活我的主页"
   },
 
   "login-page": {

@@ -7,7 +7,16 @@ import { useLogin, User } from 'sdk/users'
   /* Chatwoot SDK: https://www.chatwoot.com/docs/product/channels/live-chat/sdk/setup */
 }
 
-const RE_SHOULD_SHOW_CHATWOOT_ON_URL = /^(\/\w+?)?\/(about|help|privacy|terms)(\/.+?)?$/
+function shouldShowChatwoot(pathname: string): boolean {
+  if (pathname === '/' || pathname === '/en') {
+    return true
+  }
+  if (/^(\/\w+?)?\/(about|help|privacy|terms)(\/.+?)?$/.test(pathname)) {
+    return true
+  }
+
+  return false
+}
 
 function computeIdentifierHash(identifier: string): string {
   // FIXME(ggicci): move this to server side (get user api)
@@ -34,7 +43,7 @@ export function onPageLoaded() {
   if (window.$chatwoot && window.$chatwoot.isOpen) {
     return
   }
-  if (RE_SHOULD_SHOW_CHATWOOT_ON_URL.test(window.location.pathname)) {
+  if (shouldShowChatwoot(window.location.pathname)) {
     showChatwoot(true)
   } else {
     showChatwoot(false) // hide chatwoot
@@ -98,6 +107,7 @@ const Chatwoot = () => {
         const interval = setInterval(() => {
           if (loginChatwootAs(login)) {
             clearInterval(interval)
+            onPageLoaded()
           } else if (retries >= 10) {
             clearInterval(interval)
           } else {

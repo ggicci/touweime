@@ -41,6 +41,24 @@ const RegistrationGuide = () => {
     </Button>
   )
 
+  const activateButton = (
+    <Button
+      variant="contained"
+      size="large"
+      disableElevation
+      sx={{
+        borderRadius: '50px',
+        fontWeight: 'bold',
+      }}
+      component={Link}
+      to={{
+        pathname: '/settings/payment',
+      }}
+    >
+      {t('home-page.activate-my-page')}
+    </Button>
+  )
+
   const visitMyPageButton = (
     <Button
       variant="contained"
@@ -58,8 +76,8 @@ const RegistrationGuide = () => {
   )
 
   let actionButton = registerButton
-  if (settings && settings.is_alive) {
-    actionButton = visitMyPageButton
+  if (settings) {
+    actionButton = settings.is_alive ? visitMyPageButton : activateButton
   }
 
   function handleLinkKeyChanged(event: React.ChangeEvent<HTMLInputElement>) {

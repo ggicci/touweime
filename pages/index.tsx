@@ -3,6 +3,7 @@ import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import PublicUserList from 'components/PublicUserList'
 import RegistrationGuide from 'components/RegistrationGuide'
 import type { NextPage } from 'next'
 import useTranslation from 'next-translate/useTranslation'
@@ -21,7 +22,7 @@ const SloganSection = () => {
           {t('site.description')}
         </Typography>
         <Grid container justifyContent="center">
-          <Grid item xs={12} sm={8} md={6}>
+          <Grid item xs={12} sm={10} md={8}>
             <RegistrationGuide></RegistrationGuide>
           </Grid>
         </Grid>
@@ -35,6 +36,7 @@ const Home: NextPage = () => {
     <React.Fragment>
       <Container>
         <SloganSection></SloganSection>
+        <PublicUserList></PublicUserList>
       </Container>
     </React.Fragment>
   )

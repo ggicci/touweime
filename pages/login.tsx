@@ -98,6 +98,7 @@ const Login = (props: Props) => {
                 variant="contained"
                 color="apple"
                 size="large"
+                disabled
                 startIcon={<FontAwesomeSvgIcon icon={faApple}></FontAwesomeSvgIcon>}
                 fullWidth
               >
