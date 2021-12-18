@@ -11,11 +11,11 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
 import Link from 'components/Link'
+import { useUserSupport } from 'lib/support'
+import { useLogin } from 'lib/users'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
 import { ProfileSettingsRoute } from 'routes'
-import { useUserSupport } from 'sdk/support'
-import { useLogin } from 'sdk/users'
 import ShareWindow from './ShareWindow'
 
 const Header = (props: { username: string }) => {

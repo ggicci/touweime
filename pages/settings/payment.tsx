@@ -17,10 +17,10 @@ import DoubleFacedButton from 'components/DoubleFacedButton'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
 import SettingsLayout from 'components/Settings/Layout'
 import ConfigurePayeeCodeDialog from 'components/Settings/Payment/ConfigurePayeeCodeDialog'
+import { PayeeCodeKind, PayeeCodeSettings, PaymentState, updateSettings, useSettings } from 'lib/settings'
 import useTranslation from 'next-translate/useTranslation'
 import { useSnackbar } from 'notistack'
 import React from 'react'
-import { PayeeCodeKind, PayeeCodeSettings, PaymentState, updateSettings, useSettings } from 'sdk/settings'
 
 interface PaymentMethodListItemProps {
   payment: PayeeCodeSettings

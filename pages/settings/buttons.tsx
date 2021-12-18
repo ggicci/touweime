@@ -14,12 +14,13 @@ import FoodSelector from 'components/FoodSelector'
 import SettingsLayout from 'components/Settings/Layout'
 import { toPng } from 'html-to-image'
 import { gaiaApi } from 'lib/axios'
+import { useSnackError } from 'lib/error'
+import { getFoodById } from 'lib/support'
+import { useLogin } from 'lib/users'
 import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
 import React, { useCallback, useRef } from 'react'
 import { TwitterPicker } from 'react-color'
-import { getFoodById } from 'sdk/support'
-import { useLogin } from 'sdk/users'
 
 interface StandardButtonProps {
   style: 'standard'
@@ -70,6 +71,7 @@ CustomButtonPreview.displayName = 'CustomButtonPreview'
 const Buttons = () => {
   const theme = useTheme()
   const { t } = useTranslation('settings')
+  const snackError = useSnackError()
   const { data: user } = useLogin()
   const [buttonStyle, setButtonStyle] = React.useState<StandardButtonProps>({
     style: 'standard',
@@ -99,10 +101,9 @@ const Buttons = () => {
       const newButtonUrl = `${process.env.NEXT_PUBLIC_GAIA_API_ENDPOINT}${resp.headers['location']}`
       setButtonUrl(newButtonUrl)
     } catch (error) {
-      console.error(error)
-      // FIXME(ggicci): display error
+      snackError(error)
     }
-  }, [ref])
+  }, [ref, snackError])
 
   if (!user) return null
 

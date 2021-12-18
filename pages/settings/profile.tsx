@@ -13,12 +13,13 @@ import axios from 'axios'
 import ErrorPage from 'components/ErrorPage'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
 import SettingsLayout from 'components/Settings/Layout'
+import { useSnackError } from 'lib/error'
+import { ValidationError, ValidationErrorResponse } from 'lib/errors'
+import { Settings, SettingsPatch, updateSettings, useSettings } from 'lib/settings'
 import { isUndefined } from 'lodash'
 import useTranslation from 'next-translate/useTranslation'
 import { useSnackbar } from 'notistack'
 import React from 'react'
-import { ValidationError, ValidationErrorResponse } from 'sdk/errors'
-import { Settings, SettingsPatch, updateSettings, useSettings } from 'sdk/settings'
 
 interface TagSettingsProps {
   tags: string[]
@@ -28,7 +29,7 @@ interface TagSettingsProps {
 
 const TagSettings = (props: TagSettingsProps) => {
   const { tags, onChange, error } = props
-  const top100Tags = ['开发者', '设计师', '书法创作', '国画创作', '艺术创作', '作家']
+  const top100Tags: readonly string[] = []
 
   function renderInput(params: AutocompleteRenderInputParams, error: boolean) {
     return <TextField {...params} error={error}></TextField>
@@ -78,6 +79,7 @@ const Profile = () => {
   const [patch, setPatch] = React.useState({ tags: [] } as SettingsPatch)
   const [dirty, setDirty] = React.useState(false)
   const [validationError, setValidationError] = React.useState(new ValidationError())
+  const snackError = useSnackError()
   const { enqueueSnackbar } = useSnackbar()
 
   React.useEffect(() => {
@@ -127,7 +129,7 @@ const Profile = () => {
           return
         }
       }
-      enqueueSnackbar((error as Error).message, { variant: 'error' })
+      snackError(error)
     }
   }
 

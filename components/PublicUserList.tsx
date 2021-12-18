@@ -4,9 +4,9 @@ import Grid from '@mui/material/Grid'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 import Link from 'components/Link'
+import { User } from 'lib/users'
 import Image from 'next/image'
 import React from 'react'
-import { User } from 'sdk/users'
 import useSWR from 'swr'
 
 interface Props {

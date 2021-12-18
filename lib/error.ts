@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 import isError from 'lodash/isError'
 import isNil from 'lodash/isNil'
 import { I18n } from 'next-translate'
@@ -11,57 +11,73 @@ export interface FormattedError {
   message: string
   code?: string
   documentationUrl?: string
-  raw: any
+}
+
+function isFormattedError(error: unknown): error is FormattedError {
+  const formattedError = error as FormattedError
+  return !isNil(formattedError.statusCode) && !isNil(formattedError.title) && !isNil(formattedError.message)
 }
 
 type ErrorMapper = { [key: number | string]: string }
 type ErrorRenderer = (error: unknown, errorMap?: ErrorMapper) => void
 type ErrorParser = {
-  parse: (error: unknown, errorMap?: ErrorMapper) => FormattedError | undefined
+  parse: (error: unknown, errorMap?: ErrorMapper) => FormattedError | null
 }
 
-function lookupErrorMessage(errorMap: ErrorMapper, error: AxiosError): string | undefined {
-  // FIXME(ggicci): more robust error mapping
-  const resp = error.response
-  if (resp) {
-    return errorMap[resp.status]
-  }
-  return undefined
+function lookupErrorMessage(errorMap: ErrorMapper, status: number): string | undefined {
+  return errorMap[status]
 }
 
-function parseError(i18n: I18n, error: unknown, errorMap?: ErrorMapper): FormattedError | undefined {
+export function formatError(error: unknown): FormattedError | null {
   if (isNil(error)) {
-    return undefined
+    return null
+  }
+
+  if (isFormattedError(error)) {
+    return error
   }
 
   const formattedError = {
     statusCode: 0,
     title: '',
     message: error as string,
-    raw: error,
   } as FormattedError
-
-  // TODO(ggicci): more robust error parsing
-  // Server side ValidationError(422) -> FormattedError
 
   if (axios.isAxiosError(error)) {
     const resp = error.response
 
     if (!resp) {
-      formattedError.title = i18n.t('error.no-response')
+      formattedError.title = 'error.no-response'
       return formattedError
     }
 
     formattedError.statusCode = resp.status
     formattedError.title = `${resp.status} ${resp.statusText}`
-
-    let customMappedMessage: string = ''
-    if (errorMap) {
-      customMappedMessage = lookupErrorMessage(errorMap, error) || ''
-    }
-    formattedError.message = customMappedMessage || resp.data || error.message
+    formattedError.message = resp.data || error.message
   } else if (isError(error)) {
     formattedError.message = error.message
+  }
+
+  return formattedError
+}
+
+function parseError(i18n: I18n, error: unknown, errorMap?: ErrorMapper): FormattedError | null {
+  const formattedError = formatError(error)
+
+  // Add custom error mapping.
+  if (formattedError) {
+    if (errorMap) {
+      const customMessage = lookupErrorMessage(errorMap, formattedError.statusCode)
+      if (customMessage) {
+        formattedError.message = customMessage
+      }
+    }
+  }
+
+  // Translate error message.
+  if (formattedError) {
+    const i18nKey = formattedError.title
+    formattedError.title = i18n.t(i18nKey, null, { default: i18nKey })
   }
 
   return formattedError

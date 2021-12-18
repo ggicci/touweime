@@ -14,11 +14,8 @@ import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
+import { useSnackError } from 'lib/error'
 import { centsToYuan } from 'lib/misc'
-import { useSnackError } from 'lib/useError'
-import useTranslation from 'next-translate/useTranslation'
-import Image from 'next/image'
-import React from 'react'
 import {
   createSupportIntention,
   Food,
@@ -26,9 +23,12 @@ import {
   SupportIntention,
   SupportIntentionCreationPayload,
   useFoods,
-  useUserSupport
-} from 'sdk/support'
-import { useLogin } from 'sdk/users'
+  useUserSupport,
+} from 'lib/support'
+import { useLogin } from 'lib/users'
+import useTranslation from 'next-translate/useTranslation'
+import Image from 'next/image'
+import React from 'react'
 import SupportWindow from './SupportWindow'
 import ThanksWindow from './ThanksWindow'
 

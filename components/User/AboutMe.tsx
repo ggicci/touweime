@@ -1,9 +1,9 @@
 import Container from '@mui/material/Container'
 import Paper from '@mui/material/Paper'
 import MarkdownRenderer from 'components/MarkdownRenderer'
+import { Settings } from 'lib/settings'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { Settings } from 'sdk/settings'
 
 interface AboutMeProps {
   settings: Settings

@@ -1,7 +1,7 @@
 import CryptoHmacSha256 from 'crypto-js/hmac-sha256'
+import { useLogin, User } from 'lib/users'
 import useTranslation from 'next-translate/useTranslation'
 import Script from 'next/script'
-import { useLogin, User } from 'sdk/users'
 
 {
   /* Chatwoot SDK: https://www.chatwoot.com/docs/product/channels/live-chat/sdk/setup */

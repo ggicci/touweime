@@ -1,7 +1,7 @@
 import { gaiaApi } from 'lib/axios'
 import { md5Hex } from 'lib/hash'
 import { uploadWithStorageTicket } from 'lib/upload'
-import { Profile } from 'sdk/users'
+import { Profile } from 'lib/users'
 import useSWR from 'swr'
 
 export type PayeeCodeKind = 'alipay' | 'wepay'

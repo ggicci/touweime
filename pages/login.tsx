@@ -12,17 +12,19 @@ import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import axios from 'axios'
+import ErrorPage from 'components/ErrorPage'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
 import Link from 'components/Link'
 import { gaiaApi } from 'lib/axios'
+import { formatError } from 'lib/error'
 import { localeRedirect } from 'lib/misc'
-import { getRandomPhoto, Photo } from 'lib/unsplash'
+import { useRandomPhoto } from 'lib/unsplash'
+import { User } from 'lib/users'
 import { GetServerSideProps } from 'next'
 import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { User } from 'sdk/users'
 import { format } from 'url'
 
 // See https://image-component.nextjs.gallery/background
@@ -51,22 +53,31 @@ function buildSigninUrl(returnTo: string): string {
 }
 
 interface Props {
-  backgroundImage: Photo | null
+  error?: Error
 }
 
 const Login = (props: Props) => {
+  const { error } = props
   const { t } = useTranslation('common')
   const router = useRouter()
+  const { data: photo } = useRandomPhoto()
   const [isSigningWithGitHub, setIsSigningWithGitHub] = useState(false)
-  const imageURL = props.backgroundImage ? props.backgroundImage.urls.full : ''
   const passedInReturnTo = typeof router.query.return_to === 'string' ? router.query.return_to || '/' : '/'
   const returnTo = localeRedirect(passedInReturnTo, router.locale, router.defaultLocale)
 
+  if (error) {
+    return <ErrorPage isLoading={false} error={error} />
+  }
+
+  const backgroundImage = photo ? (
+    <BackgroundWrapper>
+      <Image alt="Background" src={photo.urls.full} layout="fill" objectFit="cover" quality={100}></Image>
+    </BackgroundWrapper>
+  ) : null
+
   return (
     <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 16 }}>
-      <BackgroundWrapper>
-        <Image alt="Background" src={imageURL} layout="fill" objectFit="cover" quality={100}></Image>
-      </BackgroundWrapper>
+      {backgroundImage}
       <Box sx={{ flexGrow: 1, maxWidth: 600 }}>
         <Card variant="outlined" sx={{ backgroundColor: 'rgba(255, 255, 255, 0.72)', backdropFilter: 'blur(5px)' }}>
           {/* <CardMedia component="img" height="280" image="/site-enter-cover.jpg" alt="site enter cover"></CardMedia> */}
@@ -155,17 +166,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       },
     }
   } catch (err) {
-    if (!axios.isAxiosError(err)) {
-      throw err
-    }
-    if (err.response && err.response.status !== 401) {
-      throw err
+    if (!(axios.isAxiosError(err) && err.response?.status === 401)) {
+      return {
+        props: { error: formatError(err) },
+      }
     }
   }
 
-  // Get a random photo from unsplash.
-  const photo = await getRandomPhoto()
-  return { props: { backgroundImage: photo } }
+  return { props: {} }
 }
 
 export default Login

@@ -4,9 +4,9 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import IconButton from '@mui/material/IconButton'
 import Slide from '@mui/material/Slide'
+import { User } from 'lib/users'
 import useTranslation from 'next-translate/useTranslation'
 import React from 'react'
-import { User } from 'sdk/users'
 
 interface Props {
   open: boolean

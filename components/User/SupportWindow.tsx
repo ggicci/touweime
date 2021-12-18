@@ -9,11 +9,11 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import TimedButton from 'components/TimedButton'
+import { PayeeCode } from 'lib/settings'
+import { getFoodById, SupportIntention } from 'lib/support'
 import { useQRCode } from 'next-qrcode'
 import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
-import { PayeeCode } from 'sdk/settings'
-import { getFoodById, SupportIntention } from 'sdk/support'
 
 const PayeeCodeQrCode = ({ text, color }: { text: string; color: string }) => {
   const { inputRef } = useQRCode<HTMLCanvasElement>({

@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
 import Link from 'components/Link'
-import { useErrorParser } from 'lib/useError'
+import { useErrorParser } from 'lib/error'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
 
@@ -25,7 +25,8 @@ const ErrorPage = (props: Props) => {
     // TODO(ggicci): with a delay to show the loading indicator
     return <LinearProgress></LinearProgress>
   }
-  if (formattedError === undefined) {
+
+  if (!formattedError) {
     return null
   }
 
@@ -42,7 +43,6 @@ const ErrorPage = (props: Props) => {
 
   let debug = null
   if (process.env.NODE_ENV === 'development') {
-    console.dir(formattedError)
     debug = <pre>{JSON.stringify(formattedError, null, 2).replaceAll('\\n', '\n')}</pre>
   }
 

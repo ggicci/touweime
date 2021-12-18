@@ -5,9 +5,9 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
 import Link from 'components/Link'
+import { useSettings } from 'lib/settings'
 import useTranslation from 'next-translate/useTranslation'
 import React, { useEffect } from 'react'
-import { useSettings } from 'sdk/settings'
 
 const RegistrationGuide = () => {
   const { t } = useTranslation('common')

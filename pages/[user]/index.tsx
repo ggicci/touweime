@@ -4,13 +4,13 @@ import AboutMe from 'components/User/AboutMe'
 import Header from 'components/User/Header'
 import UserNotFound from 'components/User/NotFound'
 import SupportPanel from 'components/User/SupportPanel'
+import { Settings } from 'lib/settings'
+import { useUserSupport } from 'lib/support'
+import { User } from 'lib/users'
 import useTranslation from 'next-translate/useTranslation'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { Settings } from 'sdk/settings'
-import { useUserSupport } from 'sdk/support'
-import { User } from 'sdk/users'
 interface MetaTagsProps {
   user: User
   settings: Settings

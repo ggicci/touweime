@@ -6,10 +6,10 @@ import MenuItem from '@mui/material/MenuItem'
 import Select, { SelectChangeEvent, SelectProps } from '@mui/material/Select'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import { ALL_FOODS, Food, getFoodById } from 'lib/support'
 import useTranslation from 'next-translate/useTranslation'
 import Image from 'next/image'
 import React, { useState } from 'react'
-import { ALL_FOODS, Food, getFoodById } from 'sdk/support'
 
 interface ButtonSelectProps {
   food: Food
