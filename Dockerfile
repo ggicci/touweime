@@ -1,20 +1,20 @@
 # Reference: https://nextjs.org/docs/deployment
 
-FROM node:alpine AS deps
+FROM node:16-alpine3.14 AS deps
 
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
 
-FROM node:alpine AS builder
+FROM node:16-alpine3.14 AS builder
 WORKDIR /app
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 RUN yarn build && yarn install --production --ignore-scripts --prefer-offline
 
 # Production image, copy all the files and run next
-FROM node:alpine AS runner
+FROM node:16-alpine3.14 AS runner
 
 
 # 1. DO NOT remove these ARGs and LABELs
