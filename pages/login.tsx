@@ -42,14 +42,14 @@ function buildSigninUrl(returnTo: string): string {
   const authRedirectURL = { pathname: '/login', query: { return_to: returnTo || '/' } }
 
   const authURL = {
-    pathname: '/api.proxy/gaia/v1/login/oauth2',
+    pathname: '/v1/login/oauth2',
     query: {
       app_id: 'touwei-github',
       redirect_uri: format(authRedirectURL),
     },
   }
 
-  return format(authURL)
+  return `${process.env.NEXT_PUBLIC_GAIA_API_ENDPOINT}${format(authURL)}`
 }
 
 interface Props {
