@@ -109,6 +109,7 @@
   },
 
   "errors": {
+    "not-found": "Page not found",
     "no-response": "No response from server",
     "no-connections": "No connections, please check your network",
     "internal-server-error": "Internal Server Error",
