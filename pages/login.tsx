@@ -45,7 +45,7 @@ function buildSigninUrl(returnTo: string): string {
     pathname: '/v1/login/oauth2',
     query: {
       app_id: 'touwei-github',
-      redirect_uri: format(authRedirectURL),
+      redirect_uri: `${process.env.NEXT_PUBLIC_HOST}${format(authRedirectURL)}`,
     },
   }
 
