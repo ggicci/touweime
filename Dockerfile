@@ -13,9 +13,13 @@ COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 RUN yarn build && yarn install --production --ignore-scripts --prefer-offline
 
+# Workaround #1 (part i)
+# Issue(next-translate): `Error: Cannot find module '/app/i18n'`
+# https://github.com/vinissimus/next-translate/issues/421#issuecomment-750818653
+RUN find ./pages \( -type d -exec mkdir -p "/app/dummyPages/{}" \; -o -type f -exec touch "/app/dummyPages/{}" \; \)
+
 # Production image, copy all the files and run next
 FROM node:16-alpine3.14 AS runner
-
 
 # 1. DO NOT remove these ARGs and LABELs
 # 2. Edit contents wrapped by '<>' to make your docker images better than 90% of existing ones
@@ -40,13 +44,17 @@ WORKDIR /app
 ENV NODE_ENV production
 
 
-# https://github.com/vercel/next.js/issues/18412#issuecomment-751272319
 COPY --from=builder /app/next.config.js ./next.config.js
 COPY --from=builder /app/i18n.js ./i18n.js
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
+
+# Workaround #1 (part ii)
+# Copy the empty files and folders to the run environment
+# so next-translate can figure out how the pages are laid out.
+COPY --from=builder /app/dummyPages ./pages
 
 EXPOSE 3000
 ENV PORT 3000
