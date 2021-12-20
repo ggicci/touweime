@@ -42,6 +42,7 @@ ENV NODE_ENV production
 
 # https://github.com/vercel/next.js/issues/18412#issuecomment-751272319
 COPY --from=builder /app/next.config.js ./next.config.js
+COPY --from=builder /app/i18n.js ./i18n.js
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
