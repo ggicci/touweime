@@ -1,6 +1,8 @@
 import { faLink } from '@fortawesome/free-solid-svg-icons'
+import { useMediaQuery, useTheme } from '@mui/material'
 import Button from '@mui/material/Button'
 import InputAdornment from '@mui/material/InputAdornment'
+import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import FontAwesomeSvgIcon from 'components/FontAwesomeSvgIcon'
@@ -10,6 +12,8 @@ import useTranslation from 'next-translate/useTranslation'
 import React, { useEffect } from 'react'
 
 const RegistrationGuide = () => {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
   const { t } = useTranslation('common')
   const { data: settings } = useSettings()
   const [linkKey, setLinkKey] = React.useState('')
@@ -75,7 +79,7 @@ const RegistrationGuide = () => {
     </Button>
   )
 
-  let actionButton = registerButton
+  let actionButton: JSX.Element | null = registerButton
   if (settings) {
     actionButton = settings.is_alive ? visitMyPageButton : activateButton
   }
@@ -88,33 +92,36 @@ const RegistrationGuide = () => {
   }
 
   return (
-    <TextField
-      variant="outlined"
-      fullWidth
-      sx={{
-        mt: 3,
-        '& .MuiOutlinedInput-root': {
-          borderRadius: '50px',
-          fontSize: '1.5rem',
-        },
-      }}
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <FontAwesomeSvgIcon icon={faLink} />
-            <Typography
-              color="text.primary"
-              fontSize={'1.5rem'}
-              fontWeight={'bold'}
-            >{`${process.env.NEXT_PUBLIC_DOMAIN}/`}</Typography>
-          </InputAdornment>
-        ),
-        endAdornment: <InputAdornment position="end">{actionButton}</InputAdornment>,
-      }}
-      value={linkKey}
-      onChange={handleLinkKeyChanged}
-      placeholder="yourname"
-    ></TextField>
+    <Stack spacing={2}>
+      <TextField
+        variant="outlined"
+        fullWidth
+        sx={{
+          mt: 3,
+          '& .MuiOutlinedInput-root': {
+            borderRadius: '50px',
+            fontSize: '1.5rem',
+          },
+        }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <FontAwesomeSvgIcon icon={faLink} />
+              <Typography
+                color="text.primary"
+                fontSize={'1.5rem'}
+                fontWeight={'bold'}
+              >{`${process.env.NEXT_PUBLIC_DOMAIN}/`}</Typography>
+            </InputAdornment>
+          ),
+          endAdornment: <InputAdornment position="end">{isMobile ? null : actionButton}</InputAdornment>,
+        }}
+        value={linkKey}
+        onChange={handleLinkKeyChanged}
+        placeholder="yourname"
+      ></TextField>
+      {isMobile ? actionButton : null}
+    </Stack>
   )
 }
 

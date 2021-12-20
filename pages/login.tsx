@@ -93,7 +93,7 @@ const Login = (props: Props) => {
               <LoadingButton
                 component={Link}
                 to={buildSigninUrl(returnTo)}
-                locale={false}
+                locale="false"
                 variant="contained"
                 color="github"
                 size="large"
@@ -166,6 +166,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
       },
     }
   } catch (err) {
+    console.error(err)
     if (!(axios.isAxiosError(err) && err.response?.status === 401)) {
       return {
         props: { error: formatError(err) },

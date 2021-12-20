@@ -25,7 +25,7 @@ const ShareWindow = (props: Props) => {
 
   return (
     <Dialog maxWidth="sm" open={open} onClose={onClose}>
-      <Card sx={{ width: 425 }}>
+      <Card sx={{ width: 1 }}>
         <CardHeader title={t('share-window.title')}></CardHeader>
         <CardContent>
           <Typography variant="body2" color="text.secondary">

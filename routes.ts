@@ -19,6 +19,7 @@ export interface Route {
   href: UrlObject
   i18nKey: string
   icon?: IconDefinition
+  hideOnMobile?: boolean
   children?: Route[]
 }
 
@@ -55,6 +56,7 @@ export const ButtonsSettingsRoute = {
   href: { pathname: '/settings/buttons' },
   i18nKey: 'settings:nav.buttons',
   icon: faShareAlt,
+  hideOnMobile: true,
 }
 
 export const SettingsRoute = {

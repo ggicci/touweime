@@ -1,3 +1,4 @@
+import { useMediaQuery, useTheme } from '@mui/material'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import List from '@mui/material/List'
@@ -15,11 +16,14 @@ import { ReactChild } from 'react'
 import { SettingsRoute } from 'routes'
 
 const SettingsLayout = ({ children }: { children: ReactChild }) => {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+
   const { t } = useTranslation('settings')
   return (
     <Container sx={{ py: 3 }}>
       <Grid container spacing={2}>
-        <Grid item md={3}>
+        <Grid item xs={12} md={3}>
           <PageContext.Consumer>
             {({ activeRoute }) => (
               <Paper variant="outlined">
@@ -27,22 +31,24 @@ const SettingsLayout = ({ children }: { children: ReactChild }) => {
                   component="nav"
                   subheader={<ListSubheader component="div">{t('nav.subheader.account-settings')}</ListSubheader>}
                 >
-                  {SettingsRoute.children.map((route) => (
-                    <ListItem key={route.id} component={Link} to={route.href} color="inherit" disablePadding>
-                      <ListItemButton selected={activeRoute?.id == route.id}>
-                        <ListItemIcon>
-                          <FontAwesomeSvgIcon icon={route.icon!}></FontAwesomeSvgIcon>
-                        </ListItemIcon>
-                        <ListItemText primary={t(route.i18nKey)}></ListItemText>
-                      </ListItemButton>
-                    </ListItem>
-                  ))}
+                  {SettingsRoute.children
+                    .filter((x) => !(x.hideOnMobile && isMobile))
+                    .map((route) => (
+                      <ListItem key={route.id} component={Link} to={route.href} color="inherit" disablePadding>
+                        <ListItemButton selected={activeRoute?.id == route.id}>
+                          <ListItemIcon>
+                            <FontAwesomeSvgIcon icon={route.icon!}></FontAwesomeSvgIcon>
+                          </ListItemIcon>
+                          <ListItemText primary={t(route.i18nKey)}></ListItemText>
+                        </ListItemButton>
+                      </ListItem>
+                    ))}
                 </List>
               </Paper>
             )}
           </PageContext.Consumer>
         </Grid>
-        <Grid item md={9}>
+        <Grid item xs={12} md={9}>
           {children}
         </Grid>
       </Grid>

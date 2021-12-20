@@ -51,13 +51,12 @@ const AppNavItems = () => {
   const items = [HomeRoute, DiscoverRoute, SupportRoute].map((x) => ({ ...x, label: x.id }))
 
   return (
-    <Box sx={{ px: 2 }}>
+    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
       {items.map(({ id, href, icon }) => (
         <IconButton component={Link} key={id} to={href} color="inherit">
           <FontAwesomeSvgIcon icon={icon}></FontAwesomeSvgIcon>
         </IconButton>
       ))}
-      <UserMenu></UserMenu>
     </Box>
   )
 }
@@ -85,6 +84,7 @@ export default function Header() {
             </Link>
             <Box sx={{ flexGrow: 1 }}></Box>
             <AppNavItems></AppNavItems>
+            <UserMenu></UserMenu>
           </Toolbar>
         </Container>
       </AppBar>

@@ -8,7 +8,7 @@ import { ProviderContext, useSnackbar } from 'notistack'
 export interface FormattedError {
   statusCode: number
   title: string
-  message: string
+  message?: string
   code?: string
   documentationUrl?: string
 }
@@ -40,14 +40,14 @@ export function formatError(error: unknown): FormattedError | null {
   const formattedError = {
     statusCode: 0,
     title: '',
-    message: error as string,
   } as FormattedError
 
   if (axios.isAxiosError(error)) {
     const resp = error.response
 
     if (!resp) {
-      formattedError.title = 'error.no-response'
+      formattedError.title = 'errors.no-response'
+      formattedError.message = error.message
       return formattedError
     }
 

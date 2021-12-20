@@ -1,5 +1,6 @@
 import AppBar from '@mui/material/AppBar'
 import Container from '@mui/material/Container'
+import Grid from '@mui/material/Grid'
 import Stack from '@mui/material/Stack'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
@@ -13,6 +14,8 @@ export default function Footer() {
   const { t } = useTranslation('common')
   const copyrightText = t('footer.copyright', { year: new Date().getFullYear() })
   const pages: readonly Route[] = [AboutRoute, HelpRoute, PrivacyRoute, TermsRoute]
+
+  const justifyContent = { xs: 'center', sm: 'flex-start' }
 
   return (
     <React.Fragment>
@@ -28,18 +31,28 @@ export default function Footer() {
         }}
       >
         <Container>
-          <Toolbar>
-            <Stack direction="row" spacing={2} sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
-                <Link key={page.id} to={page.href} underline="hover">
-                  <Typography variant="body2" color="textSecondary">
+          <Toolbar disableGutters component={Grid} container rowSpacing={1} sx={{ py: 2 }}>
+            <Grid item display={'flex'} xs={12} sm={true} sx={{ justifyContent }}>
+              <Stack direction="row" spacing={{ xs: 1, sm: 2 }}>
+                {pages.map((page) => (
+                  <Typography
+                    key={page.id}
+                    to={page.href}
+                    underline="hover"
+                    variant="body2"
+                    color="textSecondary"
+                    component={Link}
+                  >
                     {t(page.i18nKey)}
                   </Typography>
-                </Link>
-              ))}
-            </Stack>
-
-            <Typography variant="body2">{copyrightText}</Typography>
+                ))}
+              </Stack>
+            </Grid>
+            <Grid item display={'flex'} xs={12} sm={'auto'} sx={{ justifyContent }}>
+              <Typography component="span" variant="body2" color="textSecondary">
+                {copyrightText}
+              </Typography>
+            </Grid>
           </Toolbar>
         </Container>
       </AppBar>

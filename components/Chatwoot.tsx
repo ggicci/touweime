@@ -8,9 +8,9 @@ import Script from 'next/script'
 }
 
 function shouldShowChatwoot(pathname: string): boolean {
-  if (pathname === '/' || pathname === '/en') {
-    return true
-  }
+  // if (pathname === '/' || pathname === '/en') {
+  //   return true
+  // }
   if (/^(\/\w+?)?\/(about|help|privacy|terms)(\/.+?)?$/.test(pathname)) {
     return true
   }
@@ -107,12 +107,15 @@ const Chatwoot = () => {
         const interval = setInterval(() => {
           if (loginChatwootAs(login)) {
             clearInterval(interval)
-            onPageLoaded()
           } else if (retries >= 10) {
             clearInterval(interval)
           } else {
             retries++
           }
+        }, 1000)
+
+        setTimeout(() => {
+          onPageLoaded()
         }, 1000)
       }}
     />
