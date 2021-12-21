@@ -83,7 +83,7 @@ export default function Header() {
               <SiteLogo></SiteLogo>
             </Link>
             <Box sx={{ flexGrow: 1 }}></Box>
-            <AppNavItems></AppNavItems>
+            {/* <AppNavItems></AppNavItems> */}
             <UserMenu></UserMenu>
           </Toolbar>
         </Container>
