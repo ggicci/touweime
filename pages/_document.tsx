@@ -7,6 +7,7 @@ class MyDocument extends Document {
         <Head>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+          <link rel="icon" type="image/png" href="/favicon.png" />
           {/*
           Noto Sans ** fonts are good for Chinese, Japanese, Korean, and Vietnamese.
           <link

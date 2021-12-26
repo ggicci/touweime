@@ -1,5 +1,6 @@
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
+import LinearProgress from '@mui/material/LinearProgress'
 import AboutMe from 'components/User/AboutMe'
 import Header from 'components/User/Header'
 import UserNotFound from 'components/User/NotFound'
@@ -11,6 +12,7 @@ import useTranslation from 'next-translate/useTranslation'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React from 'react'
+
 interface MetaTagsProps {
   user: User
   settings: Settings
@@ -42,8 +44,7 @@ const UserHome = () => {
   const isLoading = !data && !error
 
   if (isLoading) {
-    // return <LinearProgress></LinearProgress>
-    // TODO(ggicci): if not loaded after 1s, show a loading indicator
+    return <LinearProgress></LinearProgress>
     return null
   }
 

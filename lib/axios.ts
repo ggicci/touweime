@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from 'axios'
 
 export const gaiaApi = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_GAIA_API_ENDPOINT}`,
-  timeout: 5000,
+  timeout: 10000,
   withCredentials: true,
 })
 
